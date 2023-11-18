@@ -2,17 +2,40 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
     content: [
-        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
         './src/components/**/*.{js,ts,jsx,tsx,mdx}',
         './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
+
     theme: {
+
         extend: {
-            backgroundImage: {
-                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+
+            animation: {
+                delayed_fade_in: 'delayed_fade_in 5s ease-in-out',
+                fade_in: 'fade 0.3s ease-in forwards',
+                fade_out: 'fade 0.3s ease-out forwards reverse',
+                error: 'error 5s ease forwards',
+                collapse_row: 'collapse_row 0.3s ease-in-out forwards',
             },
+
+            colors: {
+                'blue-lighter': '#243f53',
+                'blue-darker': '#030b13',
+                'blue-qa': '#18C0DE',
+                'white-qa': '#ced0de',
+                'success': '#166534',
+                'error': '#991b1b',
+            },
+        },
+
+        fontFamily: {
+            sans: ['var(--font-pt-sans)', 'sans-serif'],
+            round: ['var(--font-ar-gothic)', 'sans-serif'],
+        },
+
+        dropShadow: {
+            'glow-intense': '0 0 5px #18c0de',
+            'glow-light': '0 0 10px #18c0deb6',
         },
     },
     plugins: [],
