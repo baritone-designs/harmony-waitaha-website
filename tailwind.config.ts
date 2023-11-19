@@ -20,7 +20,7 @@ const config: Config = {
 
             colors: {
                 'blue-lighter': '#243f53',
-                'blue-darker': '#030b13',
+                'blue-darker': '#162638',
                 'blue-qa': '#18C0DE',
                 'white-qa': '#ced0de',
                 'success': '#166534',

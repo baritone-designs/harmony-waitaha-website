@@ -24,10 +24,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={`${allRoundGothic.className} ${productSans.className}`}>
-            <Providers>
-                {children}
-            </Providers>
+        <html lang="en" className={`${allRoundGothic.variable} ${productSans.variable}`}>
+            <body>
+                <Providers>
+                    {children}
+                </Providers>
+            </body>
         </html>
     );
 }
