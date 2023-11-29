@@ -5,6 +5,7 @@ import qaLogo from '@/assets/images/qa-logo.png';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { motion } from 'framer-motion';
 
 interface HeaderLinkProps {
     url: string;
@@ -21,9 +22,12 @@ const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
     <Link href={url} className="group relative flex h-10 cursor-pointer items-center gap-2 pb-1">
         <span className={clsx(active && 'text-blue-qa drop-shadow-glow-intense', 'text-lg duration-200 group-hover:text-blue-qa group-hover:opacity-50')}>{children}</span>
 
-        <div
-            className={clsx(active && 'opacity-100', 'absolute inset-x-0 bottom-1 h-0.5 rounded-full bg-blue-qa opacity-0 duration-200')}
-        />
+        {active && (
+            <motion.div
+                layoutId="header-link-underline"
+                className={clsx(active && 'opacity-100', 'absolute inset-x-0 bottom-1 h-0.5 rounded-full bg-blue-qa opacity-0')}
+            />
+        )}
     </Link>
 );
 
