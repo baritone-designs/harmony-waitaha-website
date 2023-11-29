@@ -19,8 +19,7 @@ const config: Config = {
             },
 
             colors: {
-                'blue-lighter': '#243f53',
-                'blue-darker': '#162638',
+                'blue-darker': '#101C2A',
                 'blue-qa': '#18C0DE',
                 'white-qa': '#ced0de',
                 'success': '#166534',
