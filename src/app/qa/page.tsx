@@ -7,9 +7,9 @@ export default function QAHome() {
             <QAHeader />
             <section id="home" className="flex h-screen flex-col justify-center overflow-x-hidden pl-10">
                 <span className="text-7xl font-bold">
-                    <span className="text-blue-qa drop-shadow-glow-intense">Q</span>
+                    <span className="text-blue-qa drop-shadow-glow-light">Q</span>
                     uantum <br />
-                    <span className="text-blue-qa drop-shadow-glow-intense">A</span>
+                    <span className="text-blue-qa drop-shadow-glow-light">A</span>
                     coustics
                 </span>
                 <ScrollImage />

@@ -2,7 +2,7 @@
 
 #home-image {
     position: absolute;
-    background-image: url("../assets/images/qa-photo.jpg");
+    background-image: url("../assets/images/qa-photo.png");
     background-size: cover;
     box-shadow: 0 0 120px 120px #162638 inset;
 
@@ -13,6 +13,7 @@
     :root {
         @apply scroll-smooth bg-blue-darker
     }
+
     span, label {
         @apply font-round text-white-qa
     }
