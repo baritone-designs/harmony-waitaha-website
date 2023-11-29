@@ -1,15 +1,17 @@
 'use client';
 
-import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { useRef } from 'react';
 
 export function ScrollImage() {
-    const { scrollYProgress } = useScroll();
+    const { scrollY } = useScroll();
 
     const ref = useRef<HTMLDivElement>(null);
 
-    useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        ref.current.style.backgroundPositionY = `${value * 2000}px`;
+    useMotionValueEvent(scrollY, 'change', (value) => {
+        if (ref.current) {
+            ref.current.style.backgroundPositionY = `${value * 0.4}px`;
+        }
     });
 
     return (
