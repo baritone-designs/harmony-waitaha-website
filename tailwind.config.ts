@@ -30,7 +30,7 @@ const config: Config = {
 
         fontFamily: {
             sans: ['var(--font-pt-sans)', 'sans-serif'],
-            round: ['var(--font-ar-gothic)', 'sans-serif'],
+            round: ['all-round-gothic', 'sans-serif'],
         },
 
         dropShadow: {

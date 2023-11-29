@@ -2,16 +2,12 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Providers from '@/components/Providers';
 import localFont from 'next/font/local';
+import './All-Round-Gothic.css';
 
 export const metadata: Metadata = {
     title: 'Harmony Waitaha',
     description: 'Barbershop Harmony organisation in Christchurch New Zealand',
 };
-
-const allRoundGothic = localFont({
-    src: '../assets/fonts/AllRoundGothic.ttf',
-    variable: '--font-ar-gothic',
-});
 
 const productSans = localFont({
     src: '../assets/fonts/ProductSans.ttf',
@@ -24,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={`${allRoundGothic.variable} ${productSans.variable}`}>
+        <html lang="en" className={productSans.variable}>
             <body>
                 <Providers>
                     {children}

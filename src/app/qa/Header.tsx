@@ -20,7 +20,7 @@ interface HeaderLinkProps {
  */
 const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
     <Link href={url} className="group relative flex h-10 cursor-pointer items-center gap-2 pb-1">
-        <span className={clsx(active && 'text-blue-qa drop-shadow-glow-intense', 'text-lg font-extrabold duration-200 group-hover:text-blue-qa group-hover:opacity-50')}>{children}</span>
+        <span className={clsx(active && 'text-blue-qa drop-shadow-glow-intense', 'text-lg font-medium duration-200 group-hover:text-blue-qa group-hover:opacity-50')}>{children}</span>
 
         {active && (
             <motion.div
