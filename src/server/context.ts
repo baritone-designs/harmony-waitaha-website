@@ -12,6 +12,8 @@ export async function createContext(options: CreateNextContextOptions) {
     const session = await getServerSession(req, res, nextAuthOptions);
 
     return {
+        req,
+        res,
         session,
     };
 }

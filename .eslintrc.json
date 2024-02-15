@@ -7,6 +7,7 @@
   ],
   "rules": {
     "import/no-default-export": "off",
-    "react/function-component-definition": "off"
+    "react/function-component-definition": "off",
+    "jsx-a11y/control-has-associated-label": "off"
   }
 }

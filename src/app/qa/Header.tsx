@@ -3,9 +3,9 @@
 import Image from 'next/image';
 import qaLogo from '@/assets/images/qa-logo.png';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
+import { m, motion } from 'framer-motion';
 
 interface HeaderLinkProps {
     url: string;
@@ -33,16 +33,22 @@ const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
 
 export default function QAHeader() {
     const [active, setActive] = useState(0);
+    const headerRef = useRef<HTMLHeadElement>(null);
 
     useEffect(() => {
         const scrollCallback = () => {
             const elements = document.querySelectorAll('section');
+            const header = headerRef.current;
+
+            if (!header) return;
 
             elements.forEach((section, i) => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.offsetHeight;
 
-                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                const scrollPosition = window.scrollY + header.offsetHeight;
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
                     setActive(i);
                 }
             });
@@ -57,23 +63,24 @@ export default function QAHeader() {
 
     return (
         <header
-            className="fixed left-0 z-10 flex w-screen flex-row items-center justify-between px-9 pb-4 pt-7"
+            ref={headerRef}
+            className="fixed left-0 z-10 flex h-[15vh] w-screen flex-row items-center justify-between overflow-hidden bg-gradient-to-b from-blue-darker to-transparent px-16"
         >
-            <a href="#home" className="w-12">
+            <m.a href="#home" className="w-12" whileHover={{ scale: 1.05 }}>
                 <Image
                     src={qaLogo}
                     alt="qa-logo"
                     height={60}
                     width={60}
                 />
-            </a>
+            </m.a>
 
             <nav className="flex flex-row gap-12">
                 <HeaderLink url="#home" active={active === 0}>Home</HeaderLink>
                 <HeaderLink url="#about" active={active === 1}>About</HeaderLink>
-                <HeaderLink url="#upcoming" active={active === 2}>Upcoming</HeaderLink>
+                <HeaderLink url="#upcoming" active={active === 2}>Events</HeaderLink>
                 <HeaderLink url="#media" active={active === 3}>Media</HeaderLink>
-                <HeaderLink url="#follow" active={active === 4}>Follow</HeaderLink>
+                <HeaderLink url="#join" active={active === 4}>Join</HeaderLink>
             </nav>
 
             <div className="w-12" />
