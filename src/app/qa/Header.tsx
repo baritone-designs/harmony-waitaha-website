@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import qaLogo from '@/assets/images/qa-logo.png';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { m, motion } from 'framer-motion';
+import qaLogo from './icon.svg';
 
 interface HeaderLinkProps {
     url: string;

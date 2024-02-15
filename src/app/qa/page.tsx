@@ -8,7 +8,13 @@ import qaWave from '@/assets/images/qa-wave.png';
 import { FC } from 'react';
 import Link from 'next/link';
 import { IconType } from 'react-icons';
+import { Metadata } from 'next';
 import QAHeader from './Header';
+
+export const metadata: Metadata = {
+    title: 'Quantum Acoustics',
+    description: 'Youth barbershop mixed chorus from Christchurch, New Zealand',
+};
 
 interface TeamProfileProps {
     image: string;
