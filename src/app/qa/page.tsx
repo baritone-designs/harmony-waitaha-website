@@ -1,12 +1,13 @@
 import { ScrollImage } from '@/app/qa/ScrollImage';
 import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 import { IoChevronDown } from 'react-icons/io5';
-import { MotionA, MotionDiv } from '@/components/Motion';
+import { MotionA } from '@/components/Motion';
 import Image from 'next/image';
 import qaWave from '@/assets/images/qa-wave.png';
 
 import { FC } from 'react';
 import Link from 'next/link';
+import { IconType } from 'react-icons';
 import QAHeader from './Header';
 
 interface TeamProfileProps {
@@ -23,11 +24,22 @@ const TeamProfile: FC<TeamProfileProps> = ({ image, name, title }) => (
     </Link>
 );
 
+interface SocialLinkProps {
+    href: string;
+    icon: IconType;
+}
+
+const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon }) => (
+    <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-blue-qa">
+        <Icon size={40} />
+    </a>
+);
+
 export default function QAHome() {
     return (
         <main className="px-20">
             <QAHeader />
-            <section id="home" className="relative flex h-screen flex-col justify-center overflow-x-hidden">
+            <section id="home" className="relative flex h-screen flex-col justify-center">
                 <div className="flex flex-col text-7xl font-medium">
                     <span>
                         <span className="text-blue-qa drop-shadow-glow-light">Q</span>
@@ -38,18 +50,14 @@ export default function QAHome() {
                         <span>coustics</span>
                     </span>
                     <div className="mt-5 flex gap-5 text-white">
-                        <a href="https://www.instagram.com/qachorus" target="_blank" rel="noreferrer" className="duration-200 hover:text-blue-qa">
-                            <FaInstagram size={40} />
-                        </a>
-                        <a href="https://www.tiktok.com/@qachorus" target="_blank" rel="noreferrer" className="duration-200 hover:text-blue-qa">
-                            <FaTiktok size={40} className="duration-200 hover:text-blue-qa" />
-                        </a>
-                        <a href="https://www.facebook.com/qachorus/" target="_blank" rel="noreferrer" className="duration-200 hover:text-blue-qa">
-                            <FaFacebook size={40} className="duration-200 hover:text-blue-qa" />
-                        </a>
+                        <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" />
+                        <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" />
+                        <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" />
                     </div>
                 </div>
-                <ScrollImage />
+                <div className="pointer-events-none absolute -inset-x-20 inset-y-0">
+                    <ScrollImage />
+                </div>
                 <MotionA
                     transition={{ repeat: Infinity, repeatType: 'reverse', duration: 0.8, ease: 'easeIn' }}
                     animate={{ transform: ['translate(-50%, 0)', 'translate(-50%, 5px)'] }}
