@@ -1,6 +1,6 @@
 #home-image {
     position: absolute;
-    background-image: url("../../assets/images/qa-photo.png");
+    background-image: url("/qa-photo.png");
     background-size: cover;
     box-shadow: inset 400px 200px 200px #101C2A, inset 0 -150px 150px #101C2A;
 
