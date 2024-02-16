@@ -1,0 +1,26 @@
+#home-image {
+    position: absolute;
+    background-image: url("../../assets/images/qa-photo.png");
+    background-size: cover;
+    box-shadow: inset 400px 200px 200px #101C2A, inset 0 -150px 150px #101C2A;
+
+    inset: 0 0 0 18%;
+}
+
+@layer {
+    * {
+        scroll-margin-top: 15vh;
+    }
+
+    :root {
+        @apply bg-qa-blue-darker
+    }
+
+    span, label {
+        @apply font-qa-round text-qa-white
+    }
+
+    p {
+        @apply font-qa-sans text-qa-white
+    }
+}

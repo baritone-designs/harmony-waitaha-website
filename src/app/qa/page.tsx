@@ -11,6 +11,8 @@ import { IconType } from 'react-icons';
 import { Metadata } from 'next';
 import QAHeader from './Header';
 
+import './index.css';
+
 export const metadata: Metadata = {
     title: 'Quantum Acoustics',
     description: 'Youth barbershop mixed chorus from Christchurch, New Zealand',
@@ -23,9 +25,9 @@ interface TeamProfileProps {
 }
 
 const TeamProfile: FC<TeamProfileProps> = ({ image, name, title }) => (
-    <Link href="/" className="group flex flex-col items-center rounded-xl border-2 border-transparent p-3 duration-200 hover:scale-105 hover:bg-blue-dark hover:shadow-lg">
+    <Link href="/" className="group flex flex-col items-center rounded-xl border-2 border-transparent p-3 duration-200 hover:scale-105 hover:bg-qa-blue-dark hover:shadow-lg">
         <div className="h-52 w-52 rounded-full bg-contain bg-center duration-200" style={{ backgroundImage: `url('${image}')` }} />
-        <span className="mt-5 text-xl font-medium duration-200 group-hover:text-blue-qa group-hover:drop-shadow-glow-light">{name}</span>
+        <span className="mt-5 text-xl font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
         <span>{title}</span>
     </Link>
 );
@@ -36,7 +38,7 @@ interface SocialLinkProps {
 }
 
 const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon }) => (
-    <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-blue-qa">
+    <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-qa-blue">
         <Icon size={45} />
     </a>
 );
@@ -48,11 +50,11 @@ export default function QAHome() {
             <section id="home" className="relative flex h-screen flex-col justify-center">
                 <div className="z-10 flex flex-col text-8xl font-medium">
                     <span>
-                        <span className="font-semibold text-blue-qa drop-shadow-glow-light">Q</span>
+                        <span className="font-semibold text-qa-blue drop-shadow-qa-glow-light">Q</span>
                         <span>uantum</span>
                     </span>
                     <span>
-                        <span className="font-semibold text-blue-qa drop-shadow-glow-light">A</span>
+                        <span className="font-semibold text-qa-blue drop-shadow-qa-glow-light">A</span>
                         <span>coustics</span>
                     </span>
                     <div className="mt-6 flex gap-5 text-white">
@@ -70,11 +72,11 @@ export default function QAHome() {
                     className="absolute bottom-10 left-1/2"
                     href="#about"
                 >
-                    <IoChevronDown size={45} className="text-white duration-200 hover:text-blue-qa" />
+                    <IoChevronDown size={45} className="text-white duration-200 hover:text-qa-blue" />
                 </MotionA>
             </section>
             <section id="about" className="space-y-4">
-                <span className="text-5xl font-semibold text-blue-qa">About Us</span>
+                <span className="text-5xl font-semibold text-qa-blue">About Us</span>
                 <div className="grid grid-cols-2 gap-20">
                     <p className="text-2xl">
                         We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -96,7 +98,7 @@ export default function QAHome() {
                     </p>
                     <div className="flex flex-col justify-between">
                         <Image src={qaWave} alt="picture" />
-                        <span className="z-10 mt-8 text-5xl font-semibold text-blue-qa">Our People</span>
+                        <span className="z-10 mt-8 text-5xl font-semibold text-qa-blue">Our People</span>
                         <div className="z-0 flex flex-row justify-between">
                             <TeamProfile
                                 image="/will.png"

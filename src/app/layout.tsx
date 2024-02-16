@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
-import './globals.css';
 import Providers from '@/components/Providers';
 import localFont from 'next/font/local';
-import './All-Round-Gothic.css';
+
+import './gothic-font.css';
+import './globals.css';
 
 export const metadata: Metadata = {
     title: 'Harmony Waitaha',
