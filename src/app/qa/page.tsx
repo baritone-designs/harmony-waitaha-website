@@ -24,7 +24,7 @@ interface TeamProfileProps {
 
 const TeamProfile: FC<TeamProfileProps> = ({ image, name, title }) => (
     <Link href="/" className="group flex flex-col items-center rounded-xl border-2 border-transparent p-3 duration-200 hover:scale-105 hover:bg-blue-dark hover:shadow-lg">
-        <div className="h-52 w-52 rounded-full bg-center duration-200" style={{ backgroundImage: `url('${image}')` }} />
+        <div className="h-52 w-52 rounded-full bg-contain bg-center duration-200" style={{ backgroundImage: `url('${image}')` }} />
         <span className="mt-5 text-xl font-medium duration-200 group-hover:text-blue-qa group-hover:drop-shadow-glow-light">{name}</span>
         <span>{title}</span>
     </Link>
@@ -37,7 +37,7 @@ interface SocialLinkProps {
 
 const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon }) => (
     <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-blue-qa">
-        <Icon size={40} />
+        <Icon size={45} />
     </a>
 );
 
@@ -46,35 +46,35 @@ export default function QAHome() {
         <main className="px-20">
             <QAHeader />
             <section id="home" className="relative flex h-screen flex-col justify-center">
-                <div className="flex flex-col text-7xl font-medium">
+                <div className="z-10 flex flex-col text-8xl font-medium">
                     <span>
-                        <span className="text-blue-qa drop-shadow-glow-light">Q</span>
+                        <span className="font-semibold text-blue-qa drop-shadow-glow-light">Q</span>
                         <span>uantum</span>
                     </span>
                     <span>
-                        <span className="text-blue-qa drop-shadow-glow-light">A</span>
+                        <span className="font-semibold text-blue-qa drop-shadow-glow-light">A</span>
                         <span>coustics</span>
                     </span>
-                    <div className="mt-5 flex gap-5 text-white">
+                    <div className="mt-6 flex gap-5 text-white">
                         <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" />
                         <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" />
                         <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" />
                     </div>
                 </div>
-                <div className="pointer-events-none absolute -inset-x-20 inset-y-0">
+                <div className="pointer-events-none absolute -inset-x-20 inset-y-0 z-0">
                     <ScrollImage />
                 </div>
                 <MotionA
                     transition={{ repeat: Infinity, repeatType: 'reverse', duration: 0.8, ease: 'easeIn' }}
-                    animate={{ transform: ['translate(-50%, 0)', 'translate(-50%, 5px)'] }}
+                    animate={{ transform: ['translate(-50%, 0)', 'translate(-50%, 20px)'] }}
                     className="absolute bottom-10 left-1/2"
                     href="#about"
                 >
-                    <IoChevronDown size={50} className="text-white duration-200 hover:text-blue-qa" />
+                    <IoChevronDown size={45} className="text-white duration-200 hover:text-blue-qa" />
                 </MotionA>
             </section>
             <section id="about" className="space-y-4">
-                <span className="text-4xl font-medium text-blue-qa">About Us</span>
+                <span className="text-5xl font-semibold text-blue-qa">About Us</span>
                 <div className="grid grid-cols-2 gap-20">
                     <p className="text-2xl">
                         We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -96,8 +96,8 @@ export default function QAHome() {
                     </p>
                     <div className="flex flex-col justify-between">
                         <Image src={qaWave} alt="picture" />
-                        <span className="text-4xl font-medium text-blue-qa">Our People</span>
-                        <div className="flex flex-row justify-between">
+                        <span className="z-10 mt-8 text-5xl font-semibold text-blue-qa">Our People</span>
+                        <div className="z-0 flex flex-row justify-between">
                             <TeamProfile
                                 image="/will.png"
                                 name="Will Lynch"

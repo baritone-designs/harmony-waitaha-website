@@ -25,7 +25,7 @@ const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
         {active && (
             <motion.div
                 layoutId="header-link-underline"
-                className="absolute inset-x-0 bottom-1 h-[0.15rem] rounded-full bg-blue-qa drop-shadow-glow-intense"
+                className="absolute inset-x-0 bottom-1 h-[0.10rem] rounded-full bg-blue-qa drop-shadow-glow-intense"
             />
         )}
     </Link>
@@ -64,7 +64,7 @@ export default function QAHeader() {
     return (
         <header
             ref={headerRef}
-            className="fixed left-0 z-10 flex h-[15vh] w-screen flex-row items-center justify-between overflow-hidden bg-gradient-to-b from-blue-darker to-transparent px-16"
+            className="fixed left-0 z-10 flex h-[15vh] w-screen flex-row items-center justify-between overflow-hidden bg-gradient-to-b from-blue-darker from-5% to-transparent px-20"
         >
             <m.a href="#home" className="w-12" whileHover={{ scale: 1.05 }}>
                 <Image
