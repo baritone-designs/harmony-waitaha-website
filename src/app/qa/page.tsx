@@ -6,7 +6,6 @@ import Image from 'next/image';
 import qaWave from '@/assets/images/qa-wave.png';
 
 import { FC } from 'react';
-import Link from 'next/link';
 import { IconType } from 'react-icons';
 import { Metadata } from 'next';
 import QAHeader from './Header';
@@ -25,11 +24,11 @@ interface TeamProfileProps {
 }
 
 const TeamProfile: FC<TeamProfileProps> = ({ image, name, title }) => (
-    <Link href="/" className="group flex flex-col items-center rounded-xl border-2 border-transparent p-3 duration-200 hover:scale-105 hover:bg-qa-blue-dark hover:shadow-lg">
+    <a href="/" className="group flex flex-col items-center rounded-xl border-2 border-transparent p-3 duration-200 hover:scale-105 hover:bg-qa-blue-dark hover:shadow-lg">
         <div className="h-52 w-52 rounded-full bg-contain bg-center duration-200" style={{ backgroundImage: `url('${image}')` }} />
         <span className="mt-5 text-xl font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
         <span>{title}</span>
-    </Link>
+    </a>
 );
 
 interface SocialLinkProps {
