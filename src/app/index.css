@@ -1,0 +1,13 @@
+@layer {
+    * {
+        scroll-margin-top: 10vh;
+    }
+
+    :root {
+        @apply bg-hw-white
+    }
+
+    p, span, label {
+        @apply font-poppins text-hw-black
+    }
+}

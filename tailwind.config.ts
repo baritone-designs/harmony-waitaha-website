@@ -15,12 +15,24 @@ const config: Config = {
                     'blue': '#18C0DE',
                     'white': '#ced0de',
                 },
+                hw: {
+                    black: '#110E0E',
+                    blue: '#1BC0DD',
+                    red: '#DA1F26',
+                    white: '#F1F0EF',
+                },
+                pm: {
+                    blue: '#8DA7D6',
+                    red: '#D91725',
+                },
             },
         },
 
         fontFamily: {
-            'qa-sans': ['var(--font-pt-sans)', 'sans-serif'],
-            'qa-round': ['all-round-gothic', 'sans-serif'],
+            'pt-sans': ['var(--font-pt-sans)', 'sans-serif'],
+            'ar-gothic': ['all-round-gothic', 'sans-serif'],
+
+            'poppins': ['var(--font-poppins)', 'sans-serif'],
         },
 
         dropShadow: {

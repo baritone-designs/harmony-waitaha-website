@@ -17,10 +17,10 @@
     }
 
     span, label {
-        @apply font-qa-round text-qa-white
+        @apply font-ar-gothic text-qa-white
     }
 
     p {
-        @apply font-qa-sans text-qa-white
+        @apply font-pt-sans text-qa-white
     }
 }
