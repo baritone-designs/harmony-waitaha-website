@@ -25,7 +25,7 @@ const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
         {active && (
             <motion.div
                 layoutId="header-link-underline"
-                className="absolute inset-x-0 bottom-1 h-[0.10rem] rounded-full bg-qa-blue drop-shadow-qa-glow-intense"
+                className="absolute inset-x-0 bottom-1 h-0.5 rounded-full bg-qa-blue drop-shadow-qa-glow-intense"
             />
         )}
     </Link>
