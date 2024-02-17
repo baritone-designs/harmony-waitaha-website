@@ -1,6 +1,6 @@
 @layer {
     * {
-        scroll-margin-top: 10vh;
+        @apply scroll-mt-[10vh]
     }
 
     :root {

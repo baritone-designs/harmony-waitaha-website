@@ -156,7 +156,7 @@ export default function QAHome() {
                     </div>
                 </div>
             </section>
-            <section id="upcoming" className="h-screen space-y-4">
+            <section id="upcoming" className="mb-6 space-y-4">
                 <span className="text-4xl font-semibold text-qa-blue">Upcoming Events</span>
                 <div className="flex w-full flex-row gap-5">
                     <EventProfile
@@ -182,7 +182,19 @@ export default function QAHome() {
                     />
                 </div>
             </section>
-            <section id="media" className="h-screen" />
+            <section id="media" className="space-y-4">
+                <span className="text-4xl font-semibold text-qa-blue">Media</span>
+                <div className="scrollbar-hidden -mx-20 overflow-x-scroll 2xl:mx-[-10vw]">
+                    <div className="mx-20 flex w-max flex-row gap-10 2xl:mx-[10vw]">
+                        <div className="h-80 w-80 rounded-3xl bg-black" />
+                        <div className="h-80 w-80 rounded-3xl bg-black" />
+                        <div className="h-80 w-80 rounded-3xl bg-black" />
+                        <div className="h-80 w-80 rounded-3xl bg-black" />
+                        <div className="h-80 w-80 rounded-3xl bg-black" />
+                        <div className="h-80 w-80 rounded-3xl bg-black" />
+                    </div>
+                </div>
+            </section>
             <section id="join" className="h-screen" />
         </main>
     );
