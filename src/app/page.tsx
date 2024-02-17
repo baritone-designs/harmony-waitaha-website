@@ -5,9 +5,9 @@ import './index.css';
 
 export default function HarmonyWaitahaHome() {
     return (
-        <main className="px-20">
+        <main className="px-20 2xl:px-[12vw]">
             <HWHeader />
-            <section id="home" className="-mx-20 h-screen overflow-y-hidden">
+            <section id="home" className="-mx-20 h-screen overflow-y-hidden 2xl:mx-[-12vw]">
                 <video autoPlay muted loop>
                     <source src="/main.mp4" type="video/mp4" />
                 </video>
@@ -20,19 +20,17 @@ export default function HarmonyWaitahaHome() {
                     {' '}
                     can
                     {' '}
-                    <span className="text-hw-blue">learn</span>,
+                    <span className="text-hw-blue">learn</span>
                     {' '}
-                    <span className="text-hw-red">Anyone</span>
+                    <span className="text-hw-red">anyone</span>
                     {' '}
                     can
                     {' '}
                     <span className="text-hw-blue">sing</span>
                 </span>
-                <p className="text-3xl">
+                <p className="">
                     Harmony Waitaha is an umbrella organization encompassing two vibrant a cappella choruses based in Christchurch, New Zealand: the Canterbury Plainsmen and Quantum Acoustics.
                     These groups, united by their passion for barbershop style singing, offer unique experiences for singers and audiences alike.
-                    <br />
-                    <br />
                     The Canterbury Plainsmen, established in 1947, boasts a rich history and reputation for excellence in barbershop singing.
                     Their talented members, exceeding 50 men, mesmerize audiences with their precise harmonies and captivating performances.
                     Quantum Acoustics, on the other hand, presents a fresh perspective with a focus on diversity and inclusion.
