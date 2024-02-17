@@ -1,7 +1,7 @@
 import { ScrollImage } from '@/app/qa/ScrollImage';
 import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
-import { IoChevronDown } from 'react-icons/io5';
-import { MotionA } from '@/components/Motion';
+// import { IoChevronDown } from 'react-icons/io5';
+// import { MotionA } from '@/components/Motion';
 import Image from 'next/image';
 import qaWave from '@/assets/images/qa-wave.png';
 
@@ -65,14 +65,14 @@ export default function QAHome() {
                 <div className="pointer-events-none absolute -inset-x-20 inset-y-0 z-0">
                     <ScrollImage />
                 </div>
-                <MotionA
-                    transition={{ repeat: Infinity, repeatType: 'reverse', duration: 0.8, ease: 'easeIn' }}
+                {/* <MotionA
+                    transition={{ repeat: Infinity, repeatType: 'reverse', duration: 0.5, ease: 'easeIn' }}
                     animate={{ transform: ['translate(-50%, 0)', 'translate(-50%, 20px)'] }}
                     className="absolute bottom-10 left-1/2"
                     href="#about"
                 >
                     <IoChevronDown size={45} className="text-white duration-200 hover:text-qa-blue" />
-                </MotionA>
+                </MotionA> */}
             </section>
             <section id="about" className="space-y-4">
                 <span className="text-5xl font-semibold text-qa-blue">About Us</span>
