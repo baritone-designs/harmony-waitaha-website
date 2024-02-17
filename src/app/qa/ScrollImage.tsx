@@ -15,13 +15,6 @@ export function ScrollImage() {
     });
 
     return (
-        <motion.div
-            id="home-image"
-            style={{
-                // Initialise to prevent jumping image
-                backgroundPositionY: `${window.scrollY * 0.4}px`,
-            }}
-            ref={ref}
-        />
+        <motion.div id="home-image" ref={ref} />
     );
 }
