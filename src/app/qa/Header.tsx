@@ -64,7 +64,9 @@ export default function QAHeader() {
     return (
         <header
             ref={headerRef}
-            className="fixed left-0 z-10 flex h-[15vh] w-screen flex-row items-center justify-between overflow-hidden bg-gradient-to-b from-qa-blue-darker from-5% to-transparent px-20"
+            className="fixed left-0 z-50 flex h-[15vh] w-screen flex-row items-center justify-between
+            overflow-hidden bg-gradient-to-b from-qa-blue-darker from-5%
+            to-transparent px-20 2xl:px-[10vw]"
         >
             <m.a href="#home" className="w-12" whileHover={{ scale: 1.05 }}>
                 <Image

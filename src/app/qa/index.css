@@ -2,9 +2,9 @@
     position: absolute;
     background-image: url("/qa-photo.png");
     background-size: cover;
-    box-shadow: inset 400px 200px 200px #101C2A, inset 0 -150px 150px #101C2A;
+    box-shadow: inset 400px 200px 200px #101C2A, inset 0 -300px 150px #101C2A;
 
-    inset: 0 0 0 18%;
+    inset: 0 0 0 30%;
 }
 
 @layer {

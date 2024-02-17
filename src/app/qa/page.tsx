@@ -3,11 +3,11 @@ import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 // import { IoChevronDown } from 'react-icons/io5';
 // import { MotionA } from '@/components/Motion';
 import Image from 'next/image';
-import qaWave from '@/assets/images/qa-wave.png';
 
 import { FC } from 'react';
 import { IconType } from 'react-icons';
 import { Metadata } from 'next';
+import qaWave from '@/assets/images/qa-wave.png';
 import QAHeader from './Header';
 
 import './index.css';
@@ -24,10 +24,10 @@ interface TeamProfileProps {
 }
 
 const TeamProfile: FC<TeamProfileProps> = ({ image, name, title }) => (
-    <a href="/" className="group flex flex-col items-center rounded-xl border-2 border-transparent p-3 duration-200 hover:scale-105 hover:bg-qa-blue-dark hover:shadow-lg">
-        <div className="h-52 w-52 rounded-full bg-contain bg-center duration-200" style={{ backgroundImage: `url('${image}')` }} />
-        <span className="mt-5 text-xl font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
-        <span>{title}</span>
+    <a href="/" className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:scale-105 hover:shadow-lg">
+        <div className="h-40 w-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${image}')` }} />
+        <span className="mt-5 text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
+        <span className="font-pt-sans text-sm">{title}</span>
     </a>
 );
 
@@ -44,7 +44,7 @@ const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon }) => (
 
 export default function QAHome() {
     return (
-        <main className="px-20">
+        <main className="px-20 2xl:px-[10vw]">
             <QAHeader />
             <section id="home" className="relative flex h-screen flex-col justify-center">
                 <div className="z-10 flex flex-col text-8xl font-medium">
@@ -62,7 +62,7 @@ export default function QAHome() {
                         <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" />
                     </div>
                 </div>
-                <div className="pointer-events-none absolute -inset-x-20 inset-y-0 z-0">
+                <div className="pointer-events-none absolute -inset-x-20 inset-y-0 z-0 2xl:inset-[-10vw]">
                     <ScrollImage />
                 </div>
                 {/* <MotionA
@@ -75,9 +75,9 @@ export default function QAHome() {
                 </MotionA> */}
             </section>
             <section id="about" className="space-y-4">
-                <span className="text-5xl font-semibold text-qa-blue">About Us</span>
+                <span className="text-4xl font-semibold text-qa-blue">About Us</span>
                 <div className="grid grid-cols-2 gap-20">
-                    <p className="text-2xl">
+                    <p className="z-10">
                         We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
                         In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat.
@@ -96,25 +96,34 @@ export default function QAHome() {
                         Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
                     </p>
                     <div className="flex flex-col justify-between">
-                        <Image src={qaWave} alt="picture" />
-                        <span className="z-10 mt-8 text-5xl font-semibold text-qa-blue">Our People</span>
-                        <div className="z-0 flex flex-row justify-between">
-                            <TeamProfile
-                                image="/will.png"
-                                name="Will Lynch"
-                                title="Musical Director"
-                            />
-                            <TeamProfile
-                                image="/harry.png"
-                                name="Harry Burt"
-                                title="Musical Director"
-                            />
-                            <TeamProfile
-                                image="/nick.png"
-                                name="Nick Davey"
-                                title="Manager"
-                            />
-                        </div>
+                        <Image src={qaWave} alt="picture" className="z-10 h-96 w-full rounded-3xl object-cover" />
+                    </div>
+                </div>
+                <div className="flex w-full justify-center">
+                    <div className="mb-1 mt-4 h-0.5 w-60 rounded-full bg-qa-white" />
+                </div>
+                <div className="flex w-full justify-center">
+                    <div className="z-0 flex flex-row items-center justify-between gap-14">
+                        <TeamProfile
+                            image="/will.png"
+                            name="Will Lynch"
+                            title="Musical Director"
+                        />
+                        <TeamProfile
+                            image="/harry.png"
+                            name="Harry Burt"
+                            title="Musical Director"
+                        />
+                        <TeamProfile
+                            image="/nick.png"
+                            name="Nick Davey"
+                            title="Manager"
+                        />
+                        <TeamProfile
+                            image="/nick.png"
+                            name="Nick Davey"
+                            title="Manager"
+                        />
                     </div>
                 </div>
             </section>
