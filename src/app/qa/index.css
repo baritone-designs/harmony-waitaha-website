@@ -16,7 +16,7 @@
         @apply bg-qa-blue-darker
     }
 
-    span, label {
+    a, span, label {
         @apply font-ar-gothic text-qa-white
     }
 

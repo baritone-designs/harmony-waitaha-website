@@ -8,9 +8,10 @@ import { FC } from 'react';
 import { IconType } from 'react-icons';
 import { Metadata } from 'next';
 import qaWave from '@/assets/images/qa-wave.png';
-import QAHeader from './Header';
 
 import './index.css';
+import { MdLocationPin } from 'react-icons/md';
+import QAHeader from './Header';
 
 export const metadata: Metadata = {
     title: 'Quantum Acoustics',
@@ -29,6 +30,34 @@ const TeamProfile: FC<TeamProfileProps> = ({ image, name, title }) => (
         <span className="mt-5 text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
         <span className="font-pt-sans text-sm">{title}</span>
     </a>
+);
+
+interface EventProfileProps {
+    name: string;
+    location: string;
+    datetime: Date;
+    description: string;
+}
+
+const EventProfile: FC<EventProfileProps> = ({ name, location, datetime, description }) => (
+    <div className="rounded-3xl border-4 border-qa-blue p-5">
+        <div className="mb-3 flex flex-row justify-between">
+            <div>
+                <span className="text-2xl">{name}</span>
+                <div className="flex flex-row items-center gap-2">
+                    <MdLocationPin />
+                    <span className="font-pt-sans">{location}</span>
+                </div>
+            </div>
+
+            <div className="flex flex-col items-end">
+                <span className="font-pt-sans">{datetime.toLocaleDateString()}</span>
+                <span className="font-pt-sans">{datetime.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
+            </div>
+        </div>
+        <p className="">{description}</p>
+        <a href="/" className="text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense">Learn more</a>
+    </div>
 );
 
 interface SocialLinkProps {
@@ -127,7 +156,29 @@ export default function QAHome() {
                     </div>
                 </div>
             </section>
-            <section id="upcoming" className="h-screen" />
+            <section id="upcoming" className="h-screen space-y-4">
+                <span className="text-4xl font-semibold text-qa-blue">Upcoming Events</span>
+                <div className="flex w-full flex-row gap-5">
+                    <EventProfile
+                        name="Open night"
+                        location="3 Brake Street"
+                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
+                        datetime={new Date()}
+                    />
+                    <EventProfile
+                        name="Open night"
+                        location="3 Brake Street"
+                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
+                        datetime={new Date()}
+                    />
+                    <EventProfile
+                        name="Open night"
+                        location="3 Brake Street"
+                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
+                        datetime={new Date()}
+                    />
+                </div>
+            </section>
             <section id="media" className="h-screen" />
             <section id="join" className="h-screen" />
         </main>
