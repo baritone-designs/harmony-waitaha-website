@@ -32,7 +32,7 @@ export const nextAuthOptions: NextAuthOptions = {
                 where: {
                     email: user.email,
                 },
-            })) {
+            }) && !env.WHITELISTED_EMAILS?.split(',').map((x) => x.trim())?.includes(user.email)) {
                 // Users email has not been whitelisted, they are not allowed to sign in
                 throw new Error(SignInError.EmailNotWhitelisted);
             }
