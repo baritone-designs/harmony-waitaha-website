@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_PRISMA_URL") // uses connection pooling
+  shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
+}
+
+// Account represents a connection between a user and an OAuth provider
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// Stores data about each logged in session for a user
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Stores data about a user. Users are differentiated by email, so OAuth connections are linked by the affiliated email
+model User {
+  id            String    @id @default(cuid())
+  // The Users username
+  name          String
+  email         String    @unique
+  // Date and Time when the email adress was verified, if it was verified
+  emailVerified DateTime?
+  image         String
+
+  Account          Account[]
+  Session          Session[]
+  WhitelistedEmail WhitelistedEmail[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model WhitelistedEmail {
+  email String @id
+
+  whitelistedBy   User   @relation(fields: [whitelistedById], references: [id])
+  whitelistedById String
+}

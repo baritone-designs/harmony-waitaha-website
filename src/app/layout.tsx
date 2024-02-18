@@ -5,6 +5,7 @@ import { Poppins } from 'next/font/google';
 
 import './gothic-font.css';
 import './globals.css';
+import { Session } from 'next-auth';
 
 export const metadata: Metadata = {
     title: 'Harmony Waitaha',
@@ -24,13 +25,15 @@ const poppins = Poppins({
 
 export default function RootLayout({
     children,
+    session,
 }: {
   children: React.ReactNode;
+  session: Session;
 }) {
     return (
         <html lang="en" className={`${productSans.variable} ${poppins.variable}`}>
             <body>
-                <Providers>
+                <Providers session={session}>
                     {children}
                 </Providers>
             </body>
