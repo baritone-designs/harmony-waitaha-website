@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
+import { Metadata } from 'next';
 import Providers from '@/components/Providers';
 import localFont from 'next/font/local';
 import { Poppins } from 'next/font/google';
+import { FC, PropsWithChildren } from 'react';
 
 import './gothic-font.css';
 import './globals.css';
-import { Session } from 'next-auth';
 
 export const metadata: Metadata = {
     title: 'Harmony Waitaha',
@@ -23,20 +23,17 @@ const poppins = Poppins({
     subsets: ['latin'],
 });
 
-export default function RootLayout({
-    children,
-    session,
-}: {
-  children: React.ReactNode;
-  session: Session;
-}) {
-    return (
-        <html lang="en" className={`${productSans.variable} ${poppins.variable}`}>
-            <body>
-                <Providers session={session}>
-                    {children}
-                </Providers>
-            </body>
-        </html>
-    );
-}
+const RootLayout: FC<PropsWithChildren<{
+    // This just has to be `never` so nextjs builds properly...
+    session: never;
+}>> = ({ session, children }) => (
+    <html lang="en" className={`${productSans.variable} ${poppins.variable}`}>
+        <body>
+            <Providers session={session}>
+                {children}
+            </Providers>
+        </body>
+    </html>
+);
+
+export default RootLayout;
