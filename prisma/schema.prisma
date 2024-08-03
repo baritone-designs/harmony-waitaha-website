@@ -70,7 +70,7 @@ model VerificationToken {
 model WhitelistedEmail {
   email String @id
 
-  whitelistedBy   User   @relation(fields: [whitelistedById], references: [id])
+  whitelistedBy   User   @relation(fields: [whitelistedById], references: [id], onUpdate: Cascade)
   whitelistedById String
 }
 
@@ -86,8 +86,8 @@ model Chorus {
 }
 
 model PersonChorus {
-  chorus   Chorus   @relation(fields: [chorusId], references: [id])
-  person   Person   @relation(fields: [personId], references: [id])
+  chorus   Chorus   @relation(fields: [chorusId], references: [id], onUpdate: Cascade)
+  person   Person   @relation(fields: [personId], references: [id], onUpdate: Cascade)
   chorusId ChorusId
   personId String
 

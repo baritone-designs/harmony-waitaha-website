@@ -26,10 +26,11 @@ interface TeamProfileProps {
     image: string;
     name: string;
     role: string;
+    id: string;
 }
 
-const TeamProfile: FC<TeamProfileProps> = ({ image, name, role }) => (
-    <a href="/" className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:scale-105">
+const TeamProfile: FC<TeamProfileProps> = ({ id, image, name, role }) => (
+    <a href={`/person/${id}`} className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:scale-105">
         <div className="h-40 w-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${image}')` }} />
         <span className="mt-5 text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
         <span className="font-pt-sans text-sm">{role}</span>
@@ -151,6 +152,7 @@ export default async function QAHome() {
                     <div className="z-0 flex flex-row items-center justify-between gap-14">
                         {people.map((person) => (
                             <TeamProfile
+                                id={person.id}
                                 key={person.id}
                                 image={person.iconUrl}
                                 name={person.name}
