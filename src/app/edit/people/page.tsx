@@ -7,9 +7,9 @@ import { upload } from '@vercel/blob/client';
 import * as yup from 'yup';
 import { ChorusId, PersonChorus } from '@prisma/client';
 
-export const UrlCompliant = /^[\w-]*$/;
+const UrlCompliant = /^[\w-]*$/;
 
-export const PersonSchema = yup.object().shape({
+const PersonSchema = yup.object().shape({
     name: yup
         .string()
         .min(3)
