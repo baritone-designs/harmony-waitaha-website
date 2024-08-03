@@ -2,9 +2,10 @@
 
 import { trpc } from '@/common/trpc';
 import { ImageUpload } from '@/components/ImageUpload';
-import { Field, Formik } from 'formik';
+import { Field, FieldArray, Formik } from 'formik';
 import { upload } from '@vercel/blob/client';
 import * as yup from 'yup';
+import { ChorusId, PersonChorus } from '@prisma/client';
 
 export const UrlCompliant = /^[\w-]*$/;
 
@@ -25,7 +26,15 @@ export const PersonSchema = yup.object().shape({
         .max(30)
         .matches(UrlCompliant, 'Must not contain special characters')
         .required(),
+
+    choruses: yup.array(yup.object().shape({
+        chorusId: yup.mixed<ChorusId>().oneOf(Object.values(ChorusId)).required(),
+
+        role: yup.string().min(2).max(30).required(),
+    })),
 });
+
+type PersonChorusData = Omit<PersonChorus, 'personId'>;
 
 export default function EditPeople() {
     const [people] = trpc.react.people.allPeople.useSuspenseQuery();
@@ -35,10 +44,16 @@ export default function EditPeople() {
     return (
         <div className="flex flex-row gap-5">
             {people.map((person) => (
-                <Formik<{ icon: File | undefined, id: string, name: string, biography: string }>
-                    initialValues={{ icon: undefined, id: person.id, name: person.name, biography: person.biography }}
-                    onSubmit={async ({ icon, id, name, biography }, { setFieldError, resetForm }) => {
-                        const newPerson = await editPerson({ previousId: person.id, newId: id, biography, name });
+                <Formik
+                    initialValues={{
+                        icon: undefined as File | undefined,
+                        id: person.id,
+                        name: person.name,
+                        biography: person.biography,
+                        choruses: person.choruses.map(({ chorusId, role }) => ({ chorusId, role } satisfies PersonChorusData)),
+                    }}
+                    onSubmit={async ({ icon, id, name, biography, choruses }, { setFieldError, resetForm }) => {
+                        const newPerson = await editPerson({ previousId: person.id, newId: id, biography, name, choruses });
 
                         if (icon) {
                             await upload(icon.name, icon, {
@@ -55,11 +70,42 @@ export default function EditPeople() {
                     }}
                     validationSchema={PersonSchema}
                 >
-                    {({ submitForm, errors }) => (
+                    {({ submitForm, errors, values, dirty }) => (
                         <div className="flex flex-col items-center gap-3 rounded-md bg-slate-900 p-5">
                             <Field name="name" />{errors.name}
                             <Field name="id" />{errors.id}
                             <Field name="biography" />{errors.biography}
+                            <FieldArray
+                                name="choruses"
+                            >
+                                {({ remove, push }) => (
+                                    <div>
+                                        {values.choruses.map((chorus, index) => (
+                                            <div key={chorus.chorusId} className="flex flex-row gap-3">
+                                                <Field as="select" name={`choruses.${index}.chorusId`}>
+                                                    {Object.keys(ChorusId).map((id) => (
+                                                        <option value={id}>{id}</option>
+                                                    ))}
+                                                </Field>
+                                                <Field name={`choruses.${index}.role`} />
+                                                <button type="button" onClick={() => remove(index)}>Remove</button>
+                                            </div>
+                                        ))}
+                                        {values.choruses.length < Object.keys(ChorusId).length
+                                        && (
+                                            <button
+                                                onClick={() => push({
+                                                    chorusId: Object.keys(ChorusId).filter((id) => !values.choruses.find((chorus) => chorus.chorusId === id))[0] as ChorusId,
+                                                    role: '',
+                                                } satisfies PersonChorusData)}
+                                                type="button"
+                                            >Add Chorus
+                                            </button>
+                                        )}
+                                    </div>
+                                )}
+                            </FieldArray>
+
                             <ImageUpload
                                 name="icon"
                                 existingImageUrl={person.iconUrl}
@@ -78,7 +124,7 @@ export default function EditPeople() {
                                     </button>
                                 )}
                             </ImageUpload>
-                            <button onClick={submitForm} type="button">Save</button>
+                            {dirty && <button onClick={submitForm} type="button">Save</button>}
                         </div>
                     )}
                 </Formik>
