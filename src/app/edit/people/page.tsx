@@ -6,6 +6,7 @@ import { Field, FieldArray, Formik } from 'formik';
 import { upload } from '@vercel/blob/client';
 import * as yup from 'yup';
 import { ChorusId, PersonChorus } from '@prisma/client';
+import revalidate from '../revalidate';
 
 const UrlCompliant = /^[\w-]*$/;
 
@@ -65,6 +66,8 @@ export default function EditPeople() {
                                 setFieldError('icon', e.toString());
                             });
                         }
+
+                        await revalidate();
 
                         window.alert(`Person ${name} updated`);
                     }}
