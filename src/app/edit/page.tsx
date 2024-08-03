@@ -1,23 +1,15 @@
-'use client';
+import { prisma } from '@/common/prisma';
 
-import { protectedClientPage } from '@/components/protectedClientPage';
-import { signOut } from 'next-auth/react';
-import { redirect } from 'next/navigation';
+export default async function EditRoot() {
+    const choruses = await prisma.chorus.findMany();
 
-const EditPage = protectedClientPage(({ user }) => (
-    <div>
-        Welcome back {user.email}
-
-        <button
-            type="button"
-            onClick={async () => {
-                await signOut();
-
-                redirect('/');
-            }}
-        >Logout
-        </button>
-    </div>
-));
-
-export default EditPage;
+    return (
+        <div className="flex flex-row gap-5">
+            {choruses.map((chorus) => (
+                <div className="rounded-md bg-slate-900 p-5">
+                    <span>{chorus.id}</span>
+                </div>
+            ))}
+        </div>
+    );
+}

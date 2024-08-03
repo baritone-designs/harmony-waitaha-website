@@ -11,6 +11,10 @@ datasource db {
   shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
 }
 
+//----------------//
+// Authentication //
+//----------------//
+
 // Account represents a connection between a user and an OAuth provider
 model Account {
   id                String  @id @default(cuid())
@@ -68,4 +72,39 @@ model WhitelistedEmail {
 
   whitelistedBy   User   @relation(fields: [whitelistedById], references: [id])
   whitelistedById String
+}
+
+enum ChorusId {
+  Plainsmen
+  Qa
+}
+
+model Chorus {
+  id ChorusId @id
+
+  people PersonChorus[]
+}
+
+model PersonChorus {
+  chorus   Chorus   @relation(fields: [chorusId], references: [id])
+  person   Person   @relation(fields: [personId], references: [id])
+  chorusId ChorusId
+  personId String
+
+  role String
+
+  @@id([chorusId, personId])
+}
+
+model Person {
+  /// This should be a formatted version of name which works in a url
+  id String @id
+
+  name String
+
+  biography String
+
+  iconUrl String
+
+  choruses PersonChorus[]
 }

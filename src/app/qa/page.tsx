@@ -13,6 +13,8 @@ import qaWave from '@/assets/images/qa-wave.png';
 
 import './index.css';
 import { MdLocationPin } from 'react-icons/md';
+import { prisma } from '@/common/prisma';
+import { ChorusId } from '@prisma/client';
 import QAHeader from './Header';
 
 export const metadata: Metadata = {
@@ -23,14 +25,14 @@ export const metadata: Metadata = {
 interface TeamProfileProps {
     image: string;
     name: string;
-    title: string;
+    role: string;
 }
 
-const TeamProfile: FC<TeamProfileProps> = ({ image, name, title }) => (
+const TeamProfile: FC<TeamProfileProps> = ({ image, name, role }) => (
     <a href="/" className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:scale-105">
         <div className="h-40 w-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${image}')` }} />
         <span className="mt-5 text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
-        <span className="font-pt-sans text-sm">{title}</span>
+        <span className="font-pt-sans text-sm">{role}</span>
     </a>
 );
 
@@ -73,7 +75,19 @@ const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon }) => (
     </a>
 );
 
-export default function QAHome() {
+export default async function QAHome() {
+    const people = (await prisma.personChorus.findMany({
+        where: {
+            chorusId: ChorusId.Qa,
+        },
+        include: {
+            person: true,
+        },
+    })).map((x) => ({
+        role: x.role,
+        ...x.person,
+    }));
+
     return (
         <main className="px-20 2xl:px-[10vw]">
             <QAHeader />
@@ -135,26 +149,14 @@ export default function QAHome() {
                 </div>
                 <div className="flex w-full justify-center">
                     <div className="z-0 flex flex-row items-center justify-between gap-14">
-                        <TeamProfile
-                            image="/will.png"
-                            name="Will Lynch"
-                            title="Musical Director"
-                        />
-                        <TeamProfile
-                            image="/harry.png"
-                            name="Harry Burt"
-                            title="Musical Director"
-                        />
-                        <TeamProfile
-                            image="/nick.png"
-                            name="Nick Davey"
-                            title="Manager"
-                        />
-                        <TeamProfile
-                            image="/nick.png"
-                            name="Nick Davey"
-                            title="Manager"
-                        />
+                        {people.map((person) => (
+                            <TeamProfile
+                                key={person.id}
+                                image={person.iconUrl}
+                                name={person.name}
+                                role={person.role}
+                            />
+                        ))}
                     </div>
                 </div>
             </section>
