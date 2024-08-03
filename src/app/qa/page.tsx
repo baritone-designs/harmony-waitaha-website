@@ -3,6 +3,8 @@ import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 // import { IoChevronDown } from 'react-icons/io5';
 // import { MotionA } from '@/components/Motion';
 import Image from 'next/image';
+import { MapProvider } from '@/providers/map-provider';
+import { MapComponent } from '@/components/map';
 
 import { FC } from 'react';
 import { IconType } from 'react-icons';
@@ -25,7 +27,7 @@ interface TeamProfileProps {
 }
 
 const TeamProfile: FC<TeamProfileProps> = ({ image, name, title }) => (
-    <a href="/" className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:scale-105 hover:shadow-lg">
+    <a href="/" className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:scale-105">
         <div className="h-40 w-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${image}')` }} />
         <span className="mt-5 text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
         <span className="font-pt-sans text-sm">{title}</span>
@@ -103,7 +105,7 @@ export default function QAHome() {
                     <IoChevronDown size={45} className="text-white duration-200 hover:text-qa-blue" />
                 </MotionA> */}
             </section>
-            <section id="about" className="space-y-4">
+            <section id="about" className="mb-10 space-y-4">
                 <span className="text-4xl font-semibold text-qa-blue">About Us</span>
                 <div className="grid grid-cols-2 gap-20">
                     <p className="z-10">
@@ -156,7 +158,7 @@ export default function QAHome() {
                     </div>
                 </div>
             </section>
-            <section id="upcoming" className="mb-6 space-y-4">
+            <section id="upcoming" className="mb-10 space-y-4">
                 <span className="text-4xl font-semibold text-qa-blue">Upcoming Events</span>
                 <div className="flex w-full flex-row gap-5">
                     <EventProfile
@@ -182,7 +184,7 @@ export default function QAHome() {
                     />
                 </div>
             </section>
-            <section id="media" className="space-y-4">
+            {/* <section id="media" className="space-y-4">
                 <span className="text-4xl font-semibold text-qa-blue">Media</span>
                 <div className="scrollbar-hidden -mx-20 overflow-x-scroll 2xl:mx-[-10vw]">
                     <div className="mx-20 flex w-max flex-row gap-10 2xl:mx-[10vw]">
@@ -194,8 +196,50 @@ export default function QAHome() {
                         <div className="h-80 w-80 rounded-3xl bg-black" />
                     </div>
                 </div>
+            </section> */}
+            <section id="join" className="mb-20 space-y-4">
+                <span className="text-4xl font-semibold text-qa-blue">Wanna Join?</span>
+                <div className="flex w-full flex-row gap-5">
+                    <div className="w-2/3">
+                        <p>
+                            We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide
+                            range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus
+                            semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla
+                            rhoncus. In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem.
+                            Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec
+                            elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempor vitae. In commodo
+                            risus lacus, et egestas nibh lacinia vitae. We are a Barbershop Chorus located in
+                            Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit
+                            amet, consectetur adipiscing elit Sed maximus semper lectus fa dfaf asdfasdf f adf
+                            asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus. In non mauris lorem.Donec
+                            asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla
+                            rhoncus. In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem.
+                            Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec
+                            elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempor vitae. In commodo
+                            risus lacus, et egestas nibh lacinia vitae. We are a Barbershop Chorus located in
+                            Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit
+                            amet, consectetur adipiscing elit Sed maximus semper lectus fa dfaf asdfasdf f adf
+                            asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus. In non mauris lorem.Donec
+                        </p>
+                    </div>
+                    <MapProvider>
+                        <MapComponent />
+                    </MapProvider>
+                </div>
             </section>
-            <section id="join" className="h-screen" />
+            <section id="footer" className="mb-10 flex flex-row justify-between">
+                <div>
+                    <span className="text-4xl font-semibold text-qa-blue">Follow Us</span>
+                    <p>© Quantum Acoustics 2024</p>
+                </div>
+                <div>
+                    <div className="mt-6 flex scale-50 gap-5 text-white">
+                        <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" />
+                        <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" />
+                        <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" />
+                    </div>
+                </div>
+            </section>
         </main>
     );
 }
