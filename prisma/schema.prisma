@@ -86,8 +86,8 @@ model Chorus {
 }
 
 model PersonChorus {
-  chorus   Chorus   @relation(fields: [chorusId], references: [id], onUpdate: Cascade)
-  person   Person   @relation(fields: [personId], references: [id], onUpdate: Cascade)
+  chorus   Chorus   @relation(fields: [chorusId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  person   Person   @relation(fields: [personId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   chorusId ChorusId
   personId String
 
@@ -98,7 +98,7 @@ model PersonChorus {
 
 model Person {
   /// This should be a formatted version of name which works in a url
-  id String @id
+  id String @id @default(cuid())
 
   name String
 

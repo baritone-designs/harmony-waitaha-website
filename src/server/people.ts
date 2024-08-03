@@ -41,4 +41,20 @@ export const peopleRouter = router({
 
         return person;
     }),
+
+    createPerson: privateProcedure.input(yup.object().shape({
+        id: yup.string(),
+
+        name: yup.string().required(),
+
+        biography: yup.string().required(),
+
+        iconUrl: yup.string(),
+    })).mutation(async ({ ctx, input }) => {
+        const defaultIconUrl = 'https://i.pinimg.com/originals/23/7a/ca/237aca3c347155fb392cdb6197dcde4b.jpg'; // TODO: This will be found from the blob storage at some point
+
+        return ctx.prisma.person.create({ data: { biography: input.biography, iconUrl: input.iconUrl || defaultIconUrl, name: input.name } });
+    }),
+
+    deletePerson: privateProcedure.input(yup.string().required()).mutation(async ({ ctx, input }) => ctx.prisma.person.delete({ where: { id: input } })),
 });

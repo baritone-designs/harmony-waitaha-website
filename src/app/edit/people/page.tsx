@@ -38,9 +38,13 @@ const PersonSchema = yup.object().shape({
 type PersonChorusData = Omit<PersonChorus, 'personId'>;
 
 export default function EditPeople() {
-    const [people] = trpc.react.people.allPeople.useSuspenseQuery();
+    const [people, { refetch }] = trpc.react.people.allPeople.useSuspenseQuery();
+
+    const { mutateAsync: deletePerson } = trpc.react.people.deletePerson.useMutation();
 
     const { mutateAsync: editPerson } = trpc.react.people.editPerson.useMutation();
+
+    const { mutateAsync: createPerson } = trpc.react.people.createPerson.useMutation();
 
     return (
         <div className="flex flex-row gap-5">
@@ -77,7 +81,7 @@ export default function EditPeople() {
                         <div className="flex flex-col items-center gap-3 rounded-md bg-slate-900 p-5">
                             <Field name="name" />{errors.name}
                             <Field name="id" />{errors.id}
-                            <Field name="biography" />{errors.biography}
+                            <Field as="textarea" name="biography" />{errors.biography}
                             <FieldArray
                                 name="choruses"
                             >
@@ -95,20 +99,19 @@ export default function EditPeople() {
                                             </div>
                                         ))}
                                         {values.choruses.length < Object.keys(ChorusId).length
-                                        && (
-                                            <button
-                                                onClick={() => push({
-                                                    chorusId: Object.keys(ChorusId).filter((id) => !values.choruses.find((chorus) => chorus.chorusId === id))[0] as ChorusId,
-                                                    role: '',
-                                                } satisfies PersonChorusData)}
-                                                type="button"
-                                            >Add Chorus
-                                            </button>
-                                        )}
+                                            && (
+                                                <button
+                                                    onClick={() => push({
+                                                        chorusId: Object.keys(ChorusId).filter((id) => !values.choruses.find((chorus) => chorus.chorusId === id))[0] as ChorusId,
+                                                        role: '',
+                                                    } satisfies PersonChorusData)}
+                                                    type="button"
+                                                >Add Chorus
+                                                </button>
+                                            )}
                                     </div>
                                 )}
                             </FieldArray>
-
                             <ImageUpload
                                 name="icon"
                                 existingImageUrl={person.iconUrl}
@@ -128,10 +131,32 @@ export default function EditPeople() {
                                 )}
                             </ImageUpload>
                             {dirty && <button onClick={submitForm} type="button">Save</button>}
+                            <button
+                                type="button"
+                                onClick={async () => {
+                                    await deletePerson(person.id);
+
+                                    await refetch();
+
+                                    await revalidate();
+                                }}
+                            >Delete Person
+                            </button>
                         </div>
                     )}
                 </Formik>
             ))}
+            <button
+                type="button"
+                onClick={async () => {
+                    await createPerson({ biography: 'John Smith was a human identity the Tenth Doctor assumed while hiding from the Family of Blood.', name: 'John Smith' });
+
+                    await refetch();
+
+                    await revalidate();
+                }}
+            >New Person
+            </button>
         </div>
     );
 }
