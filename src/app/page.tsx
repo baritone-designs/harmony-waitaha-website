@@ -46,15 +46,23 @@ export default function HarmonyWaitahaHome() {
             <section id="choruses" className="h-screen space-y-5">
                 <span className="text-4xl font-semibold">Choruses</span>
                 <div className="flex flex-row gap-5">
-                    <div className="h-96 w-1/2 rounded-3xl bg-black" />
+                    <a
+                        href="/plainsmen"
+                        className="flex h-96 w-1/2 items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
+                        style={{
+                            backgroundImage: 'linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(\'/plainsmen-photo.jpg\')',
+                        }}
+                    >
+                        <Image src="/plainsmen-large-logo.svg" width={410} height={410} alt="plainsmen-logo" />
+                    </a>
                     <a
                         href="/qa"
-                        className="flex h-96 w-1/2 items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-200 hover:bg-[length:103%]"
+                        className="flex h-96 w-1/2 items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
                         style={{
                             backgroundImage: 'linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(\'/qa-photo.png\')',
                         }}
                     >
-                        <Image src="/qa-large-logo.svg" width={410} height={420} alt="qa-logo" />
+                        <Image src="/qa-large-logo.svg" width={410} height={410} alt="qa-logo" />
                     </a>
                 </div>
             </section>
