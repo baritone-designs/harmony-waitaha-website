@@ -1,11 +1,56 @@
 import Image from 'next/image';
+import { FC } from 'react';
+import { MdLocationPin } from 'react-icons/md';
+import { google } from 'calendar-link';
 import HWHeader from './Header';
 
 import './index.css';
 
+interface EventProfileProps {
+    title: string;
+    location: string;
+    datetime: Date;
+    description: string;
+}
+
+const EventProfile: FC<EventProfileProps> = ({ title, location, datetime, description }) => (
+    <div className="rounded-3xl border-4 bg-hw-black p-5">
+        <div className="mb-3 flex flex-row justify-between">
+            <div>
+                <span className="text-2xl text-hw-white">{title}</span>
+                <a
+                    className="flex flex-row items-center gap-2 [&>*]:duration-200 [&>*]:hover:opacity-50"
+                    href={`https://www.google.com/maps/search/${location}`}
+                    target="blank"
+                >
+                    <MdLocationPin />
+                    <span className="text-hw-white">{location}</span>
+                </a>
+            </div>
+
+            <a
+                className="flex flex-col items-end [&>*]:text-hw-white [&>*]:duration-200 [&>*]:hover:opacity-50"
+                href={google({
+                    title,
+                    description,
+                    location,
+                    start: datetime,
+                    duration: [2, 'hour'],
+                })}
+                target="blank"
+            >
+                <span className="">{datetime.toLocaleDateString()}</span>
+                <span className="">{datetime.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
+            </a>
+        </div>
+        <p className="font-light text-hw-white">{description}</p>
+        <a href="/" className="text-hw-blue underline duration-200 hover:opacity-50">Learn more</a>
+    </div>
+);
+
 export default function HarmonyWaitahaHome() {
     return (
-        <main className="px-20 2xl:px-[12vw]">
+        <main className="px-20 2xl:px-[12vw] [&>*]:font-poppins">
             <HWHeader />
             <section id="home" className="-mx-20 h-screen overflow-y-hidden 2xl:mx-[-12vw]">
                 <video autoPlay muted loop>
@@ -111,8 +156,31 @@ export default function HarmonyWaitahaHome() {
                     </a>
                 </div>
             </section>
-            <section id="events" className="">
+            <section id="events" className="mt-10 space-y-5">
                 <span className="text-4xl font-semibold">Upcoming Events</span>
+                <div className="flex w-full flex-row gap-5">
+                    <EventProfile
+                        title="Open night"
+                        location="3 Brake Street"
+                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem.
+                        Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
+                        datetime={new Date()}
+                    />
+                    <EventProfile
+                        title="Open night"
+                        location="3 Brake Street"
+                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem.
+                         Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
+                        datetime={new Date()}
+                    />
+                    <EventProfile
+                        title="Open night"
+                        location="3 Brake Street"
+                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem.
+                        Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
+                        datetime={new Date()}
+                    />
+                </div>
             </section>
             <section id="contact" className="" />
         </main>
