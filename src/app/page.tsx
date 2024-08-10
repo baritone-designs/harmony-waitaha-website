@@ -12,6 +12,13 @@ interface ChorusProfileProps {
     logo: string;
 }
 
+interface QuartetProfileProps {
+    name: string;
+    photo?: string;
+    logo?: string;
+    link?: string;
+}
+
 interface EventProfileProps {
     title: string;
     location: string;
@@ -21,13 +28,30 @@ interface EventProfileProps {
 
 const ChorusProfile: FC<ChorusProfileProps> = ({ name, photo, logo }) => (
     <a
-        href={`/${name}`}
+        href={`/${name.toLowerCase()}`}
         className="flex h-96 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
         style={{
             backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/${photo}')`,
         }}
     >
-        <Image src={`/${logo}`} width={350} height={350} alt={`${name}-logo`} />
+        <Image src={`/${logo}`} width={350} height={350} alt={`${name.toLowerCase()}-logo`} />
+    </a>
+);
+
+const QuartetProfile: FC<QuartetProfileProps> = ({ name, photo = 'defaultqt-photo.png', logo = 'empty.png', link }) => (
+    <a
+        href={link}
+        target="blank"
+        className="flex h-72 w-full flex-col justify-between rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
+        style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('/${photo}')`,
+        }}
+    >
+        <div />
+        <div className="mx-8 mb-5 flex h-10 items-center justify-between">
+            <span className="text-xl text-hw-white">{name}</span>
+            <Image src={`/${logo}`} width={40} height={20} alt={`${name.toLowerCase()}-logo`} className="rounded-full" />
+        </div>
     </a>
 );
 
@@ -110,12 +134,12 @@ export default function HarmonyWaitahaHome() {
                 <span className="text-4xl font-semibold">Choruses</span>
                 <div className="grid grid-cols-2 gap-5">
                     <ChorusProfile
-                        name="plainsmen"
+                        name="Plainsmen"
                         photo="plainsmen-photo.jpg"
                         logo="plainsmen-large-logo.svg"
                     />
                     <ChorusProfile
-                        name="qa"
+                        name="Qa"
                         photo="qa-photo.png"
                         logo="qa-large-logo.svg"
                     />
@@ -124,46 +148,19 @@ export default function HarmonyWaitahaHome() {
             <section id="quartets" className="mt-10 space-y-5">
                 <span className="text-4xl font-semibold">Quartets</span>
                 <div className="grid grid-cols-3 gap-5">
-                    <a
-                        href="https://www.promenadequartet.co.nz/"
-                        target="blank"
-                        className="flex h-72 w-full flex-col justify-between rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
-                        style={{
-                            backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url(\'/promenade-photo.jpeg\')',
-                        }}
-                    >
-                        <div />
-                        <div className="mx-8 mb-5 flex h-10 items-center justify-between">
-                            <span className="text-xl text-hw-white">Promenade</span>
-                            <Image src="/promenade-logo.jpg" width={40} height={20} alt="promenade-logo" className="rounded-full" />
-                        </div>
-                    </a>
-                    <a
-                        href="https://www.doublebass.co.nz/"
-                        target="blank"
-                        className="flex h-72 w-full flex-col justify-between rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
-                        style={{
-                            backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url(\'/doublebass-photo.jpg\')',
-                        }}
-                    >
-                        <div />
-                        <div className="mx-8 mb-5 flex h-10 items-center justify-between">
-                            <span className="text-xl text-hw-white">Double Bass</span>
-                        </div>
-                    </a>
-                    <a
-                        href="https://www.doublebass.co.nz/"
-                        target="blank"
-                        className="flex h-72 w-full flex-col justify-between rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
-                        style={{
-                            backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url(\'/defaultqt-photo.png\')',
-                        }}
-                    >
-                        <div />
-                        <div className="mx-8 mb-5 flex h-10 items-center justify-between">
-                            <span className="text-xl text-hw-white">Class Act</span>
-                        </div>
-                    </a>
+                    <QuartetProfile
+                        name="Promenade"
+                        photo="promenade-photo.jpeg"
+                        link="https://www.promenadequartet.co.nz/"
+                        logo="promenade-logo.jpg"
+                    />
+                    <QuartetProfile
+                        name="Double Bass"
+                        photo="doublebass-photo.jpg"
+                    />
+                    <QuartetProfile
+                        name="Class Act"
+                    />
                 </div>
             </section>
             <section id="events" className="mt-10 space-y-5">
