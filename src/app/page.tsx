@@ -6,12 +6,30 @@ import HWHeader from './Header';
 
 import './index.css';
 
+interface ChorusProfileProps {
+    name: string;
+    photo: string;
+    logo: string;
+}
+
 interface EventProfileProps {
     title: string;
     location: string;
     datetime: Date;
     description: string;
 }
+
+const ChorusProfile: FC<ChorusProfileProps> = ({ name, photo, logo }) => (
+    <a
+        href={`/${name}`}
+        className="flex h-96 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
+        style={{
+            backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/${photo}')`,
+        }}
+    >
+        <Image src={`/${logo}`} width={350} height={350} alt={`${name}-logo`} />
+    </a>
+);
 
 const EventProfile: FC<EventProfileProps> = ({ title, location, datetime, description }) => (
     <div className="rounded-3xl border-4 bg-hw-black p-5">
@@ -91,24 +109,16 @@ export default function HarmonyWaitahaHome() {
             <section id="choruses" className="space-y-5">
                 <span className="text-4xl font-semibold">Choruses</span>
                 <div className="grid grid-cols-2 gap-5">
-                    <a
-                        href="/plainsmen"
-                        className="flex h-96 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
-                        style={{
-                            backgroundImage: 'linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(\'/plainsmen-photo.jpg\')',
-                        }}
-                    >
-                        <Image src="/plainsmen-large-logo.svg" width={350} height={350} alt="plainsmen-logo" />
-                    </a>
-                    <a
-                        href="/qa"
-                        className="flex h-96 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
-                        style={{
-                            backgroundImage: 'linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(\'/qa-photo.png\')',
-                        }}
-                    >
-                        <Image src="/qa-large-logo.svg" width={350} height={350} alt="qa-logo" />
-                    </a>
+                    <ChorusProfile
+                        name="plainsmen"
+                        photo="plainsmen-photo.jpg"
+                        logo="plainsmen-large-logo.svg"
+                    />
+                    <ChorusProfile
+                        name="qa"
+                        photo="qa-photo.png"
+                        logo="qa-large-logo.svg"
+                    />
                 </div>
             </section>
             <section id="quartets" className="mt-10 space-y-5">
