@@ -56,7 +56,7 @@ const QuartetProfile: FC<QuartetProfileProps> = ({ name, photo = 'defaultqt-phot
 );
 
 const EventProfile: FC<EventProfileProps> = ({ title, location, datetime, description }) => (
-    <div className="rounded-3xl border-4 bg-hw-black p-5">
+    <div className="rounded-3xl border-4 bg-hw-black px-8 py-6">
         <div className="mb-3 flex flex-row justify-between">
             <div>
                 <span className="text-2xl text-hw-white">{title}</span>
