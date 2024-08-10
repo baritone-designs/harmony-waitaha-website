@@ -75,7 +75,7 @@ export default function QAHeader() {
                 <HeaderLink url="#about" active={active === 1}>About</HeaderLink>
                 <HeaderLink url="#choruses" active={active === 2}>Choruses</HeaderLink>
                 <HeaderLink url="#quartets" active={active === 3}>Quartets</HeaderLink>
-                <HeaderLink url="#members" active={active === 4}>Members</HeaderLink>
+                <HeaderLink url="#events" active={active === 4}>Events</HeaderLink>
                 <HeaderLink url="#contact" active={active === 4}>Contact</HeaderLink>
             </nav>
 
