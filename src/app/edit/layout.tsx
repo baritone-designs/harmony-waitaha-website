@@ -12,6 +12,7 @@ const EditPage = protectedClientPage<PropsWithChildren>(({ user, children }) => 
             <div className="flex flex-col gap-3">
                 <Link href="/edit">Home</Link>
                 <Link href="/edit/people">People</Link>
+                <Link href="/edit/events">Events</Link>
             </div>
             <button
                 type="button"

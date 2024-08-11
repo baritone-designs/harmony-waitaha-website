@@ -6,6 +6,7 @@ import { FC, PropsWithChildren } from 'react';
 
 import './gothic-font.css';
 import './globals.css';
+import 'react-datetime/css/react-datetime.css';
 
 export const metadata: Metadata = {
     title: 'Harmony Waitaha',

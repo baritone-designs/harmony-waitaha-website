@@ -89,6 +89,16 @@ export default async function QAHome() {
         ...x.person,
     }));
 
+    const events = (await prisma.event.findMany({
+        where: {
+            choruses: {
+                some: {
+                    id: ChorusId.Qa,
+                },
+            },
+        },
+    }));
+
     return (
         <main className="px-20 2xl:px-[10vw]">
             <QAHeader />
@@ -165,27 +175,14 @@ export default async function QAHome() {
             <section id="upcoming" className="mb-10 space-y-4">
                 <span className="text-4xl font-semibold text-qa-blue">Upcoming Events</span>
                 <div className="flex w-full flex-row gap-5">
-                    <EventProfile
-                        name="Open night"
-                        location="3 Brake Street"
-                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem.
-                        Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
-                        datetime={new Date()}
-                    />
-                    <EventProfile
-                        name="Open night"
-                        location="3 Brake Street"
-                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem.
-                         Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
-                        datetime={new Date()}
-                    />
-                    <EventProfile
-                        name="Open night"
-                        location="3 Brake Street"
-                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem.
-                        Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
-                        datetime={new Date()}
-                    />
+                    {events.map(({ name, address, description, time }) => (
+                        <EventProfile
+                            name={name}
+                            location={address}
+                            description={description}
+                            datetime={time}
+                        />
+                    ))}
                 </div>
             </section>
             {/* <section id="media" className="space-y-4">

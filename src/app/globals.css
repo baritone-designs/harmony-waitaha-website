@@ -16,5 +16,14 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+
+    /* React date time picker CSS */
+    th.rdtSwitch, td.rdtSwitch {
+        @apply text-slate-700 hover:bg-slate-300
+    }
+
+    th.rdtNext, th.rdtPrev, th.dow, .rdtPicker td.rdtDay, .rdtTimeToggle, .rdtCounter, .rdtMonth, .rdtYear {
+        @apply text-slate-500
+    }
     
 }

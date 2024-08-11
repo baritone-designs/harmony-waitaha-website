@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { FC } from 'react';
 import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
+import { prisma } from '@/common/prisma';
 import HWHeader from './Header';
 
 import './index.css';
@@ -90,7 +91,9 @@ const EventProfile: FC<EventProfileProps> = ({ title, location, datetime, descri
     </div>
 );
 
-export default function HarmonyWaitahaHome() {
+export default async function HarmonyWaitahaHome() {
+    const events = (await prisma.event.findMany());
+
     return (
         <main className="px-20 2xl:px-[12vw] [&>*]:font-poppins">
             <HWHeader />
@@ -166,27 +169,14 @@ export default function HarmonyWaitahaHome() {
             <section id="events" className="mt-10 space-y-5">
                 <span className="text-4xl font-semibold">Upcoming Events</span>
                 <div className="flex w-full flex-row gap-5">
-                    <EventProfile
-                        title="Open night"
-                        location="3 Brake Street"
-                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem.
-                        Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
-                        datetime={new Date()}
-                    />
-                    <EventProfile
-                        title="Open night"
-                        location="3 Brake Street"
-                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem.
-                         Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
-                        datetime={new Date()}
-                    />
-                    <EventProfile
-                        title="Open night"
-                        location="3 Brake Street"
-                        description="Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta, suscipit urna a, fringilla sem.
-                        Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi"
-                        datetime={new Date()}
-                    />
+                    {events.map(({ name, address, description, time }) => (
+                        <EventProfile
+                            title={name}
+                            location={address}
+                            description={description}
+                            datetime={time}
+                        />
+                    ))}
                 </div>
             </section>
             <section id="contact" className="" />
