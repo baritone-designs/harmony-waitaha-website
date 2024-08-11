@@ -43,7 +43,10 @@ Config for the project is done with an untracked `.env` file. The structure of t
 
 You must have a postgres instance running locally or one on a personal server as we do not have a hosted development database. Postgres server can be downloaded [here](https://hub.docker.com/_/postgres). Alternatively you can run a [docker image](https://hub.docker.com/_/postgres).
 
-Vercel BLOB storage cannot be run locally and we do not have a development instance so please be **EXTREMELY** careful when working with this once we are in production
+Vercel BLOB storage cannot be run locally and we do not have a development instance so please be **EXTREMELY** careful when working with this once we are in production.
+
+> [!IMPORTANT]
+> Vercel BLOB `onUploadCompleted` will not be called on localhost sites so any image uploads which require a post upload task will not work properly on local
 
 ## Commands
 

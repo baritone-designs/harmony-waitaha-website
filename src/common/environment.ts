@@ -55,5 +55,7 @@ const EnvironmentSchema = yup.object().shape({
 
 /**
  * Instance of loaded env variables
+ *
+ * ! This should NOT be imported client side as the compiler will not automatically include environment variables unless they are directly accessed through `process.env`
  */
 export const env = EnvironmentSchema.validateSync(ENV);
