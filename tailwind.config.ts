@@ -31,6 +31,7 @@ const config: Config = {
         fontFamily: {
             'pt-sans': ['var(--font-pt-sans)', 'sans-serif'],
             'ar-gothic': ['all-round-gothic', 'sans-serif'],
+            'harmony': ['var(--font-harmony)', 'sans-serif'],
 
             'poppins': ['var(--font-poppins)', 'sans-serif'],
         },
