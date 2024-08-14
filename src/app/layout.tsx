@@ -23,6 +23,11 @@ const harmony = localFont({
     variable: '--font-harmony',
 });
 
+const centuryGothic = localFont({
+    src: '../assets/fonts/century-gothic.otf',
+    variable: '--font-century-gothic',
+});
+
 const poppins = Poppins({
     weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
     variable: '--font-poppins',
@@ -33,7 +38,7 @@ const RootLayout: FC<PropsWithChildren<{
     // This just has to be `never` so nextjs builds properly...
     session: never;
 }>> = ({ session, children }) => (
-    <html lang="en" className={`${productSans.variable} ${poppins.variable} ${harmony.variable}`}>
+    <html lang="en" className={`${productSans.variable} ${poppins.variable} ${harmony.variable} ${centuryGothic.variable}`}>
         <body>
             <Providers session={session}>
                 {children}

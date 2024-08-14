@@ -104,16 +104,19 @@ export default async function HarmonyWaitahaHome() {
             </section>
 
             <section id="about" className="flex flex-col items-center gap-5 py-16">
-                <span className="text-5xl font-medium">
+                <span className="font-c-gothic text-5xl font-medium">
                     Welcome to
                     {' '}
-                    <span className="text-hw-blue">
-                        <span className="font-harmony text-hw-red">&#x202F;</span>
-                        <span className="font-harmony text-hw-blue">H</span>
+                    <span className="font-c-gothic text-hw-blue">
+                        <span className="font-harmony text-4xl text-hw-red">&#x202F;</span>
+                        <span className="font-harmony text-4xl text-hw-blue">H</span>
                         armony
                     </span>
                     {' '}
-                    <span className="text-hw-red"><span className="font-harmony text-hw-red">W</span>aitaha</span>
+                    <span className="font-c-gothic text-hw-red">
+                        <span className="font-harmony text-4xl text-hw-red">W</span>
+                        aitaha
+                    </span>
                 </span>
                 <span className="text-3xl font-semibold">
                     <span className="text-hw-red">Anyone</span>

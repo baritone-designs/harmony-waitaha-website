@@ -29,6 +29,7 @@ const config: Config = {
         },
 
         fontFamily: {
+            'c-gothic': ['var(--font-century-gothic)', 'sans-serif'],
             'pt-sans': ['var(--font-pt-sans)', 'sans-serif'],
             'ar-gothic': ['all-round-gothic', 'sans-serif'],
             'harmony': ['var(--font-harmony)', 'sans-serif'],
