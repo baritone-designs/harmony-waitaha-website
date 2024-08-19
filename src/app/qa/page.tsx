@@ -13,6 +13,7 @@ import qaWave from '@/assets/images/qa-wave.png';
 
 import './index.css';
 import { MdLocationPin } from 'react-icons/md';
+import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
 import { ChorusId } from '@prisma/client';
 import QAHeader from './Header';
@@ -38,30 +39,45 @@ const TeamProfile: FC<TeamProfileProps> = ({ id, image, name, role }) => (
 );
 
 interface EventProfileProps {
-    name: string;
+    title: string;
     location: string;
     datetime: Date;
     description: string;
 }
 
-const EventProfile: FC<EventProfileProps> = ({ name, location, datetime, description }) => (
+const EventProfile: FC<EventProfileProps> = ({ title, location, datetime, description }) => (
     <div className="rounded-3xl border-4 border-qa-blue p-5">
         <div className="mb-3 flex flex-row justify-between">
             <div>
-                <span className="text-2xl">{name}</span>
-                <div className="flex flex-row items-center gap-2">
+                <span className="text-2xl">{title}</span>
+                <a
+                    className="flex flex-row items-center gap-2 [&>*]:duration-300 [&>*]:hover:text-qa-blue [&>*]:hover:drop-shadow-qa-glow-intense"
+                    href={`https://www.google.com/maps/search/${location}`}
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     <MdLocationPin />
                     <span className="font-pt-sans">{location}</span>
-                </div>
+                </a>
             </div>
-
-            <div className="flex flex-col items-end">
+            <a
+                className="flex flex-col items-end [&>*]:duration-300 [&>*]:hover:text-qa-blue [&>*]:hover:drop-shadow-qa-glow-intense"
+                href={google({
+                    title,
+                    description,
+                    location,
+                    start: datetime,
+                    duration: [2, 'hour'],
+                })}
+                target="_blank"
+                rel="noreferrer"
+            >
                 <span className="font-pt-sans">{datetime.toLocaleDateString()}</span>
                 <span className="font-pt-sans">{datetime.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
-            </div>
+            </a>
         </div>
         <p className="">{description}</p>
-        <a href="/" className="text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense">Learn more</a>
+        <a href="/" className="text-qa-blue duration-300 hover:drop-shadow-qa-glow-intense">Learn more</a>
     </div>
 );
 
@@ -144,12 +160,6 @@ export default async function QAHome() {
                         Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
                         In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat.
                         Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
-                        <br />
-                        <br />
-                        We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
-                        In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat.
-                        Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
                     </p>
                     <div className="flex flex-col justify-between">
                         <Image src={qaWave} alt="picture" className="z-10 h-96 w-full rounded-3xl object-cover" />
@@ -174,10 +184,10 @@ export default async function QAHome() {
             </section>
             <section id="upcoming" className="mb-10 space-y-4">
                 <span className="text-4xl font-semibold text-qa-blue">Upcoming Events</span>
-                <div className="flex w-full flex-row gap-5">
+                <div className="grid w-full grid-cols-3 gap-5">
                     {events.map(({ name, address, description, time }) => (
                         <EventProfile
-                            name={name}
+                            title={name}
                             location={address}
                             description={description}
                             datetime={time}
