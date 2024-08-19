@@ -42,7 +42,8 @@ const ChorusProfile: FC<ChorusProfileProps> = ({ name, photo, logo }) => (
 const QuartetProfile: FC<QuartetProfileProps> = ({ name, photo = 'defaultqt-photo.png', logo = 'empty.png', link }) => (
     <a
         href={link}
-        target="blank"
+        target="_blank"
+        rel="noreferrer"
         className="flex h-72 w-full flex-col justify-between rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
         style={{
             backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('/${photo}')`,
@@ -64,7 +65,8 @@ const EventProfile: FC<EventProfileProps> = ({ title, location, datetime, descri
                 <a
                     className="flex flex-row items-center gap-2 [&>*]:duration-200 [&>*]:hover:opacity-50"
                     href={`https://www.google.com/maps/search/${location}`}
-                    target="blank"
+                    target="_blank"
+                    rel="noreferrer"
                 >
                     <MdLocationPin />
                     <span className="text-hw-white">{location}</span>
@@ -80,7 +82,8 @@ const EventProfile: FC<EventProfileProps> = ({ title, location, datetime, descri
                     start: datetime,
                     duration: [2, 'hour'],
                 })}
-                target="blank"
+                target="_blank"
+                rel="noreferrer"
             >
                 <span className="">{datetime.toLocaleDateString()}</span>
                 <span className="">{datetime.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
