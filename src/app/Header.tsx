@@ -28,7 +28,7 @@ const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
     </Link>
 );
 
-export default function QAHeader() {
+export default function HWHeader() {
     const [active, setActive] = useState(0);
     const headerRef = useRef<HTMLHeadElement>(null);
 

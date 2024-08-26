@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import { FC } from 'react';
-import { MdLocationPin } from 'react-icons/md';
+import { MdEmail, MdLocationPin, MdPhone } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
 import HWHeader from './Header';
+import hwLogo from './hw-logo.svg';
 
 import './index.css';
 
@@ -195,7 +196,50 @@ export default async function HarmonyWaitahaHome() {
                     ))}
                 </div>
             </section>
-            <section id="contact" className="" />
+            <section id="contact" className="mt-10 space-y-5">
+                <span className="text-4xl font-semibold">Contact Us</span>
+                <div className="grid grid-cols-2 gap-5">
+                    <div className="rounded-3xl bg-hw-black">
+                        <div className="grid grid-cols-1 gap-5 p-8">
+                            <span className="text-2xl text-hw-white">Information</span>
+                            <div className="flex items-center">
+                                <MdLocationPin size={20} />
+                                <div>
+                                    <p className="ml-2 text-hw-white">Upper Ricarton Methodist Church</p>
+                                    <p className="ml-2 text-hw-white"> 3 Brake Street, Riccarton, Christchurch</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center">
+                                <MdPhone size={20} />
+                                <span className="ml-2 text-hw-white">02123456789</span>
+                            </div>
+                            <div className="flex items-center">
+                                <MdEmail size={20} />
+                                <span className="ml-2 text-hw-white">enquire@harmonywaitaha.co.nz</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="rounded-3xl bg-hw-black p-8">
+                        <form action="">
+                            <div className="mb-3 grid grid-cols-2 gap-3">
+                                <label htmlFor="name" className="block text-hw-white">Name
+                                    <input id="name" type="text" placeholder="Enter your name" className="block w-full rounded-md bg-hw-white px-3 py-2 text-hw-black" />
+                                </label>
+                                <label htmlFor="email" className="block text-hw-white">Email
+                                    <input id="name" type="text" placeholder="Enter your email" className="block w-full rounded-md bg-hw-white px-3 py-2 text-hw-black" />
+                                </label>
+                            </div>
+                            <label htmlFor="message" className="block text-hw-white">Message
+                                <textarea id="name" placeholder="Type your message" className="block h-24 w-full resize-none rounded-md bg-hw-white px-3 py-2 text-hw-black" />
+                            </label>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <footer className="my-10">
+                <Image src={hwLogo} alt="hw-logo" width={150} height={0} />
+                <p className="mt-3">© Quantum Acoustics 2024</p>
+            </footer>
         </main>
     );
 }

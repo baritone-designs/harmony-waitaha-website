@@ -25,5 +25,13 @@
     th.rdtNext, th.rdtPrev, th.dow, .rdtPicker td.rdtDay, .rdtTimeToggle, .rdtCounter, .rdtMonth, .rdtYear {
         @apply text-slate-500
     }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active{
+        -webkit-box-shadow: 0 0 0 30px #F1F0EF inset !important;
+        -webkit-text-fill-color: #110E0E;
+    }                                                                                                           
     
 }
