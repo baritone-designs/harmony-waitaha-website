@@ -109,8 +109,8 @@ export default async function HarmonyWaitahaHome() {
 
             <section id="about" className="flex flex-col items-center gap-5 py-16">
                 <span className="font-c-gothic text-5xl font-medium">
-                    Welcome to
-                    {' '}
+                    Welcome to Harmony Waitaha
+                    {/* {' '}
                     <span className="font-c-gothic text-hw-blue">
                         <span className="font-harmony text-4xl text-hw-red">&#x202F;</span>
                         <span className="font-harmony text-4xl text-hw-blue">H</span>
@@ -120,7 +120,7 @@ export default async function HarmonyWaitahaHome() {
                     <span className="font-c-gothic text-hw-red">
                         <span className="font-harmony text-4xl text-hw-red">W</span>
                         aitaha
-                    </span>
+                    </span> */}
                 </span>
                 <span className="text-3xl font-semibold">
                     <span className="text-hw-red">Anyone</span>
@@ -238,7 +238,7 @@ export default async function HarmonyWaitahaHome() {
             </section>
             <footer className="my-10">
                 <Image src={hwLogo} alt="hw-logo" width={150} height={0} />
-                <p className="mt-3">© Quantum Acoustics 2024</p>
+                <p className="mt-3">© Harmony Waitaha 2024</p>
             </footer>
         </main>
     );
