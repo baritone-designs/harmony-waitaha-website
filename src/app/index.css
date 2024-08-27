@@ -7,7 +7,7 @@
         @apply bg-hw-white
     }
 
-    p, span, label {
+    p, span, label, a {
         @apply font-poppins text-hw-black
     }
 }

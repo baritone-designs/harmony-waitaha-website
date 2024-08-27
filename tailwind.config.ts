@@ -23,7 +23,7 @@ const config: Config = {
                 },
                 pm: {
                     blue: '#8DA7D6',
-                    red: '#D91725',
+                    red: '#DD0000',
                 },
             },
         },
@@ -33,7 +33,6 @@ const config: Config = {
             'pt-sans': ['var(--font-pt-sans)', 'sans-serif'],
             'ar-gothic': ['all-round-gothic', 'sans-serif'],
             'harmony': ['var(--font-harmony)', 'sans-serif'],
-
             'poppins': ['var(--font-poppins)', 'sans-serif'],
         },
 
