@@ -241,7 +241,7 @@ export default async function QAHome() {
             <section id="footer" className="mb-10 flex flex-row justify-between">
                 <div>
                     <span className="text-4xl font-semibold text-qa-blue">Follow Us</span>
-                    <p>© Quantum Acoustics 2024</p>
+                    <p>© Quantum Acoustics {new Date().getFullYear()}</p>
                 </div>
                 <div>
                     <div className="mt-6 flex scale-50 gap-5 text-white">

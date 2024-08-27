@@ -238,7 +238,7 @@ export default async function HarmonyWaitahaHome() {
             </section>
             <footer className="my-10">
                 <Image src={hwLogo} alt="hw-logo" width={150} height={0} />
-                <p className="mt-3">© Harmony Waitaha 2024</p>
+                <p className="mt-3">© Harmony Waitaha {new Date().getFullYear()}</p>
             </footer>
         </main>
     );
