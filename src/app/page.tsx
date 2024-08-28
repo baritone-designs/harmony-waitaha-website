@@ -4,7 +4,6 @@ import { MdEmail, MdLocationPin, MdPhone } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
 import HWHeader from './Header';
-import hwLogo from './hw-logo.svg';
 
 import './index.css';
 
@@ -53,7 +52,7 @@ const QuartetProfile: FC<QuartetProfileProps> = ({ name, photo = 'defaultqt-phot
         <div />
         <div className="mx-8 mb-5 flex h-10 items-center justify-between">
             <span className="text-xl text-hw-white">{name}</span>
-            <Image src={`/${logo}`} width={40} height={20} alt={`${name.toLowerCase()}-logo`} className="rounded-full" />
+            <Image src={`/${logo}`} height={20} width={30} alt={`${name.toLowerCase()}-logo`} className="rounded-full" />
         </div>
     </a>
 );
@@ -156,12 +155,12 @@ export default async function HarmonyWaitahaHome() {
                     <ChorusProfile
                         name="Plainsmen"
                         photo="plainsmen-photo.jpg"
-                        logo="plainsmen-large-logo.svg"
+                        logo="plainsmen-logo.svg"
                     />
                     <ChorusProfile
                         name="Qa"
                         photo="qa-photo.png"
-                        logo="qa-large-logo.svg"
+                        logo="qa-logo.svg"
                     />
                 </div>
             </section>
@@ -237,7 +236,7 @@ export default async function HarmonyWaitahaHome() {
                 </div>
             </section>
             <footer className="my-10">
-                <Image src={hwLogo} alt="hw-logo" width={150} height={0} />
+                <Image src="/hw-logo.svg" alt="hw-logo" width={150} height={0} />
                 <p className="mt-3">© Harmony Waitaha {new Date().getFullYear()}</p>
             </footer>
         </main>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { m } from 'framer-motion';
-import hwLogo from './hw-logo.svg';
+// import hwLogo from './hw-logo.svg';
 
 interface HeaderLinkProps {
     url: string;
@@ -65,8 +65,10 @@ export default function HWHeader() {
         >
             <m.a href="#home" className="w-24" whileHover={{ scale: 1.05 }}>
                 <Image
-                    src={hwLogo}
+                    src="/hw-logo.svg"
                     alt="hw-logo"
+                    width={100}
+                    height={100}
                 />
             </m.a>
 
