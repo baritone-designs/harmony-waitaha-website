@@ -16,6 +16,7 @@ import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
 import { ChorusId } from '@prisma/client';
+// import qaLogo from './qa-logo.svg';
 import QAHeader from './Header';
 
 export const metadata: Metadata = {
@@ -84,11 +85,12 @@ const EventProfile: FC<EventProfileProps> = ({ title, location, datetime, descri
 interface SocialLinkProps {
     href: string;
     icon: IconType;
+    size?: number;
 }
 
-const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon }) => (
-    <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-qa-blue">
-        <Icon size={45} />
+const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon, size = 45 }) => (
+    <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-qa-blue hover:drop-shadow-qa-glow-intense">
+        <Icon size={size} />
     </a>
 );
 
@@ -238,17 +240,21 @@ export default async function QAHome() {
                     </MapProvider>
                 </div>
             </section>
-            <section id="footer" className="mb-10 flex flex-row justify-between">
+            <section id="footer" className="mb-10 flex flex-row items-end justify-between">
                 <div>
                     <span className="text-4xl font-semibold text-qa-blue">Follow Us</span>
-                    <p>© Quantum Acoustics {new Date().getFullYear()}</p>
-                </div>
-                <div>
-                    <div className="mt-6 flex scale-50 gap-5 text-white">
-                        <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" />
-                        <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" />
-                        <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" />
+                    <div className="mt-2 flex gap-3 text-white">
+                        <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" size={25} />
+                        <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" size={25} />
+                        <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" size={25} />
                     </div>
+                </div>
+                <a className="flex h-full flex-col items-center text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense" href="/" target="_blank">
+                    Harmony Waitaha Website ↗
+                </a>
+                <div className="flex flex-col items-end">
+                    <Image src="/qa-logo.svg" alt="qa-logo/" width={150} height={150} />
+                    <span>© Quantum Acoustics {new Date().getFullYear()}</span>
                 </div>
             </section>
         </main>
