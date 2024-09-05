@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { ScrollImage } from './ScrollImage';
 import PlainsmenHeader from './Header';
-import plainsmenLogo from './plainsmen-logo.svg';
 import './index.css';
 
 export const metadata: Metadata = {
@@ -16,7 +15,7 @@ export default function PlainsmenHome() {
             <PlainsmenHeader />
             <section id="home" className="relative h-screen">
                 <div className="z-10 flex h-full items-center justify-center text-8xl font-medium">
-                    <Image src={plainsmenLogo} alt="plainsmen-logo" height={300} className="z-10" />
+                    <Image src="/plainsmen-logo.svg" alt="plainsmen-logo" width={555.65} height={300} className="z-10" />
                 </div>
                 <div className="pointer-events-none absolute -inset-x-20 inset-y-0">
                     <ScrollImage />
