@@ -3,6 +3,8 @@ import { FC } from 'react';
 import { MdEmail, MdLocationPin, MdPhone } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
+import { Event, Quartet } from '@prisma/client';
+import Link from 'next/link';
 import HWHeader from './Header';
 
 import './index.css';
@@ -13,80 +15,70 @@ interface ChorusProfileProps {
     logo: string;
 }
 
-interface QuartetProfileProps {
-    name: string;
-    photo?: string;
-    logo?: string;
-    link?: string;
-}
-
-interface EventProfileProps {
-    title: string;
-    location: string;
-    datetime: Date;
-    description: string;
-}
-
 const ChorusProfile: FC<ChorusProfileProps> = ({ name, photo, logo }) => (
     <a
-        href={`/${name.toLowerCase()}`}
+        // This must be an a tag not a Link tag otherwise the prefetched CSS causes issues
+        href={name.toLowerCase()}
         className="flex h-96 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
         style={{
-            backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/${photo}')`,
+            backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${photo}')`,
         }}
     >
-        <Image src={`/${logo}`} width={350} height={350} alt={`${name.toLowerCase()}-logo`} />
+        <Image src={logo} width={350} height={350} alt={`${name.toLowerCase()}-logo`} />
     </a>
 );
 
-const QuartetProfile: FC<QuartetProfileProps> = ({ name, photo = 'defaultqt-photo.png', logo = 'empty.png', link }) => (
-    <a
-        href={link}
-        target="_blank"
-        rel="noreferrer"
+const QuartetProfile = ({ id, name, imageUrl, logoUrl }: Pick<Quartet, 'id' | 'name' | 'imageUrl' | 'logoUrl'>) => (
+    <Link
+        href={{
+            query: {
+                quartet: id,
+            },
+        }}
+        scroll={false}
         className="flex h-72 w-full flex-col justify-between rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
         style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('/${photo}')`,
+            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? 'defaultqt-photo.png'}')`,
         }}
     >
         <div />
         <div className="mx-8 mb-5 flex h-10 items-center justify-between">
             <span className="text-xl text-hw-white">{name}</span>
-            <Image src={`/${logo}`} height={20} width={30} alt={`${name.toLowerCase()}-logo`} className="rounded-full" />
+            {logoUrl && <Image src={logoUrl} height={20} width={30} alt={`${id}-logo`} className="rounded-full" />}
         </div>
-    </a>
+    </Link>
 );
 
-const EventProfile: FC<EventProfileProps> = ({ title, location, datetime, description }) => (
+const EventProfile = ({ name, address, time, description }: Pick<Event, 'name' | 'address' | 'time' | 'description'>) => (
     <div className="rounded-3xl bg-hw-black px-8 py-6">
         <div className="mb-3 flex flex-row justify-between">
             <div>
-                <span className="text-2xl text-hw-white">{title}</span>
+                <span className="text-2xl text-hw-white">{name}</span>
                 <a
                     className="flex flex-row items-center gap-2 [&>*]:duration-200 [&>*]:hover:opacity-50"
-                    href={`https://www.google.com/maps/search/${location}`}
+                    href={`https://www.google.com/maps/search/${address}`}
                     target="_blank"
                     rel="noreferrer"
                 >
                     <MdLocationPin />
-                    <span className="text-hw-white">{location}</span>
+                    <span className="text-hw-white">{address}</span>
                 </a>
             </div>
 
             <a
                 className="flex flex-col items-end [&>*]:text-hw-white [&>*]:duration-200 [&>*]:hover:opacity-50"
                 href={google({
-                    title,
+                    title: name,
                     description,
-                    location,
-                    start: datetime,
+                    location: address,
+                    start: time,
                     duration: [2, 'hour'],
                 })}
                 target="_blank"
                 rel="noreferrer"
             >
-                <span className="">{datetime.toLocaleDateString()}</span>
-                <span className="">{datetime.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
+                <span className="">{time.toLocaleDateString()}</span>
+                <span className="">{time.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
             </a>
         </div>
         <p className="font-light text-hw-white">{description}</p>
@@ -95,7 +87,24 @@ const EventProfile: FC<EventProfileProps> = ({ title, location, datetime, descri
 );
 
 export default async function HarmonyWaitahaHome() {
-    const events = (await prisma.event.findMany());
+    const events = (await prisma.event.findMany({
+        select: {
+            id: true,
+            name: true,
+            address: true,
+            time: true,
+            description: true,
+        },
+    }));
+
+    const quartets = (await prisma.quartet.findMany({
+        select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+            logoUrl: true,
+        },
+    }));
 
     return (
         <main className="px-20 2xl:px-[12vw] [&>*]:font-poppins">
@@ -109,17 +118,6 @@ export default async function HarmonyWaitahaHome() {
             <section id="about" className="flex flex-col items-center gap-5 py-16">
                 <span className="font-c-gothic text-5xl font-medium">
                     Welcome to Harmony Waitaha
-                    {/* {' '}
-                    <span className="font-c-gothic text-hw-blue">
-                        <span className="font-harmony text-4xl text-hw-red">&#x202F;</span>
-                        <span className="font-harmony text-4xl text-hw-blue">H</span>
-                        armony
-                    </span>
-                    {' '}
-                    <span className="font-c-gothic text-hw-red">
-                        <span className="font-harmony text-4xl text-hw-red">W</span>
-                        aitaha
-                    </span> */}
                 </span>
                 <span className="text-3xl font-semibold">
                     <span className="text-hw-red">Anyone</span>
@@ -167,31 +165,16 @@ export default async function HarmonyWaitahaHome() {
             <section id="quartets" className="mt-10 space-y-5">
                 <span className="text-4xl font-semibold">Quartets</span>
                 <div className="grid grid-cols-3 gap-5">
-                    <QuartetProfile
-                        name="Promenade"
-                        photo="promenade-photo.jpeg"
-                        link="https://www.promenadequartet.co.nz/"
-                        logo="promenade-logo.jpg"
-                    />
-                    <QuartetProfile
-                        name="Double Bass"
-                        photo="doublebass-photo.jpg"
-                    />
-                    <QuartetProfile
-                        name="Class Act"
-                    />
+                    {quartets.map((props) => (
+                        <QuartetProfile key={props.id} {...props} />
+                    ))}
                 </div>
             </section>
             <section id="events" className="mt-10 space-y-5">
                 <span className="text-4xl font-semibold">Upcoming Events</span>
                 <div className="grid w-full grid-cols-3 gap-5">
-                    {events.map(({ name, address, description, time }) => (
-                        <EventProfile
-                            title={name}
-                            location={address}
-                            description={description}
-                            datetime={time}
-                        />
+                    {events.map((props) => (
+                        <EventProfile key={props.id} {...props} />
                     ))}
                 </div>
             </section>

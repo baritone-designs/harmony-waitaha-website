@@ -124,3 +124,23 @@ model Event {
 
   choruses Chorus[]
 }
+
+model Quartet {
+  id String @id
+
+  name String @unique
+
+  biography String
+
+  members Json
+
+  imageUrl String?
+
+  backgroundImageUrl String?
+
+  logoUrl String?
+
+  socials Json
+
+  websiteUrl String?
+}

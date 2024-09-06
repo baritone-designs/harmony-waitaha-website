@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Providers from '@/components/Providers';
 import localFont from 'next/font/local';
 import { Poppins } from 'next/font/google';
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, ReactNode } from 'react';
 
 import './gothic-font.css';
 import './globals.css';
@@ -37,10 +37,12 @@ const poppins = Poppins({
 const RootLayout: FC<PropsWithChildren<{
     // This just has to be `never` so nextjs builds properly...
     session: never;
-}>> = ({ session, children }) => (
+    quartet: ReactNode;
+}>> = ({ session, quartet, children }) => (
     <html lang="en" className={`${productSans.variable} ${poppins.variable} ${harmony.variable} ${centuryGothic.variable}`}>
         <body>
             <Providers session={session}>
+                {quartet}
                 {children}
             </Providers>
         </body>
