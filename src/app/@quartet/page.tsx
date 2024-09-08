@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FaFacebook, FaGlobe, FaInstagram, FaTwitter, FaYoutubeSquare } from 'react-icons/fa';
 import { IconType } from 'react-icons';
+import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
 
 function SocialsLink({ url, icon: Icon }: { url: string, icon: IconType }) {
     return (
@@ -60,7 +61,7 @@ function QuartetModal({
                 <div
                     className="col-span-2 rounded-r-xl"
                     style={{
-                        backgroundImage: `url('${backgroundImageUrl ?? 'defaultqt-photo.png'}')`,
+                        backgroundImage: `url('${backgroundImageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
                     }}
                 />
             </MotionDiv>

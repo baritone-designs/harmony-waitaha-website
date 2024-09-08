@@ -5,9 +5,10 @@ import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
 import { Event, Quartet } from '@prisma/client';
 import Link from 'next/link';
-import HWHeader from './Header';
+import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
 
 import './index.css';
+import HWHeader from './Header';
 
 interface ChorusProfileProps {
     name: string;
@@ -38,7 +39,7 @@ const QuartetProfile = ({ id, name, imageUrl, logoUrl }: Pick<Quartet, 'id' | 'n
         scroll={false}
         className="flex h-72 w-full flex-col justify-between rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
         style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? 'defaultqt-photo.png'}')`,
+            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
         }}
     >
         <div />

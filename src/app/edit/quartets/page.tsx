@@ -32,7 +32,7 @@ const QuartetSchema = yup.object().shape({
 
     socials: QuartetSocialsSchema,
 
-    websiteUrl: yup.string(),
+    websiteUrl: yup.string().url(),
 });
 
 export default function EditQuartets() {
