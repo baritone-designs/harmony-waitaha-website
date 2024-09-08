@@ -6,9 +6,8 @@ import { Field, FieldArray, Formik } from 'formik';
 import { upload } from '@vercel/blob/client';
 import * as yup from 'yup';
 import { ChorusId, PersonChorus } from '@prisma/client';
+import { URL_COMPLIANT_REGEX } from '@/common/constants';
 import revalidate from '../revalidate';
-
-const UrlCompliant = /^[\w-]*$/;
 
 const PersonSchema = yup.object().shape({
     name: yup
@@ -25,7 +24,7 @@ const PersonSchema = yup.object().shape({
         .string()
         .min(2)
         .max(30)
-        .matches(UrlCompliant, 'Must not contain special characters')
+        .matches(URL_COMPLIANT_REGEX, 'Must not contain special characters')
         .required(),
 
     choruses: yup.array(yup.object().shape({

@@ -13,6 +13,7 @@ const EditPage = protectedClientPage<PropsWithChildren>(({ user, children }) => 
                 <Link href="/edit">Home</Link>
                 <Link href="/edit/people">People</Link>
                 <Link href="/edit/events">Events</Link>
+                <Link href="/edit/quartets">Quartets</Link>
             </div>
             <button
                 type="button"

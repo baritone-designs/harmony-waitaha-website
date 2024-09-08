@@ -5,6 +5,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
 datasource db {
   provider          = "postgresql"
   url               = env("DATABASE_PRISMA_URL") // uses connection pooling
@@ -132,6 +136,7 @@ model Quartet {
 
   biography String
 
+  /// [QuartetMembers]
   members Json
 
   imageUrl String?
@@ -140,6 +145,7 @@ model Quartet {
 
   logoUrl String?
 
+  /// [QuartetSocials]
   socials Json
 
   websiteUrl String?

@@ -38,5 +38,11 @@ export const ImageUpload: FC<ImageUploadProps> = ({ name, existingImageUrl, acce
         };
     }, [acceptedTypes, maxSize, setError, setTouched, setValue]);
 
+    if (!value && !existingImageUrl) {
+        return (
+            <button type="button" onClick={handleSelect}>Add {name}</button>
+        );
+    }
+
     return <Children onSelectImage={handleSelect} imageUrl={value ? URL.createObjectURL(value) : existingImageUrl} error={error} />;
 };
