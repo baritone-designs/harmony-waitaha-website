@@ -103,7 +103,6 @@ model PersonChorus {
 }
 
 model Person {
-  /// This should be a formatted version of name which works in a url
   id String @id @default(cuid())
 
   name String

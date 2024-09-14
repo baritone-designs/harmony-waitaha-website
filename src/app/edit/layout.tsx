@@ -1,33 +1,42 @@
 'use client';
 
 import { protectedClientPage } from '@/components/protectedClientPage';
+import { createTheme, ThemeProvider } from '@mui/material';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+});
+
 const EditPage = protectedClientPage<PropsWithChildren>(({ user, children }) => (
-    <div className="flex flex-row">
-        <div className="flex h-screen flex-col justify-between p-5">
-            <span>Welcome back {user.name}</span>
-            <div className="flex flex-col gap-3">
-                <Link href="/edit">Home</Link>
-                <Link href="/edit/people">People</Link>
-                <Link href="/edit/events">Events</Link>
-                <Link href="/edit/quartets">Quartets</Link>
+    <ThemeProvider theme={darkTheme}>
+        <div className="flex flex-row">
+            <div className="flex h-screen flex-col justify-between p-5">
+                <span>Welcome back {user.name}</span>
+                <div className="flex flex-col gap-3">
+                    <Link href="/edit">Home</Link>
+                    <Link href="/edit/people">People</Link>
+                    <Link href="/edit/events">Events</Link>
+                    <Link href="/edit/quartets">Quartets</Link>
+                </div>
+                <button
+                    type="button"
+                    onClick={() => {
+                        signOut({ callbackUrl: '/' });
+                    }}
+                >
+                    Sign Out
+                </button>
             </div>
-            <button
-                type="button"
-                onClick={() => {
-                    signOut({ callbackUrl: '/' });
-                }}
-            >
-                Sign Out
-            </button>
+            <div className="p-5">
+                {children}
+            </div>
         </div>
-        <div className="p-5">
-            {children}
-        </div>
-    </div>
+    </ThemeProvider>
 ));
 
 export default EditPage;

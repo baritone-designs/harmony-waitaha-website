@@ -1,12 +1,16 @@
 'use client';
 
 import { trpc } from '@/common/trpc';
-import { ImageUpload } from '@/components/ImageUpload';
-import { Field, FieldArray, Formik } from 'formik';
-import { upload } from '@vercel/blob/client';
+import { FieldArray, Formik, FormikConfig, FormikProps, FormikValues } from 'formik';
 import * as yup from 'yup';
-import { ChorusId, PersonChorus } from '@prisma/client';
-import { URL_COMPLIANT_REGEX } from '@/common/constants';
+import { ChorusId, Person, PersonChorus } from '@prisma/client';
+import { Button, IconButton, TextField } from '@mui/material';
+import { RxCross2 } from 'react-icons/rx';
+import { FaPlus, FaTrash } from 'react-icons/fa';
+import SpinningCircles from 'react-loading-icons/dist/esm/components/spinning-circles';
+import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, m } from 'framer-motion';
 import revalidate from '../revalidate';
 
 const PersonSchema = yup.object().shape({
@@ -20,21 +24,132 @@ const PersonSchema = yup.object().shape({
         .min(10)
         .max(150)
         .required(),
-    id: yup
-        .string()
-        .min(2)
-        .max(30)
-        .matches(URL_COMPLIANT_REGEX, 'Must not contain special characters')
-        .required(),
 
     choruses: yup.array(yup.object().shape({
         chorusId: yup.mixed<ChorusId>().oneOf(Object.values(ChorusId)).required(),
 
-        role: yup.string().min(2).max(30).required(),
+        role: yup.string().min(2).max(30).required('Role is a required file'),
     })),
 });
 
 type PersonChorusData = Omit<PersonChorus, 'personId'>;
+
+interface InitialValues {
+    icon?: File;
+    name: string;
+    biography: string;
+    choruses: PersonChorusData[];
+}
+
+interface PersonPaneProps {
+    person?: Person & { choruses: PersonChorus[] };
+    onSubmit: FormikConfig<InitialValues>['onSubmit'];
+    onDelete?: () => void;
+    layoutId?: string;
+    onClose?: () => void;
+}
+
+function PersonPane({ person, onSubmit, onDelete, layoutId, onClose }: PersonPaneProps) {
+    function formikProps<T extends FormikValues>(name: string, formik: FormikProps<T>) {
+        const { value, onChange, onBlur } = formik.getFieldProps(name);
+        const { error, touched } = formik.getFieldMeta(name);
+
+        return ({
+            value,
+            onChange,
+            onBlur,
+            error: touched && Boolean(error),
+            helperText: touched && JSON.stringify(error),
+        });
+    }
+
+    return (
+        <Formik<InitialValues>
+            initialValues={{
+                icon: undefined,
+                name: person?.name ?? '',
+                biography: person?.biography ?? '',
+                choruses: person?.choruses.map(({ chorusId, role }) => ({ chorusId, role } satisfies PersonChorusData)) ?? [],
+            }}
+            validationSchema={PersonSchema}
+            onSubmit={onSubmit}
+        >
+            {(formik) => (
+                <m.div animate={{ opacity: 1 }} exit={{ opacity: 0 }} layout layoutId={layoutId} className="relative flex flex-col items-center gap-3 rounded-md bg-slate-900 p-5">
+                    {onClose && <RxCross2 className="absolute right-1 top-1 cursor-pointer hover:text-slate-500" onClick={onClose} />}
+                    <TextField
+                        name="name"
+                        label="Name"
+                        fullWidth
+                        {...formikProps('name', formik)}
+                    />
+                    <TextField
+                        name="biography"
+                        label="Biography"
+                        fullWidth
+                        multiline
+                        {...formikProps('biography', formik)}
+                    />
+                    <FieldArray
+                        name="choruses"
+                    >
+                        {({ push, remove }) => (
+                            <>
+                                <ul>
+                                    {formik.values.choruses.map((chorus, i) => (
+                                        <m.li
+                                            layout
+                                            key={chorus.chorusId}
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: 'auto' }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                        >
+                                            <div
+                                                className="flex flex-row gap-1 overflow-hidden"
+                                            >
+                                                <TextField
+                                                    variant="standard"
+                                                    name={`choruses.${i}.role`}
+                                                    label={`${chorus.chorusId} role`}
+                                                    multiline
+                                                    {...formikProps(`choruses.${i}.role`, formik)}
+                                                />
+                                                <IconButton size="large" onClick={() => remove(i)}><FaTrash size={15} /></IconButton>
+                                            </div>
+                                        </m.li>
+                                    ))}
+                                </ul>
+                                <div className="flex flex-row items-center">
+                                    {Object.values(ChorusId).map((chorusId) => (
+                                        <Button
+                                            key={chorusId}
+                                            disabled={!!formik.values.choruses.find((chorus) => chorus.chorusId === chorusId)}
+                                            onClick={() => push({
+                                                chorusId,
+                                                role: '',
+                                            } satisfies PersonChorusData)}
+                                            endIcon={<FaPlus />}
+                                        >
+                                            {chorusId}
+                                        </Button>
+                                    ))}
+                                </div>
+                            </>
+                        )}
+                    </FieldArray>
+                    {formik.dirty && <Button onClick={formik.submitForm}>Save</Button>}
+                    {onDelete && <Button onClick={onDelete}>Delete</Button>}
+                    {formik.isSubmitting && (
+                        <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black/50">
+                            <SpinningCircles />
+                        </div>
+                    )}
+                </m.div>
+            )}
+        </Formik>
+
+    );
+}
 
 export default function EditPeople() {
     const [people, { refetch }] = trpc.react.people.allPeople.useSuspenseQuery();
@@ -45,117 +160,54 @@ export default function EditPeople() {
 
     const { mutateAsync: createPerson } = trpc.react.people.createPerson.useMutation();
 
+    const [newPersonOpen, setNewPersonOpen] = useState(false);
+
+    useEffect(() => {
+        setNewPersonOpen(false);
+    }, [people]);
+
     return (
         <div className="flex flex-row gap-5">
-            {people.map((person) => (
-                <Formik
-                    initialValues={{
-                        icon: undefined as File | undefined,
-                        id: person.id,
-                        name: person.name,
-                        biography: person.biography,
-                        choruses: person.choruses.map(({ chorusId, role }) => ({ chorusId, role } satisfies PersonChorusData)),
-                    }}
-                    onSubmit={async ({ icon, id, name, biography, choruses }, { setFieldError, resetForm }) => {
-                        const newPerson = await editPerson({ previousId: person.id, newId: id, biography, name, choruses });
+            <AnimatePresence>
+                {people.map((person) => (
+                    <PersonPane
+                        key={person.id}
+                        layoutId={person.id}
+                        onSubmit={async ({ biography, name, choruses }, { resetForm }) => {
+                            const newPerson = await editPerson({ id: person.id, biography, name, choruses });
 
-                        if (icon) {
-                            await upload(icon.name, icon, {
-                                access: 'public',
-                                handleUploadUrl: '/api/person-icon',
-                                clientPayload: newPerson.id,
-                            }).catch((e) => {
-                                resetForm();
-                                setFieldError('icon', e.toString());
-                            });
-                        }
+                            toast.success(`Person: '${person.name}' updated`);
 
-                        await revalidate();
+                            await refetch();
 
-                        window.alert(`Person ${name} updated`);
-                    }}
-                    validationSchema={PersonSchema}
-                >
-                    {({ submitForm, errors, values, dirty }) => (
-                        <div className="flex flex-col items-center gap-3 rounded-md bg-slate-900 p-5">
-                            <Field name="name" />{errors.name}
-                            <Field name="id" />{errors.id}
-                            <Field as="textarea" name="biography" />{errors.biography}
-                            <FieldArray
-                                name="choruses"
-                            >
-                                {({ remove, push }) => (
-                                    <div>
-                                        {values.choruses.map((chorus, index) => (
-                                            <div key={chorus.chorusId} className="flex flex-row gap-3">
-                                                <Field as="select" name={`choruses.${index}.chorusId`}>
-                                                    {Object.keys(ChorusId).map((id) => (
-                                                        <option value={id}>{id}</option>
-                                                    ))}
-                                                </Field>
-                                                <Field name={`choruses.${index}.role`} />
-                                                <button type="button" onClick={() => remove(index)}>Remove</button>
-                                            </div>
-                                        ))}
-                                        {values.choruses.length < Object.keys(ChorusId).length
-                                            && (
-                                                <button
-                                                    onClick={() => push({
-                                                        chorusId: Object.keys(ChorusId).filter((id) => !values.choruses.find((chorus) => chorus.chorusId === id))[0] as ChorusId,
-                                                        role: '',
-                                                    } satisfies PersonChorusData)}
-                                                    type="button"
-                                                >Add Chorus
-                                                </button>
-                                            )}
-                                    </div>
-                                )}
-                            </FieldArray>
-                            <ImageUpload
-                                name="icon"
-                                existingImageUrl={person.iconUrl}
-                            >
-                                {({ imageUrl, onSelectImage, error }) => (
-                                    <button className="group relative cursor-pointer" type="button" onClick={onSelectImage}>
-                                        {/* next/image crashes without width/height props */}
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img
-                                            src={imageUrl}
-                                            alt="profile"
-                                            className="h-36 w-36 rounded-full duration-200 group-hover:opacity-50"
-                                        />
-                                        <span>{error}</span>
-                                        <span className="absolute left-1/2 top-1/2 w-max -translate-x-1/2 -translate-y-1/2 opacity-0 duration-200 group-hover:opacity-100">Change Avatar</span>
-                                    </button>
-                                )}
-                            </ImageUpload>
-                            {dirty && <button onClick={submitForm} type="button">Save</button>}
-                            <button
-                                type="button"
-                                onClick={async () => {
-                                    await deletePerson(person.id);
+                            resetForm({ values: newPerson });
 
-                                    await refetch();
+                            revalidate();
+                        }}
+                        onDelete={async () => {
+                            await deletePerson(person.id);
 
-                                    await revalidate();
-                                }}
-                            >Delete Person
-                            </button>
-                        </div>
-                    )}
-                </Formik>
-            ))}
-            <button
-                type="button"
-                onClick={async () => {
-                    await createPerson({ biography: 'John Smith was a human identity the Tenth Doctor assumed while hiding from the Family of Blood.', name: 'John Smith' });
+                            toast.success(`Person: '${person.name}' deleted`);
 
-                    await refetch();
+                            await refetch();
 
-                    await revalidate();
-                }}
-            >New Person
-            </button>
+                            revalidate();
+                        }}
+                        person={person}
+                    />
+                ))}
+                {newPersonOpen ? (
+                    <PersonPane
+                        onClose={() => setNewPersonOpen(false)}
+                        onSubmit={async ({ biography, name, choruses }) => {
+                            await createPerson({ iconUrl: 'who knows', biography, name, choruses });
+
+                            await refetch();
+                        }}
+                        layoutId="new-person"
+                    />
+                ) : <m.button onClick={() => setNewPersonOpen(true)} layoutId="new-person" className="h-min rounded-md bg-slate-900 p-3">New Person</m.button>}
+            </AnimatePresence>
         </div>
     );
 }

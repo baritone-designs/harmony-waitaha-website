@@ -1,12 +1,14 @@
 import { Metadata } from 'next';
 import Providers from '@/components/Providers';
 import localFont from 'next/font/local';
-import { Poppins } from 'next/font/google';
+import { Inter, Poppins } from 'next/font/google';
 import { FC, PropsWithChildren, ReactNode } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import './gothic-font.css';
 import './globals.css';
 import 'react-datetime/css/react-datetime.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
     title: 'Harmony Waitaha',
@@ -16,6 +18,11 @@ export const metadata: Metadata = {
 const productSans = localFont({
     src: '../assets/fonts/ProductSans.ttf',
     variable: '--font-pt-sans',
+});
+
+const inter = Inter({
+    weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+    subsets: ['latin'],
 });
 
 const harmony = localFont({
@@ -39,11 +46,12 @@ const RootLayout: FC<PropsWithChildren<{
     session: never;
     quartet: ReactNode;
 }>> = ({ session, quartet, children }) => (
-    <html lang="en" className={`${productSans.variable} ${poppins.variable} ${harmony.variable} ${centuryGothic.variable}`}>
+    <html lang="en" className={`${productSans.variable} ${poppins.variable} ${harmony.variable} ${centuryGothic.variable} ${inter.className}`}>
         <body>
             <Providers session={session}>
                 {quartet}
                 {children}
+                <ToastContainer autoClose={2000} theme="dark" position="bottom-center" />
             </Providers>
         </body>
     </html>
