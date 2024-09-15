@@ -7,7 +7,6 @@ import { ToastContainer } from 'react-toastify';
 
 import './gothic-font.css';
 import './globals.css';
-import 'react-datetime/css/react-datetime.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {

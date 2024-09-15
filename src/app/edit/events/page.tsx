@@ -1,33 +1,100 @@
 'use client';
 
 import { trpc } from '@/common/trpc';
-import { Field, Formik } from 'formik';
+import { Field, Formik, FormikConfig } from 'formik';
 import * as yup from 'yup';
-import { ChorusId } from '@prisma/client';
-import { DateTimeField } from '@/components/DateTimeField';
+import { Chorus, Event, ChorusId } from '@prisma/client';
+import { EventSchema } from '@/common/schema';
+import { AnimatePresence, m } from 'framer-motion';
+import { RxCross2 } from 'react-icons/rx';
+import { Button, Checkbox, CircularProgress, FormControlLabel, FormGroup, TextField } from '@mui/material';
+import { formikProps } from '@/components/formikUtils';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { toast } from 'react-toastify';
+import { ReactNode, useState } from 'react';
+import dayjs from 'dayjs';
+import LocationAutocomplete from '@/components/LocationAutocomplete';
 import revalidate from '../revalidate';
 
-const EventSchema = yup.object().shape({
-    name: yup
-        .string()
-        .min(3)
-        .max(30)
-        .required(),
-    description: yup
-        .string()
-        .min(10)
-        .max(150)
-        .required(),
-    address: yup
-        .string()
-        .min(3)
-        .max(100)
-        .required(),
+type EventSchemaType = yup.InferType<typeof EventSchema>
 
-    time: yup.date().required(),
+interface EventPaneProps {
+    event?: Event & { choruses: Pick<Chorus, 'id'>[] };
+    onSubmit: FormikConfig<EventSchemaType>['onSubmit'];
+    onDelete?: () => void;
+    layoutId?: string;
+    onClose?: () => void;
+}
 
-    choruses: yup.array(yup.mixed<ChorusId>().oneOf(Object.values(ChorusId)).required()),
-});
+function EventPane({ event, onSubmit, onClose, onDelete, layoutId }: EventPaneProps) {
+    return (
+        <Formik<EventSchemaType>
+            initialValues={{
+                name: event?.name ?? '',
+                description: event?.description ?? '',
+                address: event?.address ?? '',
+                time: event?.time ?? new Date(),
+                choruses: event?.choruses.map(({ id }) => id) ?? [],
+            }}
+            validationSchema={EventSchema}
+            onSubmit={onSubmit}
+        >
+            {(formik) => (
+                <m.div animate={{ opacity: 1 }} exit={{ opacity: 0 }} layout layoutId={layoutId} className="relative flex flex-col items-center gap-3 rounded-md bg-slate-900 p-5">
+                    {onClose && <RxCross2 className="absolute right-1 top-1 cursor-pointer hover:text-slate-500" onClick={onClose} />}
+                    <TextField
+                        label="Name"
+                        variant="standard"
+                        fullWidth
+                        {...formikProps('name', formik)}
+                    />
+                    <TextField
+                        label="Description"
+                        variant="standard"
+                        fullWidth
+                        multiline
+                        {...formikProps('description', formik)}
+                    />
+                    <LocationAutocomplete name="address" label="Venue" />
+                    <DateTimePicker
+                        label="Date/time"
+                        value={dayjs(formik.values.time)}
+                        onChange={(value) => formik.setFieldValue('date', value?.toDate(), true)}
+                        className="w-full"
+                        slotProps={{
+                            textField: {
+                                variant: 'outlined',
+                                error: formik.touched.time && Boolean(formik.errors.time),
+                                helperText: formik.touched.time && formik.errors.time as ReactNode,
+                            },
+                        }}
+                    />
+                    <FormGroup>
+                        {Object.keys(ChorusId).map((id) => (
+                            <Field
+                                type="checkbox"
+                                name="choruses"
+                                value={id}
+                                key={id}
+                                as={FormControlLabel}
+                                control={<Checkbox />}
+                                checked={formik.values.choruses.includes(id as ChorusId)}
+                                label={id}
+                            />
+                        ))}
+                    </FormGroup>
+                    {formik.dirty && <Button onClick={formik.submitForm}>Save</Button>}
+                    {onDelete && <Button onClick={onDelete}>Delete</Button>}
+                    {formik.isSubmitting && (
+                        <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black/50">
+                            <CircularProgress />
+                        </div>
+                    )}
+                </m.div>
+            )}
+        </Formik>
+    );
+}
 
 export default function EditEvents() {
     const [events, { refetch }] = trpc.react.events.allEvents.useSuspenseQuery();
@@ -38,67 +105,55 @@ export default function EditEvents() {
 
     const { mutateAsync: createEvent } = trpc.react.events.createEvent.useMutation();
 
+    const [newEventOpen, setNewEventOpen] = useState(false);
+
     return (
         <div className="flex flex-row gap-5">
-            {events.map((event) => (
-                <Formik
-                    key={event.id}
-                    initialValues={{
-                        name: event.name,
-                        description: event.description,
-                        address: event.address,
-                        time: event.time,
-                        choruses: event.choruses.map(({ id }) => id),
-                    }}
-                    onSubmit={async ({ name, description, choruses, address, time }) => {
-                        await editEvent({ id: event.id, description, name, choruses, address, time });
+            <AnimatePresence>
+                {events.map((event) => (
+                    <EventPane
+                        key={event.id}
+                        layoutId={event.id}
+                        onSubmit={async (values, { resetForm }) => {
+                            await editEvent({ id: event.id, ...values });
 
-                        await revalidate();
+                            toast.success(`Event: '${event.name}' updated`);
 
-                        window.alert(`Event ${name} updated`);
-                    }}
-                    validationSchema={EventSchema}
-                >
-                    {({ submitForm, errors, dirty }) => (
-                        <div className="flex flex-col items-center gap-3 rounded-md bg-slate-900 p-5">
-                            <Field name="name" />{errors.name}
-                            <Field name="address" />{errors.address}
-                            <Field as="textarea" name="description" />{errors.description}
-                            <DateTimeField name="time" />
-                            {Object.keys(ChorusId).map((id) => (
-                                <label htmlFor={`chorus.${id}`} key={id}>
-                                    <Field type="checkbox" id={`chorus.${id}`} name="choruses" value={id} />
-                                    {id}
-                                </label>
-                            ))}
-                            {errors.choruses}
-                            {dirty && <button onClick={submitForm} type="button">Save</button>}
-                            <button
-                                type="button"
-                                onClick={async () => {
-                                    await deleteEvent(event.id);
+                            await refetch();
 
-                                    await refetch();
+                            resetForm({
+                                values,
+                            });
 
-                                    await revalidate();
-                                }}
-                            >Delete Event
-                            </button>
-                        </div>
-                    )}
-                </Formik>
-            ))}
-            <button
-                type="button"
-                onClick={async () => {
-                    await createEvent({ description: 'A new Harmony Waitaha Event', name: 'Concert Probably', address: 'Upper Riccarton Methodist Church', time: new Date() });
+                            revalidate();
+                        }}
+                        onDelete={async () => {
+                            await deleteEvent(event.id);
 
-                    await refetch();
+                            toast.success(`Event: '${event.name}' deleted`);
 
-                    await revalidate();
-                }}
-            >New Event
-            </button>
+                            await refetch();
+
+                            revalidate();
+                        }}
+                        event={event}
+                    />
+                ))}
+                {newEventOpen ? (
+                    <EventPane
+                        onClose={() => setNewEventOpen(false)}
+                        onSubmit={async (event) => {
+                            await createEvent(event);
+
+                            await refetch();
+                            setNewEventOpen(false);
+
+                            revalidate();
+                        }}
+                        layoutId="new-event"
+                    />
+                ) : <m.button onClick={() => setNewEventOpen(true)} layoutId="new-event" className="h-min rounded-md bg-slate-900 p-3">New Event</m.button>}
+            </AnimatePresence>
         </div>
     );
 }

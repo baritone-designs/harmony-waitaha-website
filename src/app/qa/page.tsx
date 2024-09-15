@@ -3,7 +3,6 @@ import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 // import { IoChevronDown } from 'react-icons/io5';
 // import { MotionA } from '@/components/Motion';
 import Image from 'next/image';
-import { MapProvider } from '@/providers/map-provider';
 import { MapComponent } from '@/components/map';
 
 import { FC } from 'react';
@@ -235,9 +234,7 @@ export default async function QAHome() {
                             asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus. In non mauris lorem.Donec
                         </p>
                     </div>
-                    <MapProvider>
-                        <MapComponent />
-                    </MapProvider>
+                    <MapComponent />
                 </div>
             </section>
             <section id="footer" className="mb-10 flex flex-row items-end justify-between">

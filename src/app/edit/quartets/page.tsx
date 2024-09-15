@@ -1,39 +1,102 @@
 'use client';
 
 import { trpc } from '@/common/trpc';
-import { Field, Formik } from 'formik';
+import { Formik, FormikConfig } from 'formik';
 import * as yup from 'yup';
-import { URL_COMPLIANT_REGEX } from '@/common/constants';
-import { QuartetMembersSchema, QuartetSocialsSchema } from '@/common/schema';
-import { NullableTextField } from '@/components/NullableTextField';
+import { QuartetSchema } from '@/common/schema';
 import { ImageUpload } from '@/components/ImageUpload';
-import { upload } from '@vercel/blob/client';
+import { Quartet } from '@prisma/client';
+import { AnimatePresence, m } from 'framer-motion';
+import { Button, CircularProgress, TextField } from '@mui/material';
+import { RxCross2 } from 'react-icons/rx';
+import { formikProps } from '@/components/formikUtils';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { NullableTextField } from '@/components/NullableTextField';
 import revalidate from '../revalidate';
 
-const QuartetSchema = yup.object().shape({
-    id: yup
-        .string()
-        .min(2)
-        .max(30)
-        .matches(URL_COMPLIANT_REGEX, 'Must not contain special characters')
-        .required(),
-    name: yup
-        .string()
-        .min(3)
-        .max(30)
-        .required(),
-    biography: yup
-        .string()
-        .min(10)
-        .max(150)
-        .required(),
+type QuartetSchemaType = yup.InferType<typeof QuartetSchema>
 
-    members: QuartetMembersSchema,
+interface QuartetPaneProps {
+    quartet?: Quartet;
+    onSubmit: FormikConfig<QuartetSchemaType>['onSubmit'];
+    onDelete?: () => void;
+    layoutId?: string;
+    onClose?: () => void;
+}
 
-    socials: QuartetSocialsSchema,
-
-    websiteUrl: yup.string().url(),
-});
+function QuartetPane({ quartet, onSubmit, onDelete, layoutId, onClose }: QuartetPaneProps) {
+    return (
+        <Formik<QuartetSchemaType>
+            initialValues={{
+                id: quartet?.id ?? '',
+                name: quartet?.name ?? '',
+                biography: quartet?.biography ?? '',
+                members: quartet?.members ?? { tenor: '', lead: '', bass: '', baritone: '' },
+                socials: quartet?.socials ?? { facebook: null, instagram: null, x: null, youtube: null },
+                logoUrl: quartet?.logoUrl ?? '',
+                imageUrl: quartet?.logoUrl ?? '',
+                backgroundImageUrl: quartet?.backgroundImageUrl ?? '',
+                websiteUrl: quartet?.backgroundImageUrl ?? '',
+            }}
+            validationSchema={QuartetSchema}
+            onSubmit={onSubmit}
+        >
+            {(formik) => (
+                <m.div animate={{ opacity: 1 }} exit={{ opacity: 0 }} layout layoutId={layoutId} className="relative flex flex-col items-center gap-3 rounded-md bg-slate-900 p-5">
+                    {onClose && <RxCross2 className="absolute right-1 top-1 cursor-pointer hover:text-slate-500" onClick={onClose} />}
+                    <TextField
+                        label="Id"
+                        variant="standard"
+                        fullWidth
+                        {...formikProps('id', formik)}
+                    />
+                    <TextField
+                        label="Name"
+                        variant="standard"
+                        fullWidth
+                        {...formikProps('name', formik)}
+                    />
+                    <TextField
+                        label="Biography"
+                        variant="standard"
+                        fullWidth
+                        multiline
+                        {...formikProps('biography', formik)}
+                    />
+                    <div className="grid grid-cols-2 grid-rows-2 gap-2 self-stretch">
+                        {Object.keys(formik.values.members).map((key) => (
+                            <TextField variant="standard" label={key} fullWidth {...formikProps(`members.${key}`, formik)} />
+                        ))}
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 self-stretch">
+                        {Object.keys(formik.values.socials).map((key) => (
+                            <NullableTextField variant="standard" label={key} fullWidth {...formikProps(`socials.${key}`, formik)} />
+                        ))}
+                    </div>
+                    <ImageUpload name="logoUrl" label="Quartet Logo">
+                        {({ src }) => (
+                            // next/image crashes without width/height props
+                            //  eslint-disable-next-line @next/next/no-img-element
+                            <img
+                                src={src}
+                                alt="quartet-logo"
+                                className="h-36 w-36 rounded-full duration-200 group-hover:opacity-50"
+                            />
+                        )}
+                    </ImageUpload>
+                    {formik.dirty && <Button onClick={formik.submitForm}>Save</Button>}
+                    {onDelete && <Button onClick={onDelete}>Delete</Button>}
+                    {formik.isSubmitting && (
+                        <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black/50">
+                            <CircularProgress />
+                        </div>
+                    )}
+                </m.div>
+            )}
+        </Formik>
+    );
+}
 
 export default function EditQuartets() {
     const [quartets, { refetch }] = trpc.react.quartets.allQuartets.useSuspenseQuery();
@@ -44,116 +107,53 @@ export default function EditQuartets() {
 
     const { mutateAsync: deleteQuartet } = trpc.react.quartets.deleteQuartet.useMutation();
 
+    const [newQuartetOpen, setNewQuartetOpen] = useState(false);
+
     return (
         <div className="flex flex-row gap-5">
-            {quartets.map((quartet) => (
-                <Formik
-                    key={quartet.id}
-                    initialValues={{
-                        id: quartet.id,
-                        logo: undefined as File | undefined,
-                        name: quartet.name,
-                        biography: quartet.biography,
-                        socials: quartet.socials,
-                        members: quartet.members,
-                        websiteUrl: quartet.websiteUrl ?? '',
-                    }}
-                    onSubmit={async ({ id, name, biography, socials, members, websiteUrl, logo }, { resetForm, setFieldError }) => {
-                        const newQuartet = await editQuartet({ previousId: quartet.id, newId: id, name, biography, socials, members, websiteUrl: websiteUrl || null });
+            <AnimatePresence>
+                {quartets.map((quartet) => (
+                    <QuartetPane
+                        key={quartet.id}
+                        layoutId={quartet.id}
+                        onSubmit={async (values, { resetForm }) => {
+                            await editQuartet({ previousId: quartet.id, ...values });
 
-                        if (logo) {
-                            await upload(logo.name, logo, {
-                                access: 'public',
-                                handleUploadUrl: '/api/quartet-logo',
-                                clientPayload: newQuartet.id,
-                            }).catch((e) => {
-                                resetForm();
-                                setFieldError('logo', e.toString());
-                            });
-                        }
+                            toast.success(`Quartet: '${quartet.name}' updated`);
 
-                        await revalidate();
+                            await refetch();
 
-                        window.alert(`Quartet ${quartet.id} updated`);
+                            resetForm({ values });
 
-                        await refetch();
+                            revalidate();
+                        }}
+                        onDelete={async () => {
+                            await deleteQuartet(quartet.id);
 
-                        resetForm();
-                    }}
-                    validationSchema={QuartetSchema}
-                >
-                    {({ submitForm, errors, dirty, values }) => (
-                        <div className="flex flex-col items-center gap-3 rounded-md bg-slate-900 p-5">
-                            <Field name="id" />{errors.id}
-                            <Field name="name" />{errors.name}
-                            <Field as="textarea" name="biography" />{errors.biography}
-                            <Field name="members.tenor" />
-                            <Field name="members.lead" />
-                            <Field name="members.baritone" />
-                            <Field name="members.bass" />
-                            {Object.keys(values.socials).map((key) => (
-                                <NullableTextField name={`socials.${key}`} />
-                            ))}
-                            <Field name="websiteUrl" />
-                            <ImageUpload
-                                name="logo"
-                                existingImageUrl={quartet.logoUrl ?? undefined}
-                            >
-                                {({ imageUrl, onSelectImage, error }) => (
-                                    <button className="group relative cursor-pointer" type="button" onClick={onSelectImage}>
-                                        {/* next/image crashes without width/height props */}
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img
-                                            src={imageUrl}
-                                            alt="profile"
-                                            className="h-36 w-36 rounded-full duration-200 group-hover:opacity-50"
-                                        />
-                                        <span>{error}</span>
-                                        <span className="absolute left-1/2 top-1/2 w-max -translate-x-1/2 -translate-y-1/2 opacity-0 duration-200 group-hover:opacity-100">Change Logo</span>
-                                    </button>
-                                )}
-                            </ImageUpload>
-                            {dirty && <button onClick={submitForm} type="button">Save</button>}
-                            <button
-                                type="button"
-                                onClick={async () => {
-                                    await deleteQuartet(quartet.id);
+                            toast.success(`Quartet: '${quartet.name}' deleted`);
 
-                                    await revalidate();
+                            await refetch();
 
-                                    await refetch();
-                                }}
-                            >
-                                Delete Quartet
-                            </button>
-                        </div>
-                    )}
-                </Formik>
-            ))}
-            <button
-                type="button"
-                onClick={async () => {
-                    await createQuartet({
-                        id: 'new-quartet',
-                        name: 'A new quartet',
-                        biography: 'The newest quartet in town',
-                        members: { tenor: 'Unknown', lead: 'Unknown', baritone: 'Unknown', bass: 'Unknown' },
-                        socials: {
-                            x: null,
-                            facebook: null,
-                            instagram: null,
-                            youtube: null,
-                        },
-                    });
+                            revalidate();
+                        }}
+                        quartet={quartet}
+                    />
+                ))}
+                {newQuartetOpen ? (
+                    <QuartetPane
+                        onClose={() => setNewQuartetOpen(false)}
+                        onSubmit={async (person) => {
+                            await createQuartet(person);
 
-                    await refetch();
+                            await refetch();
+                            setNewQuartetOpen(false);
 
-                    await revalidate();
-                }}
-            >
-                New Quartet
-            </button>
-
+                            revalidate();
+                        }}
+                        layoutId="new-quartet"
+                    />
+                ) : <m.button onClick={() => setNewQuartetOpen(true)} layoutId="new-quartet" className="h-min rounded-md bg-slate-900 p-3">New Quartet</m.button>}
+            </AnimatePresence>
         </div>
     );
 }

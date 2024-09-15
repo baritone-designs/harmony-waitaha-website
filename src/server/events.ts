@@ -1,57 +1,33 @@
 import * as yup from 'yup';
-import { ChorusId } from '@prisma/client';
+import { EventSchema } from '@/common/schema';
 import { privateProcedure, publicProcedure, router } from './trpc';
 
 export const eventsRouter = router({
-    allEvents: publicProcedure.query(async ({ ctx }) => {
-        const events = await ctx.prisma.event.findMany({
-            include: {
-                choruses: {
-                    select: { id: true },
-                },
+    allEvents: publicProcedure.query(({ ctx }) => ctx.prisma.event.findMany({
+        include: {
+            choruses: {
+                select: { id: true },
             },
-        });
+        },
+        orderBy: {
+            createdAt: 'asc',
+        },
+    })),
 
-        return events;
-    }),
-
-    editEvent: privateProcedure.input(yup.object().shape({
+    editEvent: privateProcedure.input(EventSchema.partial().concat(yup.object().shape({
         id: yup.string().required(),
+    }))).mutation(({ ctx, input }) => ctx.prisma.event.update({
+        where: { id: input.id },
+        data: {
+            description: input.description,
+            name: input.name,
+            address: input.address,
+            time: input.time,
+            choruses: { set: input.choruses?.map((id) => ({ id })) },
+        },
+    })),
 
-        name: yup.string(),
-
-        description: yup.string(),
-
-        address: yup.string(),
-
-        time: yup.date(),
-
-        choruses: yup.array(yup.mixed<ChorusId>().oneOf(Object.values(ChorusId)).required()),
-    })).mutation(async ({ ctx, input }) => {
-        console.log(input.time);
-        return ctx.prisma.event.update({
-            where: { id: input.id },
-            data: {
-                description: input.description,
-                name: input.name,
-                address: input.address,
-                time: input.time,
-                choruses: { set: input.choruses?.map((id) => ({ id })) },
-            },
-        });
-    }),
-
-    createEvent: privateProcedure.input(yup.object().shape({
-        name: yup.string().required(),
-
-        description: yup.string().required(),
-
-        time: yup.date().required(),
-
-        address: yup.string().required(),
-
-        choruses: yup.array(yup.mixed<ChorusId>().oneOf(Object.values(ChorusId)).required()),
-    })).mutation(async ({ ctx, input }) => ctx.prisma.event.create({
+    createEvent: privateProcedure.input(EventSchema).mutation(({ ctx, input }) => ctx.prisma.event.create({
         data: {
             description: input.description,
             name: input.name,
@@ -61,5 +37,5 @@ export const eventsRouter = router({
         },
     })),
 
-    deleteEvent: privateProcedure.input(yup.string().required()).mutation(async ({ ctx, input }) => ctx.prisma.event.delete({ where: { id: input } })),
+    deleteEvent: privateProcedure.input(yup.string().required()).mutation(({ ctx, input }) => ctx.prisma.event.delete({ where: { id: input } })),
 });

@@ -112,6 +112,8 @@ model Person {
   iconUrl String
 
   choruses PersonChorus[]
+
+  createdAt DateTime @default(now())
 }
 
 model Event {
@@ -126,6 +128,8 @@ model Event {
   description String
 
   choruses Chorus[]
+
+  createdAt DateTime @default(now())
 }
 
 model Quartet {

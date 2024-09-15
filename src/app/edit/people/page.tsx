@@ -1,75 +1,38 @@
 'use client';
 
 import { trpc } from '@/common/trpc';
-import { FieldArray, Formik, FormikConfig, FormikProps, FormikValues } from 'formik';
+import { FieldArray, Formik, FormikConfig } from 'formik';
 import * as yup from 'yup';
-import { ChorusId, Person, PersonChorus } from '@prisma/client';
-import { Button, IconButton, TextField } from '@mui/material';
+import { ChorusId, Person } from '@prisma/client';
+import { Button, CircularProgress, IconButton, TextField } from '@mui/material';
 import { RxCross2 } from 'react-icons/rx';
 import { FaPlus, FaTrash } from 'react-icons/fa';
-import SpinningCircles from 'react-loading-icons/dist/esm/components/spinning-circles';
 import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AnimatePresence, m } from 'framer-motion';
+import { formikProps } from '@/components/formikUtils';
+import { ImageUpload } from '@/components/ImageUpload';
+import { PersonChorusSchema, PersonSchema } from '@/common/schema';
 import revalidate from '../revalidate';
 
-const PersonSchema = yup.object().shape({
-    name: yup
-        .string()
-        .min(3)
-        .max(30)
-        .required(),
-    biography: yup
-        .string()
-        .min(10)
-        .max(150)
-        .required(),
-
-    choruses: yup.array(yup.object().shape({
-        chorusId: yup.mixed<ChorusId>().oneOf(Object.values(ChorusId)).required(),
-
-        role: yup.string().min(2).max(30).required('Role is a required file'),
-    })),
-});
-
-type PersonChorusData = Omit<PersonChorus, 'personId'>;
-
-interface InitialValues {
-    icon?: File;
-    name: string;
-    biography: string;
-    choruses: PersonChorusData[];
-}
+type PersonSchemaType = yup.InferType<typeof PersonSchema>
 
 interface PersonPaneProps {
-    person?: Person & { choruses: PersonChorus[] };
-    onSubmit: FormikConfig<InitialValues>['onSubmit'];
+    person?: Person & { choruses: yup.InferType<typeof PersonChorusSchema>[] };
+    onSubmit: FormikConfig<PersonSchemaType>['onSubmit'];
     onDelete?: () => void;
     layoutId?: string;
     onClose?: () => void;
 }
 
 function PersonPane({ person, onSubmit, onDelete, layoutId, onClose }: PersonPaneProps) {
-    function formikProps<T extends FormikValues>(name: string, formik: FormikProps<T>) {
-        const { value, onChange, onBlur } = formik.getFieldProps(name);
-        const { error, touched } = formik.getFieldMeta(name);
-
-        return ({
-            value,
-            onChange,
-            onBlur,
-            error: touched && Boolean(error),
-            helperText: touched && JSON.stringify(error),
-        });
-    }
-
     return (
-        <Formik<InitialValues>
+        <Formik<PersonSchemaType>
             initialValues={{
-                icon: undefined,
+                iconUrl: person?.iconUrl ?? '',
                 name: person?.name ?? '',
                 biography: person?.biography ?? '',
-                choruses: person?.choruses.map(({ chorusId, role }) => ({ chorusId, role } satisfies PersonChorusData)) ?? [],
+                choruses: person?.choruses ?? [],
             }}
             validationSchema={PersonSchema}
             onSubmit={onSubmit}
@@ -78,14 +41,14 @@ function PersonPane({ person, onSubmit, onDelete, layoutId, onClose }: PersonPan
                 <m.div animate={{ opacity: 1 }} exit={{ opacity: 0 }} layout layoutId={layoutId} className="relative flex flex-col items-center gap-3 rounded-md bg-slate-900 p-5">
                     {onClose && <RxCross2 className="absolute right-1 top-1 cursor-pointer hover:text-slate-500" onClick={onClose} />}
                     <TextField
-                        name="name"
                         label="Name"
+                        variant="standard"
                         fullWidth
                         {...formikProps('name', formik)}
                     />
                     <TextField
-                        name="biography"
                         label="Biography"
+                        variant="standard"
                         fullWidth
                         multiline
                         {...formikProps('biography', formik)}
@@ -109,7 +72,6 @@ function PersonPane({ person, onSubmit, onDelete, layoutId, onClose }: PersonPan
                                             >
                                                 <TextField
                                                     variant="standard"
-                                                    name={`choruses.${i}.role`}
                                                     label={`${chorus.chorusId} role`}
                                                     multiline
                                                     {...formikProps(`choruses.${i}.role`, formik)}
@@ -124,10 +86,10 @@ function PersonPane({ person, onSubmit, onDelete, layoutId, onClose }: PersonPan
                                         <Button
                                             key={chorusId}
                                             disabled={!!formik.values.choruses.find((chorus) => chorus.chorusId === chorusId)}
-                                            onClick={() => push({
+                                            onClick={() => push<yup.InferType<typeof PersonChorusSchema>>({
                                                 chorusId,
                                                 role: '',
-                                            } satisfies PersonChorusData)}
+                                            })}
                                             endIcon={<FaPlus />}
                                         >
                                             {chorusId}
@@ -137,17 +99,27 @@ function PersonPane({ person, onSubmit, onDelete, layoutId, onClose }: PersonPan
                             </>
                         )}
                     </FieldArray>
+                    <ImageUpload name="iconUrl" label="Person Icon">
+                        {({ src }) => (
+                            // next/image crashes without width/height props
+                            //  eslint-disable-next-line @next/next/no-img-element
+                            <img
+                                src={src}
+                                alt="person-icon"
+                                className="h-36 w-36 rounded-full duration-200 group-hover:opacity-50"
+                            />
+                        )}
+                    </ImageUpload>
                     {formik.dirty && <Button onClick={formik.submitForm}>Save</Button>}
                     {onDelete && <Button onClick={onDelete}>Delete</Button>}
                     {formik.isSubmitting && (
                         <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black/50">
-                            <SpinningCircles />
+                            <CircularProgress />
                         </div>
                     )}
                 </m.div>
             )}
         </Formik>
-
     );
 }
 
@@ -162,10 +134,6 @@ export default function EditPeople() {
 
     const [newPersonOpen, setNewPersonOpen] = useState(false);
 
-    useEffect(() => {
-        setNewPersonOpen(false);
-    }, [people]);
-
     return (
         <div className="flex flex-row gap-5">
             <AnimatePresence>
@@ -173,14 +141,14 @@ export default function EditPeople() {
                     <PersonPane
                         key={person.id}
                         layoutId={person.id}
-                        onSubmit={async ({ biography, name, choruses }, { resetForm }) => {
-                            const newPerson = await editPerson({ id: person.id, biography, name, choruses });
+                        onSubmit={async (values, { resetForm }) => {
+                            await editPerson({ id: person.id, ...values });
 
                             toast.success(`Person: '${person.name}' updated`);
 
                             await refetch();
 
-                            resetForm({ values: newPerson });
+                            resetForm({ values });
 
                             revalidate();
                         }}
@@ -199,10 +167,13 @@ export default function EditPeople() {
                 {newPersonOpen ? (
                     <PersonPane
                         onClose={() => setNewPersonOpen(false)}
-                        onSubmit={async ({ biography, name, choruses }) => {
-                            await createPerson({ iconUrl: 'who knows', biography, name, choruses });
+                        onSubmit={async (person) => {
+                            await createPerson(person);
 
                             await refetch();
+                            setNewPersonOpen(false);
+
+                            revalidate();
                         }}
                         layoutId="new-person"
                     />
