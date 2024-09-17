@@ -60,7 +60,7 @@ function EventPane({ event, onSubmit, onClose, onDelete, layoutId }: EventPanePr
                     <DateTimePicker
                         label="Date/time"
                         value={dayjs(formik.values.time)}
-                        onChange={(value) => formik.setFieldValue('date', value?.toDate(), true)}
+                        onChange={(value) => formik.setFieldValue('time', value?.toDate(), true)}
                         className="w-full"
                         slotProps={{
                             textField: {
