@@ -121,7 +121,9 @@ model Event {
 
   name String
 
-  address String
+  venueId String
+
+  venueName String
 
   time DateTime
 

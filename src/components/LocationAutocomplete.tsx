@@ -1,96 +1,103 @@
-import { useState, useRef, useMemo, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { debounce } from '@mui/material/utils';
 import parse from 'autosuggest-highlight/parse';
 import { FaLocationArrow } from 'react-icons/fa';
 import clsx from 'clsx';
+import { useField } from 'formik';
 
 interface LocationAutocompleteProps {
-    name: string;
+    idField: string;
+    nameField: string;
     label: string;
+    noOptionsText?: string;
 }
 
-// TODO: Make this work
-export default function LocationAutocomplete({ name, label }: LocationAutocompleteProps) {
-    const [value, setValue] = useState<google.maps.places.AutocompletePrediction | null>(null);
+/**
+ * Formik field which allows the selection of a location from google maps
+ *
+ * @param idField - The name of the formik field for the place_id of the selected location
+ * @param nameField - The name of the formik field for the name of the selected location
+ */
+export default function LocationAutocomplete({ idField, nameField, label, noOptionsText }: LocationAutocompleteProps) {
+    const [{ value: idValue }, _1, { setValue: setIdValue }] = useField<string>(idField);
+    const [{ value: nameValue, onBlur }, { error, touched }, { setValue: setNameValue }] = useField<string>(nameField);
     const [inputValue, setInputValue] = useState('');
     const [options, setOptions] = useState<readonly google.maps.places.AutocompletePrediction[]>([]);
     const autocompleteService = useRef(new google.maps.places.AutocompleteService());
 
-    const fetch = useMemo(
-        () => debounce(
-            (
-                request: { input: string },
-                callback: (results: readonly google.maps.places.AutocompletePrediction[] | null) => void,
-            ) => {
-                autocompleteService.current.getPlacePredictions(
-                    request,
-                    callback,
-                );
-            },
-            400,
-        ),
-        [],
-    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetch = useCallback(debounce((
+        request: { input: string },
+        callback: (results: readonly google.maps.places.AutocompletePrediction[] | null) => void,
+    ) => {
+        autocompleteService.current.getPlacePredictions(
+            request,
+            callback,
+        );
+    }, 400), []);
 
     useEffect(() => {
         let active = true;
 
-        if (inputValue === '') {
-            setOptions(value ? [value] : []);
+        if (!inputValue) {
             return undefined;
         }
 
         fetch({ input: inputValue }, (results?: readonly google.maps.places.AutocompletePrediction[] | null) => {
             if (active && results !== null) {
-                let newOptions: readonly google.maps.places.AutocompletePrediction[] = [];
-
-                if (value) {
-                    newOptions = [value];
-                }
-
                 if (results) {
-                    newOptions = [...newOptions, ...results];
+                    setOptions(results);
                 }
-
-                setOptions(newOptions);
             }
         });
 
         return () => {
             active = false;
         };
-    }, [value, inputValue, fetch]);
+    }, [inputValue, fetch]);
 
     return (
         <Autocomplete
             sx={{ width: 300 }}
-            getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
+            getOptionLabel={(placeId) => options.find((option) => option.place_id === placeId)?.structured_formatting.main_text ?? nameValue}
             filterOptions={(x) => x}
-            options={options}
+            options={options.map((option) => option.place_id)}
             autoComplete
             includeInputInList
-            filterSelectedOptions
-            value={value}
-            noOptionsText="No locations"
+            value={idValue}
+            noOptionsText={noOptionsText}
             onChange={(_e, newValue) => {
-                setOptions(newValue ? [newValue, ...options] : options);
-                setValue(newValue);
+                const option = options.find((option) => option.place_id === newValue);
+                setIdValue(newValue ?? '');
+                setNameValue(option?.structured_formatting.main_text ?? '');
             }}
             onInputChange={(_e, newInputValue) => {
                 setInputValue(newInputValue);
             }}
             renderInput={(params) => (
-                <TextField {...params} label="Venue" fullWidth />
+                <TextField
+                    {...params}
+                    label={label}
+                    fullWidth
+                    onBlur={onBlur}
+                    error={touched && Boolean(error)}
+                    helperText={(touched && error) || ' '}
+                />
             )}
-            renderOption={(props, option) => {
+            renderOption={(props, placeId) => {
                 const { key, ...optionProps } = props;
+                const option = options.find((option) => option.place_id === placeId);
+                if (!option) {
+                    throw new Error('Rendered option without matching placeId');
+                }
+
                 const matches = option.structured_formatting.main_text_matched_substrings || [];
 
                 const parts = parse(
                     option.structured_formatting.main_text,
-                    matches.map((match: any) => [match.offset, match.offset + match.length]),
+                    matches.map((match) => [match.offset, match.offset + match.length]),
                 );
 
                 return (

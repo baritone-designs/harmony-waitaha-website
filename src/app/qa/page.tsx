@@ -186,10 +186,10 @@ export default async function QAHome() {
             <section id="upcoming" className="mb-10 space-y-4">
                 <span className="text-4xl font-semibold text-qa-blue">Upcoming Events</span>
                 <div className="grid w-full grid-cols-3 gap-5">
-                    {events.map(({ name, address, description, time }) => (
+                    {events.map(({ name, venueName, description, time }) => (
                         <EventProfile
                             title={name}
-                            location={address}
+                            location={venueName}
                             description={description}
                             datetime={time}
                         />

@@ -16,24 +16,18 @@ export const eventsRouter = router({
 
     editEvent: privateProcedure.input(EventSchema.partial().concat(yup.object().shape({
         id: yup.string().required(),
-    }))).mutation(({ ctx, input }) => ctx.prisma.event.update({
-        where: { id: input.id },
+    }))).mutation(({ ctx, input: { id, choruses, ...values } }) => ctx.prisma.event.update({
+        where: { id },
         data: {
-            description: input.description,
-            name: input.name,
-            address: input.address,
-            time: input.time,
-            choruses: { set: input.choruses?.map((id) => ({ id })) },
+            ...values,
+            choruses: { set: choruses?.map((id) => ({ id })) },
         },
     })),
 
-    createEvent: privateProcedure.input(EventSchema).mutation(({ ctx, input }) => ctx.prisma.event.create({
+    createEvent: privateProcedure.input(EventSchema).mutation(({ ctx, input: { choruses, ...values } }) => ctx.prisma.event.create({
         data: {
-            description: input.description,
-            name: input.name,
-            address: input.address,
-            time: input.time,
-            choruses: { connect: input.choruses?.map((id) => ({ id })) },
+            ...values,
+            choruses: { connect: choruses?.map((id) => ({ id })) },
         },
     })),
 

@@ -50,19 +50,19 @@ const QuartetProfile = ({ id, name, imageUrl, logoUrl }: Pick<Quartet, 'id' | 'n
     </Link>
 );
 
-const EventProfile = ({ name, address, time, description }: Pick<Event, 'name' | 'address' | 'time' | 'description'>) => (
+const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Event, 'name' | 'venueName' | 'venueId' | 'time' | 'description'>) => (
     <div className="rounded-3xl bg-hw-black px-8 py-6">
         <div className="mb-3 flex flex-row justify-between">
             <div>
                 <span className="text-2xl text-hw-white">{name}</span>
                 <a
                     className="flex flex-row items-center gap-2 [&>*]:duration-200 [&>*]:hover:opacity-50"
-                    href={`https://www.google.com/maps/search/${address}`}
+                    href={`https://www.google.com/maps/place/?q=place_id:${venueId}`}
                     target="_blank"
                     rel="noreferrer"
                 >
                     <MdLocationPin />
-                    <span className="text-hw-white">{address}</span>
+                    <span className="text-hw-white">{venueName}</span>
                 </a>
             </div>
 
@@ -71,7 +71,7 @@ const EventProfile = ({ name, address, time, description }: Pick<Event, 'name' |
                 href={google({
                     title: name,
                     description,
-                    location: address,
+                    location: venueName,
                     start: time,
                     duration: [2, 'hour'],
                 })}
@@ -92,7 +92,8 @@ export default async function HarmonyWaitahaHome() {
         select: {
             id: true,
             name: true,
-            address: true,
+            venueName: true,
+            venueId: true,
             time: true,
             description: true,
         },

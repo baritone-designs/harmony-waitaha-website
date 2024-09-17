@@ -76,10 +76,11 @@ export const EventSchema = yup.object().shape({
         .min(10, DEFAULT_TOO_SHORT_MESSAGE)
         .max(150, DEFAULT_TOO_LONG_MESSAGE)
         .required(DEFAULT_REQUIRED_FIELD_MESSAGE),
-    address: yup
+    venueId: yup
         .string()
-        .min(3, DEFAULT_TOO_SHORT_MESSAGE)
-        .max(100, DEFAULT_TOO_LONG_MESSAGE)
+        .required(DEFAULT_REQUIRED_FIELD_MESSAGE),
+    venueName: yup
+        .string()
         .required(DEFAULT_REQUIRED_FIELD_MESSAGE),
 
     time: yup.date().required(DEFAULT_REQUIRED_FIELD_MESSAGE),

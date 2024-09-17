@@ -32,7 +32,8 @@ function EventPane({ event, onSubmit, onClose, onDelete, layoutId }: EventPanePr
             initialValues={{
                 name: event?.name ?? '',
                 description: event?.description ?? '',
-                address: event?.address ?? '',
+                venueId: event?.venueId ?? '',
+                venueName: event?.venueName ?? '',
                 time: event?.time ?? new Date(),
                 choruses: event?.choruses.map(({ id }) => id) ?? [],
             }}
@@ -55,7 +56,7 @@ function EventPane({ event, onSubmit, onClose, onDelete, layoutId }: EventPanePr
                         multiline
                         {...formikProps('description', formik)}
                     />
-                    <LocationAutocomplete name="address" label="Venue" />
+                    <LocationAutocomplete idField="venueId" nameField="venueName" label="Venue" />
                     <DateTimePicker
                         label="Date/time"
                         value={dayjs(formik.values.time)}
