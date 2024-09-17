@@ -1,6 +1,7 @@
 'use client';
 
 import CircularProgress from '@mui/material/CircularProgress';
+import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 
 function LoadingPage({ className, color1, color2 }: Props) {
     return (
-        <body className={className}>
+        <main className={clsx(className, 'absolute inset-0')}>
             <svg width={0} height={0}>
                 <defs>
                     <linearGradient id="loading-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -21,7 +22,7 @@ function LoadingPage({ className, color1, color2 }: Props) {
                 </defs>
             </svg>
             <CircularProgress sx={color1 ? { 'svg circle': { stroke: 'url(#loading-gradient)' } } : undefined} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
-        </body>
+        </main>
     );
 }
 
