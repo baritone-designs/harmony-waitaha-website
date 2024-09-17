@@ -14,8 +14,10 @@ import './index.css';
 import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { ChorusId } from '@prisma/client';
+import { ChorusId, Event, Person } from '@prisma/client';
 // import qaLogo from './qa-logo.svg';
+import { googleMapsLocationUrl } from '@/components/utils';
+import Link from 'next/link';
 import QAHeader from './Header';
 
 export const metadata: Metadata = {
@@ -23,57 +25,51 @@ export const metadata: Metadata = {
     description: 'Youth barbershop mixed chorus from Christchurch, New Zealand',
 };
 
-interface TeamProfileProps {
-    image: string;
-    name: string;
-    role: string;
-    id: string;
-}
-
-const TeamProfile: FC<TeamProfileProps> = ({ id, image, name, role }) => (
-    <a href={`/person/${id}`} className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:scale-105">
-        <div className="h-40 w-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${image}')` }} />
+const TeamProfile = ({ id, iconUrl, name, role }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string }) => (
+    <Link
+        href={{
+            query: {
+                person: id,
+            },
+        }}
+        scroll={false}
+        className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:scale-105"
+    >
+        <div className="h-40 w-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
         <span className="mt-5 text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
         <span className="font-pt-sans text-sm">{role}</span>
-    </a>
+    </Link>
 );
 
-interface EventProfileProps {
-    title: string;
-    location: string;
-    datetime: Date;
-    description: string;
-}
-
-const EventProfile: FC<EventProfileProps> = ({ title, location, datetime, description }) => (
+const EventProfile = ({ name, venueId, venueName, time, description }: Pick<Event, 'name' | 'venueId' | 'venueName' | 'time' | 'description'>) => (
     <div className="rounded-3xl border-4 border-qa-blue p-5">
         <div className="mb-3 flex flex-row justify-between">
             <div>
-                <span className="text-2xl">{title}</span>
+                <span className="text-2xl">{name}</span>
                 <a
                     className="flex flex-row items-center gap-2 [&>*]:duration-300 [&>*]:hover:text-qa-blue [&>*]:hover:drop-shadow-qa-glow-intense"
-                    href={`https://www.google.com/maps/search/${location}`}
+                    href={googleMapsLocationUrl(venueName, venueId)}
                     target="_blank"
                     rel="noreferrer"
                 >
                     <MdLocationPin />
-                    <span className="font-pt-sans">{location}</span>
+                    <span className="font-pt-sans">{venueName}</span>
                 </a>
             </div>
             <a
                 className="flex flex-col items-end [&>*]:duration-300 [&>*]:hover:text-qa-blue [&>*]:hover:drop-shadow-qa-glow-intense"
                 href={google({
-                    title,
+                    title: name,
                     description,
-                    location,
-                    start: datetime,
+                    location: venueName,
+                    start: time,
                     duration: [2, 'hour'],
                 })}
                 target="_blank"
                 rel="noreferrer"
             >
-                <span className="font-pt-sans">{datetime.toLocaleDateString()}</span>
-                <span className="font-pt-sans">{datetime.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
+                <span className="font-pt-sans">{time.toLocaleDateString()}</span>
+                <span className="font-pt-sans">{time.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
             </a>
         </div>
         <p className="">{description}</p>
@@ -99,7 +95,13 @@ export default async function QAHome() {
             chorusId: ChorusId.Qa,
         },
         include: {
-            person: true,
+            person: {
+                select: {
+                    id: true,
+                    name: true,
+                    iconUrl: true,
+                },
+            },
         },
     })).map((x) => ({
         role: x.role,
@@ -172,13 +174,7 @@ export default async function QAHome() {
                 <div className="flex w-full justify-center">
                     <div className="z-0 flex flex-row items-center justify-between gap-14">
                         {people.map((person) => (
-                            <TeamProfile
-                                id={person.id}
-                                key={person.id}
-                                image={person.iconUrl}
-                                name={person.name}
-                                role={person.role}
-                            />
+                            <TeamProfile key={person.id} {...person} />
                         ))}
                     </div>
                 </div>
@@ -186,13 +182,8 @@ export default async function QAHome() {
             <section id="upcoming" className="mb-10 space-y-4">
                 <span className="text-4xl font-semibold text-qa-blue">Upcoming Events</span>
                 <div className="grid w-full grid-cols-3 gap-5">
-                    {events.map(({ name, venueName, description, time }) => (
-                        <EventProfile
-                            title={name}
-                            location={venueName}
-                            description={description}
-                            datetime={time}
-                        />
+                    {events.map(({ id, ...event }) => (
+                        <EventProfile key={id} {...event} />
                     ))}
                 </div>
             </section>

@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
 
 import './index.css';
+import { googleMapsLocationUrl } from '@/components/utils';
 import HWHeader from './Header';
 
 interface ChorusProfileProps {
@@ -57,7 +58,7 @@ const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Even
                 <span className="text-2xl text-hw-white">{name}</span>
                 <a
                     className="flex flex-row items-center gap-2 [&>*]:duration-200 [&>*]:hover:opacity-50"
-                    href={`https://www.google.com/maps/place/?q=place_id:${venueId}`}
+                    href={googleMapsLocationUrl(venueName, venueId)}
                     target="_blank"
                     rel="noreferrer"
                 >
@@ -167,16 +168,16 @@ export default async function HarmonyWaitahaHome() {
             <section id="quartets" className="mt-10 space-y-5">
                 <span className="text-4xl font-semibold">Quartets</span>
                 <div className="grid grid-cols-3 gap-5">
-                    {quartets.map((props) => (
-                        <QuartetProfile key={props.id} {...props} />
+                    {quartets.map((quartet) => (
+                        <QuartetProfile key={quartet.id} {...quartet} />
                     ))}
                 </div>
             </section>
             <section id="events" className="mt-10 space-y-5">
                 <span className="text-4xl font-semibold">Upcoming Events</span>
                 <div className="grid w-full grid-cols-3 gap-5">
-                    {events.map((props) => (
-                        <EventProfile key={props.id} {...props} />
+                    {events.map(({ id, ...event }) => (
+                        <EventProfile key={id} {...event} />
                     ))}
                 </div>
             </section>
