@@ -1,21 +1,24 @@
 #home-image {
-    position: absolute;
-    background-image: url("/plainsmen-photo.jpg");
-    background-size: cover;
-    opacity: 30%;
-    inset: 0 0 0;
+  position: absolute;
+  background-image: url("/plainsmen-photo.jpg");
+  background-size: cover;
+  opacity: 30%;
+  inset: 0 0 0;
 }
 
 @layer {
-    * {
-        scroll-margin-top: 14vh;
-    }
+  * {
+    scroll-margin-top: 14vh;
+  }
 
-    :root {
-        @apply bg-hw-black
-    }
+  :root {
+    @apply bg-hw-black;
+  }
 
-    a, span, label, p {
-        @apply font-poppins text-hw-white
-    }
+  a,
+  span,
+  label,
+  p {
+    @apply font-poppins text-hw-white;
+  }
 }

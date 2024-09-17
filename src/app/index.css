@@ -1,13 +1,16 @@
 @layer {
-    * {
-        @apply scroll-mt-[10vh]
-    }
+  * {
+    @apply scroll-mt-[10vh];
+  }
 
-    :root {
-        @apply bg-hw-white
-    }
+  :root {
+    @apply bg-hw-white;
+  }
 
-    p, span, label, a {
-        @apply font-poppins text-hw-black
-    }
+  p,
+  span,
+  label,
+  a {
+    @apply font-poppins text-hw-black;
+  }
 }

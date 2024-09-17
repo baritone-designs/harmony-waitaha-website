@@ -1,26 +1,28 @@
 #home-image {
-    position: absolute;
-    background-image: url("/qa-photo.png");
-    background-size: cover;
-    box-shadow: inset 400px 200px 200px #101C2A, inset 0 -300px 150px #101C2A;
+  position: absolute;
+  background-image: url("/qa-photo.png");
+  background-size: cover;
+  box-shadow: inset 400px 200px 200px #101c2a, inset 0 -300px 150px #101c2a;
 
-    inset: 0 0 0 30%;
+  inset: 0 0 0 30%;
 }
 
 @layer {
-    * {
-        scroll-margin-top: 14vh;
-    }
+  * {
+    scroll-margin-top: 14vh;
+  }
 
-    :root {
-        @apply bg-qa-blue-darker
-    }
+  :root {
+    @apply bg-qa-blue-darker;
+  }
 
-    a, span, label {
-        @apply font-ar-gothic text-qa-white
-    }
+  a,
+  span,
+  label {
+    @apply font-ar-gothic text-qa-white;
+  }
 
-    p {
-        @apply font-pt-sans text-qa-white
-    }
+  p {
+    @apply font-pt-sans text-qa-white;
+  }
 }

@@ -3,35 +3,42 @@
 @tailwind utilities;
 
 @layer {
-    :root {
-        @apply scroll-smooth overflow-x-hidden;
-        color-scheme: dark;
-    }
+  :root {
+    @apply scroll-smooth overflow-x-hidden;
+    color-scheme: dark;
+  }
 
-    .scrollbar-hidden::-webkit-scrollbar {
-        display: none;
-    }
-    
-    .scrollbar-hidden {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
 
-    /* React date time picker CSS */
-    th.rdtSwitch, td.rdtSwitch {
-        @apply text-slate-700 hover:bg-slate-300
-    }
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 
-    th.rdtNext, th.rdtPrev, th.dow, .rdtPicker td.rdtDay, .rdtTimeToggle, .rdtCounter, .rdtMonth, .rdtYear {
-        @apply text-slate-500
-    }
+  /* React date time picker CSS */
+  th.rdtSwitch,
+  td.rdtSwitch {
+    @apply text-slate-700 hover:bg-slate-300;
+  }
 
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover, 
-    input:-webkit-autofill:focus, 
-    input:-webkit-autofill:active{
-        -webkit-box-shadow: 0 0 0 30px #F1F0EF inset !important;
-        -webkit-text-fill-color: #110E0E;
-    }                                                                                                           
-    
+  th.rdtNext,
+  th.rdtPrev,
+  th.dow,
+  .rdtPicker td.rdtDay,
+  .rdtTimeToggle,
+  .rdtCounter,
+  .rdtMonth,
+  .rdtYear {
+    @apply text-slate-500;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #f1f0ef inset !important;
+    -webkit-text-fill-color: #110e0e;
+  }
 }
