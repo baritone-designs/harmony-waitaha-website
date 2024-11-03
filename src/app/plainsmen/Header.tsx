@@ -20,8 +20,8 @@ interface HeaderLinkProps {
  * Handles underlining based upon current selected page
  */
 const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
-    <Link href={url} className="group relative flex h-8 cursor-pointer items-center gap-2 pb-1">
-        <span className={clsx(active && 'text-pm-red', 'text-lg font-semibold duration-200 group-hover:opacity-50')}>{children}</span>
+    <Link href={url} className="relative flex h-8 cursor-pointer items-center gap-2 pb-1 duration-200 hover:opacity-50">
+        <span className={clsx(active && 'text-pm-red', 'text-lg font-semibold')}>{children}</span>
 
         {active && (
             <motion.div

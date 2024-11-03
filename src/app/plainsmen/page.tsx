@@ -1,6 +1,10 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { CustomCarousel } from '@/components/Carousel';
+// import { FC } from 'react';
+import Link from 'next/link';
+import { ChorusId, Person } from '@prisma/client';
+import { prisma } from '@/common/prisma';
 import { ScrollImage } from './ScrollImage';
 import PlainsmenHeader from './Header';
 import './index.css';
@@ -10,7 +14,41 @@ export const metadata: Metadata = {
     description: 'Barbershop mens chorus from Christchurch, New Zealand',
 };
 
-export default function PlainsmenHome() {
+const TeamProfile = ({ id, iconUrl, name, role }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string }) => (
+    <Link
+        href={{
+            query: {
+                person: id,
+            },
+        }}
+        scroll={false}
+        className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:opacity-50"
+    >
+        <div className="h-40 w-40 rounded-3xl bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
+        <span className="mt-5 text-lg font-medium duration-200">{name}</span>
+        <span className="font-pt-sans text-sm">{role}</span>
+    </Link>
+);
+
+export default async function PlainsmenHome() {
+    const people = (await prisma.personChorus.findMany({
+        where: {
+            chorusId: ChorusId.Plainsmen,
+        },
+        include: {
+            person: {
+                select: {
+                    id: true,
+                    name: true,
+                    iconUrl: true,
+                },
+            },
+        },
+    })).map((x) => ({
+        role: x.role,
+        ...x.person,
+    }));
+
     return (
         <main className="px-20 2xl:px-[10vw]">
             <PlainsmenHeader />
@@ -48,7 +86,9 @@ export default function PlainsmenHome() {
                 </div>
                 <div className="flex w-full justify-center">
                     <div className="z-0 flex flex-row items-center justify-between gap-14">
-                        aaa
+                        {people.map((person) => (
+                            <TeamProfile key={person.id} {...person} />
+                        ))}
                     </div>
                 </div>
             </section>
