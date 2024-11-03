@@ -3,8 +3,8 @@
     @apply scroll-mt-[10vh];
   }
 
-  :root {
-    @apply bg-hw-white;
+  body {
+    @apply bg-hw-white !important;
   }
 
   p,

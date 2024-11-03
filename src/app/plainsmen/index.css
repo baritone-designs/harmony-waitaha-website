@@ -11,8 +11,8 @@
     scroll-margin-top: 14vh;
   }
 
-  :root {
-    @apply bg-hw-black;
+  body {
+    @apply bg-hw-black !important;
   }
 
   a,

@@ -25,6 +25,6 @@ export function protectedClientPage<P extends {}>(Component: (props: P & { user:
             notFound();
         }
 
-        return Component({ user: data.user, ...props });
+        return <Component user={data.user} {...props} />;
     };
 }

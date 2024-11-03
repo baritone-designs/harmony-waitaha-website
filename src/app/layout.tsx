@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import './gothic-font.css';
 import './globals.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { CssBaseline } from '@mui/material';
 
 export const metadata: Metadata = {
     title: 'Harmony Waitaha',
@@ -48,6 +49,7 @@ const RootLayout: FC<PropsWithChildren<{
     <html lang="en" className={`${productSans.variable} ${poppins.variable} ${harmony.variable} ${centuryGothic.variable} ${inter.className}`}>
         <body>
             <Providers session={session}>
+                <CssBaseline />
                 {quartet}
                 {children}
                 <ToastContainer autoClose={2000} theme="dark" position="bottom-center" />

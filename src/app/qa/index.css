@@ -12,8 +12,8 @@
     scroll-margin-top: 14vh;
   }
 
-  :root {
-    @apply bg-qa-blue-darker;
+  body {
+    @apply bg-qa-blue-darker !important;
   }
 
   a,
