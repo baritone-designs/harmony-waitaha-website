@@ -29,19 +29,19 @@ export function CustomCarousel() {
             autoPlay
             autoPlaySpeed={3000}
             transitionDuration={500}
-            className="rounded-3xl"
+            className="h-96 rounded-3xl"
         >
             <div>
-                <Image src="/qa-wave.png" alt="picture" width={5000} height={5000} className="z-10 h-96 w-full rounded-3xl object-cover" />
+                <Image src="/qa-wave.png" alt="picture" width={5000} height={5000} className="h-full w-full object-cover" draggable={false} />
             </div>
             <div>
-                <Image src="/qa-photo.png" alt="picture" width={5000} height={5000} className="z-10 h-96 w-full rounded-3xl object-cover" />
+                <Image src="/qa-photo.png" alt="picture" width={5000} height={5000} className="h-full w-full object-cover" draggable={false} />
             </div>
             <div>
-                <Image src="/plainsmen-photo.jpg" alt="picture" width={5000} height={5000} className="z-10 h-96 w-full rounded-3xl object-cover" />
+                <Image src="/plainsmen-photo.jpg" alt="picture" width={5000} height={5000} className="h-full w-full object-cover" draggable={false} />
             </div>
             <div>
-                <Image src="/defaultqt-photo.png" alt="picture" width={5000} height={5000} className="z-10 h-96 w-full rounded-3xl object-cover" />
+                <Image src="/defaultqt-photo.png" alt="picture" width={5000} height={5000} className="h-full w-full object-cover" draggable={false} />
             </div>
         </Carousel>
     );
