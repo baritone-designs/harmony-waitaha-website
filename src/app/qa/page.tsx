@@ -8,7 +8,6 @@ import { MapComponent } from '@/components/map';
 import { FC } from 'react';
 import { IconType } from 'react-icons';
 import { Metadata } from 'next';
-import qaWave from '@/assets/images/qa-wave.png';
 
 import './index.css';
 import { MdLocationPin } from 'react-icons/md';
@@ -18,6 +17,7 @@ import { ChorusId, Event, Person } from '@prisma/client';
 // import qaLogo from './qa-logo.svg';
 import { googleMapsLocationUrl } from '@/components/utils';
 import Link from 'next/link';
+import { CustomCarousel } from '@/components/Carousel';
 import QAHeader from './Header';
 
 export const metadata: Metadata = {
@@ -165,7 +165,7 @@ export default async function QAHome() {
                         Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
                     </p>
                     <div className="flex flex-col justify-between">
-                        <Image src={qaWave} alt="picture" className="z-10 h-96 w-full rounded-3xl object-cover" />
+                        <CustomCarousel />
                     </div>
                 </div>
                 <div className="flex w-full justify-center">
