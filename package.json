@@ -31,6 +31,7 @@
     "dayjs": "^1.11.13",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.5",
+    "hamburger-react": "^2.5.1",
     "next": "^14.2.5",
     "next-auth": "^4.24.5",
     "prisma-json-types-generator": "^3.0.4",
@@ -39,6 +40,7 @@
     "react-icons": "^5.0.1",
     "react-multi-carousel": "^2.8.5",
     "react-toastify": "^10.0.5",
+    "react-use": "^17.5.1",
     "superjson": "^2.2.1",
     "yup": "^1.4.0"
   },

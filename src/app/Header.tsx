@@ -4,7 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { m } from 'framer-motion';
+import { m, AnimatePresence, motion } from 'framer-motion';
+import { useClickAway } from 'react-use';
+
+import { Squash as Hamburger } from 'hamburger-react';
+
 // import hwLogo from './hw-logo.svg';
 
 interface HeaderLinkProps {
@@ -13,11 +17,39 @@ interface HeaderLinkProps {
     active: boolean;
 }
 
-/**
- * Component for link in header of organisation layout.
- *
- * Handles underlining based upon current selected page
- */
+const routes = [
+    {
+        title: 'Home',
+        href: '#home',
+        checkActive: 0,
+    },
+    {
+        title: 'About',
+        href: '#about',
+        checkActive: 1,
+    },
+    {
+        title: 'Choruses',
+        href: '#choruses',
+        checkActive: 2,
+    },
+    {
+        title: 'Quartets',
+        href: '#quartets',
+        checkActive: 3,
+    },
+    {
+        title: 'Events',
+        href: '#events',
+        checkActive: 4,
+    },
+    {
+        title: 'Contact',
+        href: '#contact',
+        checkActive: 5,
+    },
+];
+
 const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
     <Link href={url} className="group relative flex h-10 cursor-pointer items-center gap-2 pb-1">
         <span
@@ -27,6 +59,58 @@ const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
         </span>
     </Link>
 );
+
+const NavMobile = () => {
+    const [isOpen, setOpen] = useState(false);
+    const ref = useRef(null);
+
+    useClickAway(ref, () => setOpen(false));
+
+    return (
+        <div ref={ref} className="flex justify-end lg:hidden">
+            <Hamburger toggled={isOpen} size={30} toggle={setOpen} />
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="fixed inset-x-0 top-0 w-1/2 p-5"
+                    >
+                        <ul className="grid gap-2">
+                            {routes.map((route, idx) => {
+                                const { href, title } = route;
+
+                                return (
+                                    <motion.li
+                                        initial={{ x: -500 }}
+                                        animate={{ x: 0 }}
+                                        transition={{
+                                            ease: 'easeOut',
+                                            duration: 0.4,
+                                            delay: 0.1 + idx / 20,
+                                        }}
+                                        key={route.title}
+                                        className="rounded-xl p-0.5"
+                                    >
+                                        <a
+                                            onClick={() => setOpen((prev) => !prev)}
+                                            className="flex w-fit items-center justify-between rounded-full bg-hw-black p-5"
+                                            href={href}
+                                        >
+                                            <span className="flex gap-1 text-lg text-white">{title}</span>
+                                        </a>
+                                    </motion.li>
+                                );
+                            })}
+                        </ul>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+};
 
 export default function HWHeader() {
     const [active, setActive] = useState(0);
@@ -59,7 +143,7 @@ export default function HWHeader() {
     }, []);
 
     return (
-        <header className="fixed z-10 flex h-24 w-screen justify-center bg-black/50" ref={headerRef}>
+        <header className="fixed z-10 flex w-screen justify-center lg:h-24 lg:bg-black/50" ref={headerRef}>
             <div
                 className="invisible flex h-full w-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20"
             >
@@ -72,19 +156,19 @@ export default function HWHeader() {
                     />
                 </m.a>
 
-                <nav className="flex flex-row gap-12">
-                    <HeaderLink url="#home" active={active === 0}>Home</HeaderLink>
-                    <HeaderLink url="#about" active={active === 1}>About</HeaderLink>
-                    <HeaderLink url="#choruses" active={active === 2}>Choruses</HeaderLink>
-                    <HeaderLink url="#quartets" active={active === 3}>Quartets</HeaderLink>
-                    <HeaderLink url="#events" active={active === 4}>Events</HeaderLink>
-                    <HeaderLink url="#contact" active={active === 4}>Contact</HeaderLink>
+                <nav className="hidden flex-row gap-12 lg:flex">
+                    {routes.map((route) => {
+                        const { href, title, checkActive } = route;
+                        return (
+                            <HeaderLink url={href} active={active === checkActive}>{title}</HeaderLink>
+                        );
+                    })}
                 </nav>
 
                 <div className="w-24" />
             </div>
-            <div className="visible flex justify-end lg:invisible">
-                <div>Hamburger</div>
+            <div className="visible mr-8 mt-5 flex items-center justify-end rounded-full bg-black/50 p-2 lg:invisible">
+                <NavMobile />
             </div>
         </header>
     );
