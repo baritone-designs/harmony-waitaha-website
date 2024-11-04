@@ -106,16 +106,14 @@ export default async function PlainsmenHome() {
     }));
 
     const events = (await prisma.event.findMany({
-        select: {
-            id: true,
-            name: true,
-            venueName: true,
-            venueId: true,
-            time: true,
-            description: true,
+        where: {
+            choruses: {
+                some: {
+                    id: ChorusId.Plainsmen,
+                },
+            },
         },
     }));
-
     return (
         <main className="bg-hw-black px-20 2xl:px-[10vw]">
             <PlainsmenHeader />
