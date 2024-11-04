@@ -65,30 +65,20 @@ export default async function PlainsmenHome() {
             <section id="about" className="my-10 space-y-4">
                 <span className="text-4xl font-semibold text-pm-blue">About Us</span>
                 <div className="grid grid-cols-2 gap-20">
-                    <p className="z-10">
-                        We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
-                        In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat.
-                        Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
-                        <br />
-                        <br />
-                        We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
-                        In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat.
-                        Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
-                    </p>
+                    <div>
+                        <p className="z-10">
+                            We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
+                            In non mauris lorem. Nullam aliquam massa porta, suscipit
+                        </p>
+                        <div className="z-0 mt-8 grid grid-cols-3 items-center gap-14">
+                            {people.map((person) => (
+                                <TeamProfile key={person.id} {...person} />
+                            ))}
+                        </div>
+                    </div>
                     <div className="flex flex-col justify-between">
                         <CustomCarousel />
-                    </div>
-                </div>
-                <div className="flex w-full justify-center">
-                    <div className="mb-1 mt-4 h-0.5 w-60 rounded-full bg-qa-white" />
-                </div>
-                <div className="flex w-full justify-center">
-                    <div className="z-0 flex flex-row items-center justify-between gap-14">
-                        {people.map((person) => (
-                            <TeamProfile key={person.id} {...person} />
-                        ))}
                     </div>
                 </div>
             </section>
