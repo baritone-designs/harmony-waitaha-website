@@ -165,7 +165,7 @@ export default async function QAHome() {
                         Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
                     </p>
                     <div className="flex flex-col justify-between">
-                        <CustomCarousel />
+                        <CustomCarousel className="h-96 rounded-3xl" />
                     </div>
                 </div>
                 <div className="flex w-full justify-center">
