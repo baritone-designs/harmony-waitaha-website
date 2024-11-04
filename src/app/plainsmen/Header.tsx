@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { m, motion } from 'framer-motion';
-import qaLogo from './icon.svg';
+import plainsmenLogo from './icon.svg';
 import './index.css';
 
 interface HeaderLinkProps {
@@ -21,7 +21,7 @@ interface HeaderLinkProps {
  */
 const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
     <Link href={url} className="relative flex h-8 cursor-pointer items-center gap-2 pb-1 duration-200 hover:opacity-50">
-        <span className={clsx(active && 'text-pm-red', 'text-lg font-semibold')}>{children}</span>
+        <span className={clsx(active && 'text-pm-red duration-500', 'text-lg font-semibold duration-500')}>{children}</span>
 
         {active && (
             <motion.div
@@ -70,8 +70,8 @@ export default function PlainsmenHeader() {
         >
             <m.a href="#home" className="w-12" whileHover={{ scale: 1.05 }}>
                 <Image
-                    src={qaLogo}
-                    alt="qa-logo"
+                    src={plainsmenLogo}
+                    alt="plainsmen-logo"
                     height={60}
                     width={60}
                 />
@@ -80,7 +80,7 @@ export default function PlainsmenHeader() {
             <nav className="flex flex-row gap-12">
                 <HeaderLink url="#home" active={active === 0}>Home</HeaderLink>
                 <HeaderLink url="#about" active={active === 1}>About</HeaderLink>
-                <HeaderLink url="#upcoming" active={active === 2}>Events</HeaderLink>
+                <HeaderLink url="#events" active={active === 2}>Events</HeaderLink>
                 {/* <HeaderLink url="#media" active={active === 3}>Media</HeaderLink> */}
                 <HeaderLink url="#join" active={active === 4}>Join</HeaderLink>
             </nav>
