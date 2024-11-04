@@ -143,7 +143,7 @@ export default async function PlainsmenHome() {
                         </div>
                     </div>
                     <div className="flex flex-col justify-between">
-                        <CustomCarousel className="h-96 rounded-xl" />
+                        <CustomCarousel className="z-10 h-96 rounded-xl" />
                     </div>
                 </div>
             </section>
