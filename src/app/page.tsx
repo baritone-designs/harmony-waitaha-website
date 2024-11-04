@@ -196,7 +196,7 @@ export default async function HarmonyWaitahaHome() {
                             </div>
                             <div className="flex items-center">
                                 <MdPhone size={20} />
-                                <span className="ml-2 text-hw-white">02123456789</span>
+                                <span className="ml-2 text-hw-white">021 2345 6789</span>
                             </div>
                             <div className="flex items-center">
                                 <MdEmail size={20} />
@@ -217,13 +217,28 @@ export default async function HarmonyWaitahaHome() {
                             <label htmlFor="message" className="block text-hw-white">Message
                                 <textarea id="name" placeholder="Type your message" className="block h-24 w-full resize-none rounded-md bg-hw-white px-3 py-2 text-hw-black" />
                             </label>
+                            <div className="flex justify-center">
+                                <button type="submit" className="mt-5 rounded-md bg-hw-white px-10 py-2 text-hw-black duration-200 hover:opacity-50">Send</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </section>
-            <footer className="my-10">
-                <Image src="/hw-logo.svg" alt="hw-logo" width={150} height={0} />
-                <p className="mt-3">© Harmony Waitaha {new Date().getFullYear()}</p>
+            <footer className="my-10 flex justify-between">
+                <div>
+                    <Image src="/hw-logo.svg" alt="hw-logo" width={150} height={0} />
+                    <p className="mt-3">© Harmony Waitaha {new Date().getFullYear()}</p>
+                </div>
+                <div className="flex flex-col justify-end">
+                    <a
+                        href="https://www.harmonywaitaha.co.nz/dbpage.php?pg=membersonly"
+                        target="_blank"
+                        className="text-hw-blue underline duration-200 hover:opacity-50"
+                        rel="noreferrer"
+                    >
+                        Members only site ↗
+                    </a>
+                </div>
             </footer>
         </main>
     );
