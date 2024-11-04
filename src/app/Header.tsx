@@ -59,29 +59,33 @@ export default function HWHeader() {
     }, []);
 
     return (
-        <header
-            ref={headerRef}
-            className="fixed left-0 z-10 flex h-[10vh] w-screen flex-row items-center justify-between bg-black/50 px-20 2xl:px-[12vw]"
-        >
-            <m.a href="#home" className="w-24" whileHover={{ scale: 1.05 }}>
-                <Image
-                    src="/hw-logo.svg"
-                    alt="hw-logo"
-                    width={100}
-                    height={100}
-                />
-            </m.a>
+        <header className="fixed z-10 flex h-24 w-screen justify-center bg-black/50" ref={headerRef}>
+            <div
+                className="invisible flex h-full w-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20"
+            >
+                <m.a href="#home" className="w-24" whileHover={{ scale: 1.05 }}>
+                    <Image
+                        src="/hw-logo.svg"
+                        alt="hw-logo"
+                        width={100}
+                        height={100}
+                    />
+                </m.a>
 
-            <nav className="flex flex-row gap-12">
-                <HeaderLink url="#home" active={active === 0}>Home</HeaderLink>
-                <HeaderLink url="#about" active={active === 1}>About</HeaderLink>
-                <HeaderLink url="#choruses" active={active === 2}>Choruses</HeaderLink>
-                <HeaderLink url="#quartets" active={active === 3}>Quartets</HeaderLink>
-                <HeaderLink url="#events" active={active === 4}>Events</HeaderLink>
-                <HeaderLink url="#contact" active={active === 4}>Contact</HeaderLink>
-            </nav>
+                <nav className="flex flex-row gap-12">
+                    <HeaderLink url="#home" active={active === 0}>Home</HeaderLink>
+                    <HeaderLink url="#about" active={active === 1}>About</HeaderLink>
+                    <HeaderLink url="#choruses" active={active === 2}>Choruses</HeaderLink>
+                    <HeaderLink url="#quartets" active={active === 3}>Quartets</HeaderLink>
+                    <HeaderLink url="#events" active={active === 4}>Events</HeaderLink>
+                    <HeaderLink url="#contact" active={active === 4}>Contact</HeaderLink>
+                </nav>
 
-            <div className="w-24" />
+                <div className="w-24" />
+            </div>
+            <div className="visible flex justify-end lg:invisible">
+                <div>Hamburger</div>
+            </div>
         </header>
     );
 }
