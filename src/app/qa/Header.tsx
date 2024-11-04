@@ -19,10 +19,10 @@ interface HeaderLinkProps {
  * Handles underlining based upon current selected page
  */
 const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
-    <Link href={url} className="group relative flex h-10 cursor-pointer items-center gap-2 pb-1">
+    <Link href={url} className="relative flex h-10 cursor-pointer items-center gap-2 pb-1">
         <span className={clsx(
-            active && 'text-qa-blue drop-shadow-qa-glow-intense',
-            'text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-intense',
+            active && 'text-qa-blue drop-shadow-qa-glow-intense duration-200',
+            'text-lg font-medium duration-200 hover:text-qa-blue hover:drop-shadow-qa-glow-intense',
         )}
         >{children}
         </span>
