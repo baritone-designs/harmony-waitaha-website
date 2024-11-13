@@ -145,7 +145,7 @@ export default function HWHeader() {
     return (
         <header className="fixed z-10 flex w-screen justify-center lg:h-20 lg:bg-black/50" ref={headerRef}>
             <div
-                className="invisible flex h-full w-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20"
+                className="invisible flex h-full w-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
             >
                 <m.a href="#home" className="w-24" whileHover={{ scale: 1.05 }}>
                     <Image
@@ -167,7 +167,7 @@ export default function HWHeader() {
 
                 <div className="w-24" />
             </div>
-            <div className="visible mr-8 mt-5 flex items-center justify-end rounded-full bg-black/50 p-1 lg:invisible">
+            <div className="visible mr-5 mt-5 flex items-center justify-end rounded-full bg-black/50 p-1 lg:invisible">
                 <NavMobile />
             </div>
         </header>
