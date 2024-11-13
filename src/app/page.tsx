@@ -112,10 +112,13 @@ export default async function HarmonyWaitahaHome() {
     return (
         <main className="[&>*]:font-poppins">
             <HWHeader />
-            <section id="home" className="h-screen w-screen overflow-hidden">
+            <section id="home" className="relative h-screen w-screen overflow-hidden">
                 <video autoPlay muted loop className="h-full w-full object-cover">
                     <source src="/main.mp4" type="video/mp4" />
                 </video>
+                <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
+                    <Image src="./hw-logo.svg" className="" width={300} height={300} alt="logo" />
+                </div>
             </section>
 
             <div className="flex justify-center">

@@ -68,7 +68,7 @@ const NavMobile = () => {
 
     return (
         <div ref={ref} className="flex justify-end lg:hidden">
-            <Hamburger toggled={isOpen} size={30} toggle={setOpen} />
+            <Hamburger toggled={isOpen} size={20} toggle={setOpen} />
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -96,10 +96,10 @@ const NavMobile = () => {
                                     >
                                         <a
                                             onClick={() => setOpen((prev) => !prev)}
-                                            className="flex w-fit items-center justify-between rounded-full bg-hw-black p-5"
+                                            className="flex w-fit items-center justify-between rounded-full bg-hw-black p-3"
                                             href={href}
                                         >
-                                            <span className="flex gap-1 text-lg text-white">{title}</span>
+                                            <span className="flex gap-1 text-white">{title}</span>
                                         </a>
                                     </motion.li>
                                 );
@@ -143,7 +143,7 @@ export default function HWHeader() {
     }, []);
 
     return (
-        <header className="fixed z-10 flex w-screen justify-center lg:h-24 lg:bg-black/50" ref={headerRef}>
+        <header className="fixed z-10 flex w-screen justify-center lg:h-20 lg:bg-black/50" ref={headerRef}>
             <div
                 className="invisible flex h-full w-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20"
             >
@@ -167,7 +167,7 @@ export default function HWHeader() {
 
                 <div className="w-24" />
             </div>
-            <div className="visible mr-8 mt-5 flex items-center justify-end rounded-full bg-black/50 p-2 lg:invisible">
+            <div className="visible mr-8 mt-5 flex items-center justify-end rounded-full bg-black/50 p-1 lg:invisible">
                 <NavMobile />
             </div>
         </header>
