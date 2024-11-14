@@ -81,11 +81,12 @@ interface SocialLinkProps {
     href: string;
     icon: IconType;
     size?: number;
+    className: string;
 }
 
-const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon, size = 45 }) => (
+const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon, size = 45, className }) => (
     <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-qa-blue hover:drop-shadow-qa-glow-intense">
-        <Icon size={size} className="w-6 lg:w-14" />
+        <Icon size={size} className={className} />
     </a>
 );
 
@@ -136,9 +137,9 @@ export default async function QAHome() {
                                 </span>
                                 <div className="flex justify-center lg:justify-start">
                                     <div className="mt-2 flex gap-4 text-white lg:mt-6">
-                                        <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" />
-                                        <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" />
-                                        <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" />
+                                        <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" className="w-6 lg:w-14" />
+                                        <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" className="w-6 lg:w-14" />
+                                        <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" className="w-6 lg:w-14" />
                                     </div>
                                 </div>
                             </div>
@@ -234,10 +235,10 @@ export default async function QAHome() {
                     <section id="footer" className="mb-10 flex flex-row items-end justify-between">
                         <div>
                             <span className="text-4xl font-semibold text-qa-blue">Follow Us</span>
-                            <div className="mt-2 flex gap-3 text-white">
-                                <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" size={25} />
-                                <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" size={25} />
-                                <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" size={25} />
+                            <div className="mt-1 flex gap-4 text-white">
+                                <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" className="w-7" />
+                                <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" className="w-7" />
+                                <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" className="w-7" />
                             </div>
                         </div>
                         <a className="flex h-full flex-col items-center text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense" href="/" target="_blank">
