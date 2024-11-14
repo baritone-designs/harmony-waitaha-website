@@ -21,12 +21,12 @@ const ChorusProfile: FC<ChorusProfileProps> = ({ name, photo, logo }) => (
     <a
         // This must be an a tag not a Link tag otherwise the prefetched CSS causes issues
         href={name.toLowerCase()}
-        className="flex h-72 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%] lg:h-96"
+        className="flex h-60 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%] lg:h-96"
         style={{
             backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${photo}')`,
         }}
     >
-        <Image src={logo} width={350} height={350} alt={`${name.toLowerCase()}-logo`} />
+        <Image src={logo} width={350} height={350} alt={`${name.toLowerCase()}-logo`} className="w-52 lg:w-64" />
     </a>
 );
 
@@ -38,7 +38,7 @@ const QuartetProfile = ({ id, name, imageUrl, logoUrl }: Pick<Quartet, 'id' | 'n
             },
         }}
         scroll={false}
-        className="flex h-72 w-full flex-col justify-between rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%]"
+        className="flex h-60 w-full flex-col justify-between rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%] lg:h-72"
         style={{
             backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
         }}
@@ -117,7 +117,7 @@ export default async function HarmonyWaitahaHome() {
                     <source src="/main.mp4" type="video/mp4" />
                 </video>
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
-                    <Image src="./hw-logo.svg" className="" width={300} height={300} alt="logo" />
+                    <Image src="./hw-logo.svg" className="" width={200} height={200} alt="logo" />
                 </div>
             </section>
 
