@@ -4,8 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { m, motion } from 'framer-motion';
-import qaLogo from './icon.svg';
+import { m, motion, AnimatePresence } from 'framer-motion';
+import { useClickAway } from 'react-use';
+import { Squash as Hamburger } from 'hamburger-react';
 
 interface HeaderLinkProps {
     url: string;
@@ -13,11 +14,29 @@ interface HeaderLinkProps {
     active: boolean;
 }
 
-/**
- * Component for link in header of organisation layout.
- *
- * Handles underlining based upon current selected page
- */
+const routes = [
+    {
+        title: 'Home',
+        href: '#home',
+        checkActive: 0,
+    },
+    {
+        title: 'About',
+        href: '#about',
+        checkActive: 1,
+    },
+    {
+        title: 'Events',
+        href: '#events',
+        checkActive: 2,
+    },
+    {
+        title: 'Join',
+        href: '#join',
+        checkActive: 5,
+    },
+];
+
 const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
     <Link href={url} className="relative flex h-10 cursor-pointer items-center gap-2 pb-1">
         <span className={clsx(
@@ -35,6 +54,58 @@ const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
         )}
     </Link>
 );
+
+const NavMobile = () => {
+    const [isOpen, setOpen] = useState(false);
+    const ref = useRef(null);
+
+    useClickAway(ref, () => setOpen(false));
+
+    return (
+        <div ref={ref} className="flex justify-end lg:hidden">
+            <Hamburger toggled={isOpen} size={20} toggle={setOpen} />
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="fixed inset-x-0 top-0 w-1/2 p-5"
+                    >
+                        <ul className="grid gap-2">
+                            {routes.map((route, idx) => {
+                                const { href, title } = route;
+
+                                return (
+                                    <motion.li
+                                        initial={{ x: -500 }}
+                                        animate={{ x: 0 }}
+                                        transition={{
+                                            ease: 'easeOut',
+                                            duration: 0.4,
+                                            delay: 0.1 + idx / 20,
+                                        }}
+                                        key={route.title}
+                                        className="rounded-xl p-0.5"
+                                    >
+                                        <a
+                                            onClick={() => setOpen((prev) => !prev)}
+                                            className="flex w-fit items-center justify-between rounded-full bg-hw-black p-3"
+                                            href={href}
+                                        >
+                                            <span className="flex gap-1 text-white">{title}</span>
+                                        </a>
+                                    </motion.li>
+                                );
+                            })}
+                        </ul>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+};
 
 export default function QAHeader() {
     const [active, setActive] = useState(0);
@@ -68,29 +139,35 @@ export default function QAHeader() {
 
     return (
         <header
+            className="fixed z-50 flex w-screen justify-center bg-gradient-to-b from-qa-blue-darker from-5% to-transparent lg:h-32"
             ref={headerRef}
-            className="fixed left-0 z-50 flex h-[15vh] w-screen flex-row items-center justify-between
-            overflow-hidden bg-gradient-to-b from-qa-blue-darker from-5%
-            to-transparent px-20 2xl:px-[10vw]"
         >
-            <m.a href="#home" className="w-12" whileHover={{ scale: 1.05 }}>
-                <Image
-                    src={qaLogo}
-                    alt="qa-logo"
-                    height={60}
-                    width={60}
-                />
-            </m.a>
+            <div
+                className="invisible flex h-full w-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
+            >
+                <m.a href="#home" className="w-24" whileHover={{ opacity: 0.5 }}>
+                    <Image
+                        src="/qa/icon.svg"
+                        alt="qa-logo"
+                        width={50}
+                        height={50}
+                    />
+                </m.a>
 
-            <nav className="flex flex-row gap-12">
-                <HeaderLink url="#home" active={active === 0}>Home</HeaderLink>
-                <HeaderLink url="#about" active={active === 1}>About</HeaderLink>
-                <HeaderLink url="#upcoming" active={active === 2}>Events</HeaderLink>
-                {/* <HeaderLink url="#media" active={active === 3}>Media</HeaderLink> */}
-                <HeaderLink url="#join" active={active === 4}>Join</HeaderLink>
-            </nav>
+                <nav className="hidden flex-row gap-12 lg:flex">
+                    {routes.map((route) => {
+                        const { href, title, checkActive } = route;
+                        return (
+                            <HeaderLink url={href} active={active === checkActive}>{title}</HeaderLink>
+                        );
+                    })}
+                </nav>
 
-            <div className="w-12" />
+                <div className="w-24" />
+            </div>
+            <div className="visible mr-5 mt-5 flex items-center justify-end rounded-full bg-black/50 p-1 lg:invisible">
+                <NavMobile />
+            </div>
         </header>
     );
 }

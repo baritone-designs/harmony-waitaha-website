@@ -15,6 +15,6 @@ export function ScrollImage() {
     });
 
     return (
-        <motion.div id="home-image" ref={ref} />
+        <motion.div id="home-image" className="invisible lg:visible" ref={ref} />
     );
 }
