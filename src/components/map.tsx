@@ -100,7 +100,7 @@ const defaultMapOptions = {
 // };
 
 const MapComponent = () => (
-    <div className="w-1/3">
+    <div className="mt-5 h-60 w-full lg:mt-0 lg:w-1/3">
         <GoogleMap
             mapContainerStyle={defaultMapContainerStyle}
             center={defaultMapCenter}

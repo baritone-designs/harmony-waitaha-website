@@ -33,11 +33,11 @@ const TeamProfile = ({ id, iconUrl, name, role }: Pick<Person, 'id' | 'iconUrl' 
             },
         }}
         scroll={false}
-        className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:scale-105"
+        className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-1 duration-200 hover:scale-105 lg:p-4"
     >
         <div className="h-40 w-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
-        <span className="mt-5 text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
-        <span className="font-pt-sans text-sm">{role}</span>
+        <span className="mt-5 text-center text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
+        <span className="text-center font-pt-sans text-sm">{role}</span>
     </Link>
 );
 
@@ -151,11 +151,11 @@ export default async function QAHome() {
                     <Image src="/qa-photo.png" width={2000} height={2000} alt="bg-image" className="visible h-screen object-cover opacity-40 lg:invisible" />
                 </div>
             </section>
-            <div className="flex justify-center">
-                <div className="max-w-screen-2xl px-5 lg:px-20">
+            <div className="flex w-screen justify-center">
+                <div className="w-full max-w-screen-2xl px-5 lg:px-20">
                     <section id="about" className="mb-10 space-y-4">
                         <span className="text-4xl font-semibold text-qa-blue">About Us</span>
-                        <div className="grid grid-cols-2 gap-20">
+                        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
                             <p className="z-10">
                                 We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                 Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
@@ -169,14 +169,14 @@ export default async function QAHome() {
                                 Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
                             </p>
                             <div className="flex flex-col justify-between">
-                                <CustomCarousel className="z-10 h-96 rounded-3xl" />
+                                <CustomCarousel className="z-10 h-60 rounded-3xl lg:h-96" />
                             </div>
                         </div>
-                        <div className="flex w-full justify-center">
-                            <div className="mb-1 mt-4 h-0.5 w-60 rounded-full bg-qa-white" />
+                        <div className="invisible flex w-full justify-center lg:visible">
+                            <div className="mb-1 h-0.5 w-60 rounded-full bg-qa-white lg:mt-4" />
                         </div>
                         <div className="flex w-full justify-center">
-                            <div className="z-0 flex flex-row items-center justify-between gap-14">
+                            <div className="z-0 grid grid-cols-2 items-center justify-between gap-3 lg:flex lg:flex-row lg:gap-14">
                                 {people.map((person) => (
                                     <TeamProfile key={person.id} {...person} />
                                 ))}
@@ -185,7 +185,7 @@ export default async function QAHome() {
                     </section>
                     <section id="events" className="mb-10 space-y-4">
                         <span className="text-4xl font-semibold text-qa-blue">Upcoming Events</span>
-                        <div className="grid w-full grid-cols-3 gap-5">
+                        <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-3">
                             {events.map(({ id, ...event }) => (
                                 <EventProfile key={id} {...event} />
                             ))}
@@ -206,46 +206,34 @@ export default async function QAHome() {
             </section> */}
                     <section id="join" className="mb-20 space-y-4">
                         <span className="text-4xl font-semibold text-qa-blue">Wanna Join?</span>
-                        <div className="flex w-full flex-row gap-5">
-                            <div className="w-2/3">
+                        <div className="w-full gap-5 lg:flex lg:flex-row">
+                            <div className="lg:w-2/3">
                                 <p>
                                     We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide
                                     range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus
                                     semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla
                                     rhoncus. In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem.
                                     Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec
-                                    elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempor vitae. In commodo
-                                    risus lacus, et egestas nibh lacinia vitae. We are a Barbershop Chorus located in
-                                    Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit
-                                    amet, consectetur adipiscing elit Sed maximus semper lectus fa dfaf asdfasdf f adf
-                                    asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus. In non mauris lorem.Donec
-                                    asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla
-                                    rhoncus. In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem.
-                                    Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec
-                                    elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempor vitae. In commodo
-                                    risus lacus, et egestas nibh lacinia vitae. We are a Barbershop Chorus located in
-                                    Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit
-                                    amet, consectetur adipiscing elit Sed maximus semper lectus fa dfaf asdfasdf f adf
-                                    asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus. In non mauris lorem.Donec
+                                    elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempor vitae.
                                 </p>
                             </div>
                             <MapComponent />
                         </div>
                     </section>
-                    <section id="footer" className="mb-10 flex flex-row items-end justify-between">
+                    <section id="footer" className="mb-5 flex flex-row items-end justify-between lg:mb-10">
                         <div>
                             <span className="text-4xl font-semibold text-qa-blue">Follow Us</span>
-                            <div className="mt-1 flex gap-4 text-white">
-                                <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" className="w-7" />
-                                <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" className="w-7" />
-                                <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" className="w-7" />
+                            <div className="mt-0 flex gap-4 text-white lg:mt-1">
+                                <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" className="w-5 lg:w-7" />
+                                <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" className="w-5 lg:w-7" />
+                                <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" className="w-5 lg:w-7" />
                             </div>
                         </div>
-                        <a className="flex h-full flex-col items-center text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense" href="/" target="_blank">
+                        <a className="hidden h-full flex-col items-center text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense lg:flex" href="/" target="_blank">
                             Harmony Waitaha Website ↗
                         </a>
                         <div className="flex flex-col items-end">
-                            <Image src="/qa-logo.svg" alt="qa-logo/" width={150} height={150} />
+                            <Image src="/qa-logo.svg" alt="qa-logo/" width={150} height={150} className="w-32" />
                             <span>© Quantum Acoustics {new Date().getFullYear()}</span>
                         </div>
                     </section>
