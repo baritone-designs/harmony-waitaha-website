@@ -60,7 +60,7 @@ export default function LocationAutocomplete({ idField, nameField, label, noOpti
 
     return (
         <Autocomplete
-            sx={{ width: 300 }}
+            className="w-full"
             getOptionLabel={(placeId) => options.find((option) => option.place_id === placeId)?.structured_formatting.main_text ?? nameValue}
             filterOptions={(x) => x}
             options={options.map((option) => option.place_id)}

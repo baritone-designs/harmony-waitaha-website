@@ -130,9 +130,10 @@ export default function EditPeople() {
 
     const [newPeople, setNewPeople] = useState<string[]>([]);
 
-    const closeNewPerson = useCallback((id: string) => {
-        setNewPeople(newPeople.filter((x) => x !== id));
-    }, [newPeople, setNewPeople]);
+    const closeNewPerson = useCallback(
+        (id: string) => setNewPeople((people) => people.filter((x) => x !== id)),
+        [setNewPeople],
+    );
 
     return (
         <Container sx={{ marginY: 5 }} maxWidth="xl">
