@@ -2,6 +2,7 @@
   position: absolute;
   background-image: url("/plainsmen-photo.jpg");
   background-size: cover;
+  background-position-x: center;
   opacity: 30%;
   inset: 0 0 0;
 }
