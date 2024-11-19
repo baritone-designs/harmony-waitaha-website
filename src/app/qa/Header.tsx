@@ -139,7 +139,7 @@ export default function QAHeader() {
 
     return (
         <header
-            className="fixed z-50 flex w-screen justify-center bg-gradient-to-b from-qa-blue-darker from-5% to-transparent lg:h-32"
+            className="fixed z-50 flex w-full justify-center bg-gradient-to-b from-qa-blue-darker from-5% to-transparent lg:h-32"
             ref={headerRef}
         >
             <div

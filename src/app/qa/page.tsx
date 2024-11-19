@@ -120,7 +120,7 @@ export default async function QAHome() {
     }));
 
     return (
-        <main>
+        <main className="[&>*]:font-pt-sans">
             <QAHeader />
             <section id="home" className="h-screen">
                 <div className="relative z-10 flex h-screen flex-col justify-center bg-gradient-to-t from-qa-blue-darker to-transparent to-30%">
@@ -151,7 +151,7 @@ export default async function QAHome() {
                     <Image src="/qa-photo.png" width={2000} height={2000} alt="bg-image" className="visible h-screen object-cover opacity-40 lg:invisible" />
                 </div>
             </section>
-            <div className="flex w-screen justify-center">
+            <div className="flex justify-center">
                 <div className="w-full max-w-screen-2xl px-5 lg:px-20">
                     <section id="about" className="mb-10 space-y-4">
                         <span className="text-4xl font-semibold text-qa-blue">About Us</span>
@@ -168,8 +168,8 @@ export default async function QAHome() {
                                 In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat.
                                 Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
                             </p>
-                            <div className="flex flex-col justify-between">
-                                <CustomCarousel className="z-10 h-60 rounded-3xl lg:h-96" />
+                            <div className="">
+                                <CustomCarousel className="z-10 aspect-video w-full rounded-3xl" />
                             </div>
                         </div>
                         <div className="invisible flex w-full justify-center lg:visible">
