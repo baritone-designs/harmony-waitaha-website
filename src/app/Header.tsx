@@ -124,8 +124,8 @@ export default function HWHeader() {
             if (!header) return;
 
             elements.forEach((section, i) => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight - 100;
 
                 const scrollPosition = window.scrollY + header.offsetHeight;
 

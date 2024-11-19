@@ -33,7 +33,7 @@ const routes = [
     {
         title: 'Join',
         href: '#join',
-        checkActive: 5,
+        checkActive: 3,
     },
 ];
 
@@ -119,8 +119,8 @@ export default function QAHeader() {
             if (!header) return;
 
             elements.forEach((section, i) => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight - 100;
 
                 const scrollPosition = window.scrollY + header.offsetHeight;
 
