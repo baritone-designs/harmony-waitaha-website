@@ -122,7 +122,7 @@ export default async function PlainsmenHome() {
                 <div className="z-10 flex h-full items-center justify-center text-8xl font-medium">
                     <Image src="/plainsmen-logo.svg" alt="plainsmen-logo" width={500} height={500} className="z-10 h-32 lg:h-52" />
                 </div>
-                <div className="pointer-events-none absolute -inset-x-20 inset-y-0 2xl:inset-x-[-10vw]">
+                <div className="pointer-events-none absolute inset-0">
                     <ScrollImage />
                 </div>
             </section>

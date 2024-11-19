@@ -146,9 +146,8 @@ export default async function QAHome() {
                         </div>
                     </div>
                 </div>
-                <div className="pointer-events-none absolute left-0 top-0 z-0 h-screen w-screen overflow-hidden bg-black lg:bg-qa-blue-darker">
+                <div className="pointer-events-none absolute inset-0">
                     <ScrollImage />
-                    <Image src="/qa-photo.png" width={2000} height={2000} alt="bg-image" className="visible h-screen object-cover opacity-40 lg:invisible" />
                 </div>
             </section>
             <div className="flex justify-center">
