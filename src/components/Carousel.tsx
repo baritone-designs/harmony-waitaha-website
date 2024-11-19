@@ -44,7 +44,7 @@ export function CustomCarousel(
                 <Image src="/qa-photo.png" alt="picture" width={10000} height={10000} className="h-full w-full object-cover" draggable={false} />
             </div>
             <div>
-                <Image src="/plainsmen-photo.jpg" alt="picture" width={10000} height={10000} className="h-full w-full object-cover" draggable={false} />
+                <Image src="/plainsmen-photo_og.jpg" alt="picture" width={10000} height={10000} className="h-full w-full object-cover" draggable={false} />
             </div>
             <div>
                 <Image src="/defaultqt-photo.png" alt="picture" width={10000} height={10000} className="h-full w-full object-cover" draggable={false} />
