@@ -8,6 +8,20 @@ const config: Config = {
 
     theme: {
         extend: {
+            animation: {
+                'fade-in': 'fadeInDelay 5s',
+                'fade-out': 'fadeOut 1s',
+            },
+            keyframes: {
+                fadeInDelay: {
+                    '0%, 95%': { opacity: '0' },
+                    '100%': { opacity: '100' },
+                },
+                fadeOut: {
+                    '0%': { opacity: '100' },
+                    '100%': { opacity: '0' },
+                },
+            },
             colors: {
                 qa: {
                     'blue-darker': '#101C2A',

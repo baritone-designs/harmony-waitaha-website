@@ -5,7 +5,7 @@ import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 import Image from 'next/image';
 import { MapComponent } from '@/components/map';
 
-import { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { IconType } from 'react-icons';
 import { Metadata } from 'next';
 
@@ -14,6 +14,7 @@ import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
 import { ChorusId, Event, Person } from '@prisma/client';
+import { ScrollArrow } from '@/components/ScrollArrow';
 // import qaLogo from './qa-logo.svg';
 import { googleMapsLocationUrl } from '@/components/utils';
 import Link from 'next/link';
@@ -146,9 +147,8 @@ export default async function QAHome() {
                         </div>
                     </div>
                 </div>
-                <div className="pointer-events-none absolute inset-0">
-                    <ScrollImage />
-                </div>
+                <div className="pointer-events-none absolute inset-0"><ScrollImage /></div>
+                <ScrollArrow />
             </section>
             <div className="flex justify-center">
                 <div className="w-full max-w-screen-2xl px-5 lg:px-20">

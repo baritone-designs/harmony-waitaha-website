@@ -15,6 +15,10 @@ export function ScrollImage() {
     });
 
     return (
-        <motion.div id="home-image" className="absolute inset-0 -left-1/3 bg-[url('/qa-photo.png')] bg-cover opacity-40 lg:left-[30%] lg:shadow-[inset_400px_200px_200px_#101c2a]" ref={ref} />
+        <motion.div
+            id="home-image"
+            className="absolute inset-0 -left-1/3 bg-[url('/qa-photo.png')] bg-cover opacity-40 lg:left-[30%] lg:opacity-100 lg:shadow-[inset_400px_200px_200px_#101c2a]"
+            ref={ref}
+        />
     );
 }
