@@ -11,6 +11,7 @@ import { google } from 'calendar-link';
 import { MdLocationPin } from 'react-icons/md';
 import { MapComponent } from '@/components/map';
 import { IconType } from 'react-icons';
+import { ScrollArrow } from '@/components/ScrollArrow';
 
 import { ScrollImage } from './ScrollImage';
 import PlainsmenHeader from './Header';
@@ -125,6 +126,7 @@ export default async function PlainsmenHome() {
                 <div className="pointer-events-none absolute inset-0">
                     <ScrollImage />
                 </div>
+                <ScrollArrow />
             </section>
 
             <div className="flex justify-center">

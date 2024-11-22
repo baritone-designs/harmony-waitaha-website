@@ -5,7 +5,7 @@ import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 import Image from 'next/image';
 import { MapComponent } from '@/components/map';
 
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { IconType } from 'react-icons';
 import { Metadata } from 'next';
 

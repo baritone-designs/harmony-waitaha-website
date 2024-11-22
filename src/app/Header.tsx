@@ -143,7 +143,7 @@ export default function HWHeader() {
     }, []);
 
     return (
-        <header className="fixed z-10 flex w-full justify-center lg:h-20 lg:bg-black/50" ref={headerRef}>
+        <header className="fixed z-20 flex w-full justify-center lg:h-20 lg:bg-black/50" ref={headerRef}>
             <div
                 className="invisible flex h-full w-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
             >

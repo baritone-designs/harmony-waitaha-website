@@ -6,6 +6,7 @@ import { prisma } from '@/common/prisma';
 import { Event, Quartet } from '@prisma/client';
 import Link from 'next/link';
 import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
+import { ScrollArrow } from '@/components/ScrollArrow';
 
 import './index.css';
 import { googleMapsLocationUrl } from '@/components/utils';
@@ -119,6 +120,7 @@ export default async function HarmonyWaitahaHome() {
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
                     <Image src="./hw-logo.svg" className="" width={200} height={200} alt="logo" />
                 </div>
+                <ScrollArrow />
             </section>
 
             <div className="flex justify-center">
