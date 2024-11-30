@@ -38,10 +38,10 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                     biography: quartet?.biography ?? '',
                     members: quartet?.members ?? { tenor: '', lead: '', bass: '', baritone: '' },
                     socials: quartet?.socials ?? { facebook: null, instagram: null, x: null, youtube: null },
-                    logoUrl: quartet?.logoUrl ?? '',
-                    imageUrl: quartet?.logoUrl ?? '',
-                    backgroundImageUrl: quartet?.backgroundImageUrl ?? '',
-                    websiteUrl: quartet?.backgroundImageUrl ?? '',
+                    logoUrl: quartet?.logoUrl ?? null,
+                    imageUrl: quartet?.imageUrl ?? null,
+                    backgroundImageUrl: quartet?.backgroundImageUrl ?? null,
+                    websiteUrl: quartet?.websiteUrl ?? null,
                 }}
                 validationSchema={QuartetSchema}
                 onSubmit={onSubmit}
@@ -69,6 +69,12 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                                 multiline
                                 {...formikProps('biography', formik)}
                             />
+                            <TextField
+                                label="Website"
+                                variant="standard"
+                                fullWidth
+                                {...formikProps('websiteUrl', formik)}
+                            />
                             <div className="grid grid-cols-2 grid-rows-2 gap-2 self-stretch">
                                 {Object.keys(formik.values.members).map((key) => (
                                     <TextField variant="standard" label={key} fullWidth {...formikProps(`members.${key}`, formik)} />
@@ -87,6 +93,28 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                                         src={src}
                                         alt="quartet-logo"
                                         className="h-36 w-36 rounded-full duration-200 group-hover:opacity-50"
+                                    />
+                                )}
+                            </ImageUpload>
+                            <ImageUpload name="imageUrl" label="Quartet Image">
+                                {({ src }) => (
+                                    // next/image crashes without width/height props
+                                    //  eslint-disable-next-line @next/next/no-img-element
+                                    <img
+                                        src={src}
+                                        alt="quartet-logo"
+                                        className="h-44 w-96 rounded-md duration-200 group-hover:opacity-50"
+                                    />
+                                )}
+                            </ImageUpload>
+                            <ImageUpload name="backgroundImageUrl" label="Background Image">
+                                {({ src }) => (
+                                    // next/image crashes without width/height props
+                                    //  eslint-disable-next-line @next/next/no-img-element
+                                    <img
+                                        src={src}
+                                        alt="quartet-logo"
+                                        className="h-44 w-96 rounded-md duration-200 group-hover:opacity-50"
                                     />
                                 )}
                             </ImageUpload>
