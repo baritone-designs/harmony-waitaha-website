@@ -190,24 +190,29 @@ export default async function HarmonyWaitahaHome() {
                             <div className="rounded-3xl bg-hw-black">
                                 <div className="grid grid-cols-1 gap-5 p-8">
                                     <span className="text-2xl text-hw-white">Information</span>
-                                    <div className="flex items-center">
+                                    <a
+                                        className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50"
+                                        href={googleMapsLocationUrl('3 Brake Street', 'ChIJOYKExbeKMW0Ri4BKBGW0jm8')}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
                                         <MdLocationPin size={20} />
                                         <div>
                                             <p className="ml-2 text-hw-white">Upper Ricarton Methodist Church</p>
                                             <p className="ml-2 text-hw-white"> 3 Brake Street, Riccarton, Christchurch</p>
                                         </div>
-                                    </div>
-                                    <div className="flex items-center">
+                                    </a>
+                                    <a className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50" href="tel:+642123456789">
                                         <MdPhone size={20} />
                                         <span className="ml-2 text-hw-white">021 2345 6789</span>
-                                    </div>
-                                    <div className="flex items-center">
+                                    </a>
+                                    <a className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50" href="mailto:enquire@harmonywaitaha.co.nz">
                                         <MdEmail size={20} />
                                         <span className="ml-2 text-hw-white">enquire@harmonywaitaha.co.nz</span>
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
-                            <div className="rounded-3xl bg-hw-black p-8">
+                            {/* <div className="rounded-3xl bg-hw-black p-8">
                                 <form action="">
                                     <div className="mb-3 grid grid-cols-2 gap-3">
                                         <label htmlFor="name" className="block text-hw-white">Name
@@ -224,7 +229,7 @@ export default async function HarmonyWaitahaHome() {
                                         <button type="submit" className="mt-5 rounded-md bg-hw-white px-10 py-2 text-hw-black duration-200 hover:opacity-50">Send</button>
                                     </div>
                                 </form>
-                            </div>
+                            </div> */}
                         </div>
                     </section>
                     <footer className="my-10 flex justify-between">
