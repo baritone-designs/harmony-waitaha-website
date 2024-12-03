@@ -10,7 +10,7 @@ import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
 function SocialsLink({ url, icon: Icon }: { url: string, icon: IconType }) {
     return (
         <Link href={url} target="_blank">
-            <Icon size={40} className="text-hw-black duration-200 hover:text-hw-blue" />
+            <Icon size={30} className="text-hw-black duration-200 hover:opacity-50" />
         </Link>
     );
 }
@@ -35,22 +35,27 @@ function QuartetModal({
         >
             <Link href="/" scroll={false} className="fixed inset-0" />
             <MotionDiv
-                className="fixed inset-24 grid grid-cols-3"
+                className="fixed inset-x-5 inset-y-28 flex flex-col gap-0 lg:inset-x-72 lg:inset-y-40 lg:flex-row"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
             >
-                <div className="relative flex flex-col gap-3 rounded-l-xl bg-hw-white p-5">
-                    <h1 className="font-poppins text-4xl font-semibold text-hw-black">{name}</h1>
-                    {logoUrl && <Image src={logoUrl} height={60} width={60} alt={`${id}-logo`} className="absolute right-5 top-5 rounded-full" />}
-                    <span>Tenor: {members.tenor}</span>
-                    <span>Lead: {members.lead}</span>
-                    <span>Baritone: {members.baritone}</span>
-                    <span>Bass: {members.bass}</span>
+                <div className="relative flex h-full w-full flex-col justify-between rounded-t-3xl bg-hw-white pb-6 pl-8 pr-5 pt-5 lg:rounded-none lg:rounded-l-3xl 2xl:w-2/3">
+                    <div className="flex flex-col gap-5">
+                        <div className="flex w-full max-w-full items-center justify-between">
+                            <h1 className="font-poppins text-4xl font-semibold text-hw-black">{name}</h1>
+                            {logoUrl && <Image src={logoUrl} height={60} width={60} alt={`${id}-logo`} className="h-14 rounded-full border-2 object-cover" />}
+                        </div>
+                        <div className="flex flex-col gap-2 font-semibold">
+                            <span>Tenor: {members.tenor}</span>
+                            <span>Lead: {members.lead}</span>
+                            <span>Baritone: {members.baritone}</span>
+                            <span>Bass: {members.bass}</span>
+                        </div>
 
-                    <span>{biography}</span>
-
-                    <div className="absolute inset-x-5 bottom-5 flex flex-row gap-5">
+                        <span>{biography}</span>
+                    </div>
+                    <div className="mt-5 flex flex-row gap-5">
                         {socials.facebook && <SocialsLink icon={FaFacebook} url={`https://facebook.com/${socials.facebook}`} />}
                         {socials.x && <SocialsLink icon={FaTwitter} url={`https://x.com/${socials.x}`} />}
                         {socials.instagram && <SocialsLink icon={FaInstagram} url={`https://instagram.com/${socials.instagram}`} />}
@@ -59,7 +64,7 @@ function QuartetModal({
                     </div>
                 </div>
                 <div
-                    className="col-span-2 rounded-r-xl"
+                    className="aspect-video h-full rounded-b-3xl bg-cover bg-center lg:aspect-auto lg:w-full lg:rounded-none lg:rounded-r-3xl"
                     style={{
                         backgroundImage: `url('${backgroundImageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
                     }}
