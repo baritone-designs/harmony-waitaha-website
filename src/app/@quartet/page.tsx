@@ -29,9 +29,9 @@ function QuartetModal({
         <MotionDiv
             key={id}
             initial={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
-            animate={{ backdropFilter: 'blur(8px)  opacity(1)', backgroundColor: 'rgb(0 0 0 / 0.5)' }}
+            animate={{ backdropFilter: 'blur(8px) opacity(1)', backgroundColor: 'rgb(0 0 0 / 0.5)' }}
             exit={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
-            className="fixed inset-0 z-20"
+            className="fixed inset-0 z-50"
         >
             <Link href="/" scroll={false} className="fixed inset-0" />
             <MotionDiv
@@ -44,7 +44,7 @@ function QuartetModal({
                     <div className="flex flex-col gap-5">
                         <div className="flex w-full max-w-full items-center justify-between">
                             <h1 className="font-poppins text-4xl font-semibold text-hw-black">{name}</h1>
-                            {logoUrl && <Image src={logoUrl} height={60} width={60} alt={`${id}-logo`} className="h-14 rounded-full border-2 object-cover" />}
+                            {logoUrl && <Image src={logoUrl} height={60} width={60} alt={`${id}-logo`} className="h-14 rounded-full object-cover" />}
                         </div>
                         <div className="flex flex-col gap-2 font-semibold">
                             <span>Tenor: {members.tenor}</span>

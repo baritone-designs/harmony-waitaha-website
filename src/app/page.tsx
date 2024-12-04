@@ -158,7 +158,7 @@ export default async function HarmonyWaitahaHome() {
                         <div className="grid gap-5 lg:grid-cols-2">
                             <ChorusProfile
                                 name="Plainsmen"
-                                photo="plainsmen-photo.jpg"
+                                photo="plainsmen-photo_og.jpg"
                                 logo="plainsmen-logo.svg"
                             />
                             <ChorusProfile
