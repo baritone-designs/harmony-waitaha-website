@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 const QaLayout: FC<PropsWithChildren<{
     person: ReactNode;
 }>> = ({ person, children }) => (
-    <section>
+    <main>
         {person}
         {children}
-    </section>
+    </main>
 );
 
 export default QaLayout;

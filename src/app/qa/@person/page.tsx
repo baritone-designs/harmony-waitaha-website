@@ -27,7 +27,7 @@ function PersonModal({
                 <div className="relative flex w-96 flex-col items-center justify-start gap-5 rounded-3xl bg-qa-blue-dark">
                     {iconUrl && <Image src={iconUrl} height={1000} width={1000} alt={`${id}-logo`} className="h-72 w-full rounded-t-3xl object-cover" />}
                     <div className="flex flex-col gap-2 p-8 pt-3">
-                        <h1 className="text-center font-poppins text-4xl font-semibold text-qa-white">{name}</h1>
+                        <h1 className="text-center font-ar-gothic text-4xl font-semibold text-qa-white">{name}</h1>
                         <span className="text-center">{biography}</span>
                     </div>
                 </div>
