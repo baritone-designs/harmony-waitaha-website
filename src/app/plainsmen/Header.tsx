@@ -136,7 +136,7 @@ export default function PlainsmenHeader() {
         <header
             ref={headerRef}
             // eslint-disable-next-line tailwindcss/migration-from-tailwind-2
-            className="fixed z-50 flex w-full justify-center bg-black/0 lg:h-20 lg:bg-black/30"
+            className="fixed z-40 flex w-full justify-center bg-black/0 lg:h-20 lg:bg-black/30"
         >
             <div className="invisible flex h-full w-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24">
 
