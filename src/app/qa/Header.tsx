@@ -119,8 +119,8 @@ export default function QAHeader() {
             if (!header) return;
 
             elements.forEach((section, i) => {
-                const sectionTop = section.offsetTop - 100;
-                const sectionHeight = section.offsetHeight - 100;
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
 
                 const scrollPosition = window.scrollY + header.offsetHeight;
 
@@ -139,7 +139,7 @@ export default function QAHeader() {
 
     return (
         <header
-            className="fixed z-50 flex w-full justify-center bg-gradient-to-b from-qa-blue-darker from-5% to-transparent lg:h-32"
+            className="fixed z-40 flex w-full justify-center bg-gradient-to-b from-qa-blue-darker from-5% to-transparent lg:h-32"
             ref={headerRef}
         >
             <div
