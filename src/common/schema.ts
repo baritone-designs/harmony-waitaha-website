@@ -112,8 +112,8 @@ export const QuartetSchema = yup.object().shape({
 
     socials: QuartetSocialsSchema,
 
-    backgroundImageUrl: yup.string().url(),
-    imageUrl: yup.string().url(),
-    logoUrl: yup.string().url(),
-    websiteUrl: yup.string().url(),
+    backgroundImageUrl: yup.string().url().required().nullable(),
+    imageUrl: yup.string().url().required().nullable(),
+    logoUrl: yup.string().url().required().nullable(),
+    websiteUrl: yup.string().url().required().nullable(),
 });

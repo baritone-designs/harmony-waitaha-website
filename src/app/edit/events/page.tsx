@@ -5,95 +5,100 @@ import { Field, Formik, FormikConfig } from 'formik';
 import * as yup from 'yup';
 import { Chorus, Event, ChorusId } from '@prisma/client';
 import { EventSchema } from '@/common/schema';
-import { AnimatePresence, m } from 'framer-motion';
-import { RxCross2 } from 'react-icons/rx';
-import { Button, Checkbox, CircularProgress, FormControlLabel, FormGroup, TextField } from '@mui/material';
+import { Backdrop, Button, Checkbox, CircularProgress, Container, Fab, FormControlLabel, FormGroup, Grid2, IconButton, Paper, Stack, TextField } from '@mui/material';
 import { formikProps } from '@/components/formikUtils';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { toast } from 'react-toastify';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 import dayjs from 'dayjs';
 import LocationAutocomplete from '@/components/LocationAutocomplete';
+import { Add, Close } from '@mui/icons-material';
 import revalidate from '../revalidate';
 
 type EventSchemaType = yup.InferType<typeof EventSchema>
 
-interface EventPaneProps {
-    event?: Event & { choruses: Pick<Chorus, 'id'>[] };
+type EventPaneProps = {
     onSubmit: FormikConfig<EventSchemaType>['onSubmit'];
+} & ({
+    type: 'existing';
+    event: Event & { choruses: Pick<Chorus, 'id'>[] };
     onDelete?: () => void;
-    layoutId?: string;
-    onClose?: () => void;
-}
+} | {
+    type: 'new';
+    event?: Event & { choruses: Pick<Chorus, 'id'>[] };
+    onClose: () => void;
+})
 
-function EventPane({ event, onSubmit, onClose, onDelete, layoutId }: EventPaneProps) {
+function EventPane({ event, onSubmit, ...props }: EventPaneProps) {
     return (
-        <Formik<EventSchemaType>
-            initialValues={{
-                name: event?.name ?? '',
-                description: event?.description ?? '',
-                venueId: event?.venueId ?? '',
-                venueName: event?.venueName ?? '',
-                time: event?.time ?? new Date(),
-                choruses: event?.choruses.map(({ id }) => id) ?? [],
-            }}
-            validationSchema={EventSchema}
-            onSubmit={onSubmit}
-        >
-            {(formik) => (
-                <m.div animate={{ opacity: 1 }} exit={{ opacity: 0 }} layout layoutId={layoutId} className="relative flex flex-col items-center gap-3 rounded-md bg-slate-900 p-5">
-                    {onClose && <RxCross2 className="absolute right-1 top-1 cursor-pointer hover:text-slate-500" onClick={onClose} />}
-                    <TextField
-                        label="Name"
-                        variant="standard"
-                        fullWidth
-                        {...formikProps('name', formik)}
-                    />
-                    <TextField
-                        label="Description"
-                        variant="standard"
-                        fullWidth
-                        multiline
-                        {...formikProps('description', formik)}
-                    />
-                    <LocationAutocomplete idField="venueId" nameField="venueName" label="Venue" />
-                    <DateTimePicker
-                        label="Date/time"
-                        value={dayjs(formik.values.time)}
-                        onChange={(value) => formik.setFieldValue('time', value?.toDate(), true)}
-                        className="w-full"
-                        slotProps={{
-                            textField: {
-                                variant: 'outlined',
-                                error: formik.touched.time && Boolean(formik.errors.time),
-                                helperText: formik.touched.time && formik.errors.time as ReactNode,
-                            },
-                        }}
-                    />
-                    <FormGroup>
-                        {Object.keys(ChorusId).map((id) => (
-                            <Field
-                                type="checkbox"
-                                name="choruses"
-                                value={id}
-                                key={id}
-                                as={FormControlLabel}
-                                control={<Checkbox />}
-                                checked={formik.values.choruses.includes(id as ChorusId)}
-                                label={id}
+        <Grid2 size={3}>
+            <Formik<EventSchemaType>
+                initialValues={{
+                    name: event?.name ?? '',
+                    description: event?.description ?? '',
+                    venueId: event?.venueId ?? '',
+                    venueName: event?.venueName ?? '',
+                    time: event?.time ?? new Date(),
+                    choruses: event?.choruses.map(({ id }) => id) ?? [],
+                }}
+                validationSchema={EventSchema}
+                onSubmit={onSubmit}
+            >
+                {(formik) => (
+                    <Paper className="relative">
+                        {props.type === 'new' && <IconButton sx={{ position: 'absolute', right: 2, top: 2, zIndex: 10 }} onClick={props.onClose}><Close /></IconButton>}
+                        <Stack spacing={1} p={2}>
+                            <TextField
+                                label="Name"
+                                variant="standard"
+                                fullWidth
+                                {...formikProps('name', formik)}
                             />
-                        ))}
-                    </FormGroup>
-                    {formik.dirty && <Button onClick={formik.submitForm}>Save</Button>}
-                    {onDelete && <Button onClick={onDelete}>Delete</Button>}
-                    {formik.isSubmitting && (
-                        <div className="absolute inset-0 flex items-center justify-center rounded-md bg-black/50">
-                            <CircularProgress />
-                        </div>
-                    )}
-                </m.div>
-            )}
-        </Formik>
+                            <TextField
+                                label="Description"
+                                variant="standard"
+                                fullWidth
+                                multiline
+                                {...formikProps('description', formik)}
+                            />
+                            <LocationAutocomplete idField="venueId" nameField="venueName" label="Venue" />
+                            <DateTimePicker
+                                label="Date/time"
+                                value={dayjs(formik.values.time)}
+                                onChange={(value) => formik.setFieldValue('time', value?.toDate(), true)}
+                                className="w-full"
+                                slotProps={{
+                                    textField: {
+                                        variant: 'outlined',
+                                        error: formik.touched.time && Boolean(formik.errors.time),
+                                        helperText: formik.touched.time && formik.errors.time as ReactNode,
+                                    },
+                                }}
+                            />
+                            <FormGroup>
+                                {Object.keys(ChorusId).map((id) => (
+                                    <Field
+                                        type="checkbox"
+                                        name="choruses"
+                                        value={id}
+                                        key={id}
+                                        as={FormControlLabel}
+                                        control={<Checkbox />}
+                                        checked={formik.values.choruses.includes(id as ChorusId)}
+                                        label={id}
+                                    />
+                                ))}
+                            </FormGroup>
+                            {(formik.dirty || props.type === 'new') && <Button variant="outlined" onClick={formik.submitForm}>{props.type === 'existing' ? 'Update' : 'Save'}</Button>}
+                            {props.type === 'existing' && <Button variant="outlined" color="error" onClick={props.onDelete}>Delete</Button>}
+                            <Backdrop sx={{ position: 'absolute' }} open={formik.isSubmitting}>
+                                <CircularProgress />
+                            </Backdrop>
+                        </Stack>
+                    </Paper>
+                )}
+            </Formik>
+        </Grid2>
     );
 }
 
@@ -106,25 +111,28 @@ export default function EditEvents() {
 
     const { mutateAsync: createEvent } = trpc.react.events.createEvent.useMutation();
 
-    const [newEventOpen, setNewEventOpen] = useState(false);
+    const [newEvents, setNewEvents] = useState<string[]>([]);
+
+    const closeNewEvent = useCallback(
+        (id: string) => setNewEvents((events) => events.filter((x) => x !== id)),
+        [setNewEvents],
+    );
 
     return (
-        <div className="flex flex-row gap-5">
-            <AnimatePresence>
+        <Container sx={{ marginY: 5 }} maxWidth="xl">
+            <Grid2 container spacing={2}>
                 {events.map((event) => (
                     <EventPane
+                        type="existing"
                         key={event.id}
-                        layoutId={event.id}
                         onSubmit={async (values, { resetForm }) => {
                             await editEvent({ id: event.id, ...values });
 
-                            toast.success(`Event: '${event.name}' updated`);
+                            toast.success(`Evemt: '${event.name}' updated`);
 
                             await refetch();
 
-                            resetForm({
-                                values,
-                            });
+                            resetForm({ values });
 
                             revalidate();
                         }}
@@ -140,21 +148,31 @@ export default function EditEvents() {
                         event={event}
                     />
                 ))}
-                {newEventOpen ? (
+                {newEvents.map((id) => (
                     <EventPane
-                        onClose={() => setNewEventOpen(false)}
-                        onSubmit={async (event) => {
-                            await createEvent(event);
+                        type="new"
+                        key={id}
+                        onClose={() => closeNewEvent(id)}
+                        onSubmit={async (person) => {
+                            await createEvent(person);
 
                             await refetch();
-                            setNewEventOpen(false);
+                            closeNewEvent(id);
 
                             revalidate();
                         }}
-                        layoutId="new-event"
                     />
-                ) : <m.button onClick={() => setNewEventOpen(true)} layoutId="new-event" className="h-min rounded-md bg-slate-900 p-3">New Event</m.button>}
-            </AnimatePresence>
-        </div>
+                ))}
+            </Grid2>
+            <Fab
+                variant="extended"
+                color="primary"
+                onClick={() => setNewEvents((events) => [...events, Math.random().toString(36).slice(2, 7)])}
+                sx={{ position: 'fixed', bottom: 16, right: 16 }}
+            >
+                <Add sx={{ mr: 1 }} />
+                New Event
+            </Fab>
+        </Container>
     );
 }
