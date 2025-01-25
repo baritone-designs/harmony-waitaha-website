@@ -186,7 +186,7 @@ export default async function HarmonyWaitahaHome() {
                                 <EventProfile key={id} {...event} />
                             ))}
                             {events.length === 0 && (
-                                <span className="text-slate-500">There are no scheduled events at this time, hold tight!</span>
+                                <span className="text-slate-500">There are no scheduled events at this time, check again at a later date for any new developments!</span>
                             )}
                         </div>
                     </section>
