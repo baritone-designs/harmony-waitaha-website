@@ -32,7 +32,7 @@ const TeamProfile = ({ id, iconUrl, name, role }: Pick<Person, 'id' | 'iconUrl' 
         scroll={false}
         className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:opacity-50"
     >
-        <div className="h-40 w-40 rounded-xl bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
+        <div className="size-40 rounded-xl bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
         <span className="mt-5 text-lg font-medium duration-200">{name}</span>
         <span className="font-pt-sans text-sm">{role}</span>
     </Link>
@@ -159,6 +159,17 @@ export default async function PlainsmenHome() {
                             {events.map(({ id, ...event }) => (
                                 <EventProfile key={id} {...event} />
                             ))}
+                            {events.length === 0 && (
+                                <span>
+                                    The Plainsmen have no scheduled events at this time, click
+                                    {' '}
+                                    <a href="/#events" className="text-pm-blue duration-200 hover:opacity-50">
+                                        here
+                                    </a>
+                                    {' '}
+                                    to see events for all of Harmony Waitaha
+                                </span>
+                            )}
                         </div>
                     </section>
 
