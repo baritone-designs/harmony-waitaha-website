@@ -150,8 +150,29 @@ model Quartet {
 
   logoUrl String?
 
-  /// [QuartetSocials]
+  /// [Socials]
   socials Json
 
   websiteUrl String?
+}
+
+enum PageType {
+  Home
+  Plainsmen
+  Qa
+}
+
+enum ParagraphContentType {
+  About
+  Recruitment
+}
+
+model ParagraphContent {
+  page PageType
+
+  type ParagraphContentType
+
+  content String
+
+  @@id([page, type])
 }

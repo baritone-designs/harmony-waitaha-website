@@ -4,7 +4,7 @@ import { CustomCarousel } from '@/components/Carousel';
 import { FaFacebook } from 'react-icons/fa';
 import { FC } from 'react';
 import Link from 'next/link';
-import { ChorusId, Person, Event } from '@prisma/client';
+import { ChorusId, Person, Event, ParagraphContentType, PageType } from '@prisma/client';
 import { prisma } from '@/common/prisma';
 import { googleMapsLocationUrl } from '@/components/utils';
 import { google } from 'calendar-link';
@@ -32,7 +32,7 @@ const TeamProfile = ({ id, iconUrl, name, role }: Pick<Person, 'id' | 'iconUrl' 
         scroll={false}
         className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:opacity-50"
     >
-        <div className="h-40 w-40 rounded-xl bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
+        <div className="size-40 rounded-xl bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
         <span className="mt-5 text-lg font-medium duration-200">{name}</span>
         <span className="font-pt-sans text-sm">{role}</span>
     </Link>
@@ -115,6 +115,12 @@ export default async function PlainsmenHome() {
             },
         },
     }));
+
+    const paragraphContent = await prisma.paragraphContent.findMany({ where: { page: PageType.Plainsmen } });
+
+    const aboutParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.About);
+    const recruitmentParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.Recruitment);
+
     return (
         <main className="bg-hw-black [&>*]:font-poppins">
             <PlainsmenHeader />
@@ -136,10 +142,7 @@ export default async function PlainsmenHome() {
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
                             <div>
                                 <p className="z-10">
-                                    We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet,
-                                    consectetur adipiscing elit.
-                                    Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
-                                    In non mauris lorem. Nullam aliquam massa porta, suscipit
+                                    {aboutParagraph?.content ?? 'Could not load content'}
                                 </p>
                                 <div className="z-0 mt-4 grid grid-cols-2 items-center gap-1 lg:grid-cols-3 lg:gap-14">
                                     {people.map((person) => (
@@ -167,11 +170,7 @@ export default async function PlainsmenHome() {
                         <div className="w-full gap-5 lg:flex lg:flex-row">
                             <div className="lg:w-2/3">
                                 <p>
-                                    We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide
-                                    range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus
-                                    semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla
-                                    rhoncus. In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem.
-                                    Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec
+                                    {recruitmentParagraph?.content ?? 'Could not load content'}
                                 </p>
                             </div>
                             <MapComponent />

@@ -1,4 +1,4 @@
-import { ChorusId } from '@prisma/client';
+import { ChorusId, PageType, ParagraphContentType } from '@prisma/client';
 import * as yup from 'yup';
 import { DEFAULT_REQUIRED_FIELD_MESSAGE, DEFAULT_TOO_LONG_MESSAGE, DEFAULT_TOO_SHORT_MESSAGE, URL_COMPLIANT_REGEX } from './constants';
 
@@ -12,7 +12,7 @@ export const QuartetMembersSchema = yup.object().shape({
     bass: QuartetMemberName,
 });
 
-export const QuartetSocialsSchema = yup.object().shape({
+export const SocialsSchema = yup.object().shape({
     x: yup.string().required().nullable(),
 
     instagram: yup.string().required().nullable(),
@@ -23,6 +23,13 @@ export const QuartetSocialsSchema = yup.object().shape({
 });
 
 export const ChorusIdSchema = yup.mixed<ChorusId>().oneOf(Object.values(ChorusId));
+export const PageTypeSchema = yup.mixed<PageType>().oneOf(Object.values(PageType));
+export const ParagraphContentTypeSchema = yup.mixed<ParagraphContentType>().oneOf(Object.values(ParagraphContentType));
+
+export const PageContentSchema = yup.object({
+    paragraphs: yup.object(Object.keys(ParagraphContentType)
+        .reduce((acc, key) => ({ ...acc, [key]: yup.string() }), {} as Record<ParagraphContentType, yup.StringSchema>)),
+});
 
 /**
  * Schema describing the relation between a person and a chorus
@@ -110,7 +117,7 @@ export const QuartetSchema = yup.object().shape({
 
     members: QuartetMembersSchema,
 
-    socials: QuartetSocialsSchema,
+    socials: SocialsSchema,
 
     backgroundImageUrl: yup.string().url().required().nullable(),
     imageUrl: yup.string().url().required().nullable(),

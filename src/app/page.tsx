@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { MdEmail, MdLocationPin, MdPhone } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { Event, Quartet } from '@prisma/client';
+import { Event, PageType, ParagraphContentType, Quartet } from '@prisma/client';
 import Link from 'next/link';
 import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
 import { ScrollArrow } from '@/components/ScrollArrow';
@@ -110,11 +110,13 @@ export default async function HarmonyWaitahaHome() {
         },
     }));
 
+    const aboutParagraph = await prisma.paragraphContent.findFirst({ where: { page: PageType.Home, type: ParagraphContentType.About } });
+
     return (
         <main className="[&>*]:font-poppins">
             <HWHeader />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
-                <video autoPlay muted loop className="h-full w-full object-cover">
+                <video autoPlay muted loop className="size-full object-cover">
                     <source src="/main.mp4" type="video/mp4" />
                 </video>
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
@@ -144,13 +146,7 @@ export default async function HarmonyWaitahaHome() {
                             <span className="text-hw-blue">sing</span>
                         </span>
                         <p>
-                            Harmony Waitaha is an umbrella organization encompassing two vibrant a cappella choruses based in Christchurch, New Zealand: the Canterbury
-                            Plainsmen and Quantum Acoustics.
-                            These groups, united by their passion for barbershop style singing, offer unique experiences for singers and audiences alike.
-                            The Canterbury Plainsmen, established in 1947, boasts a rich history and reputation for excellence in barbershop singing.
-                            Their talented members, exceeding 50 men, mesmerize audiences with their precise harmonies and captivating performances.
-                            Quantum Acoustics, on the other hand, presents a fresh perspective with a focus on diversity and inclusion.
-                            This dynamic young group, composed of singers of various backgrounds, brings a contemporary energy to the barbershop scene.
+                            {aboutParagraph?.content ?? 'Could not load content'}
                         </p>
                     </section>
                     <section id="choruses" className="mt-10 space-y-5">
@@ -212,24 +208,6 @@ export default async function HarmonyWaitahaHome() {
                                     </a>
                                 </div>
                             </div>
-                            {/* <div className="rounded-3xl bg-hw-black p-8">
-                                <form action="">
-                                    <div className="mb-3 grid grid-cols-2 gap-3">
-                                        <label htmlFor="name" className="block text-hw-white">Name
-                                            <input id="name" type="text" placeholder="Enter your name" className="block w-full rounded-md bg-hw-white px-3 py-2 text-hw-black" />
-                                        </label>
-                                        <label htmlFor="email" className="block text-hw-white">Email
-                                            <input id="name" type="text" placeholder="Enter your email" className="block w-full rounded-md bg-hw-white px-3 py-2 text-hw-black" />
-                                        </label>
-                                    </div>
-                                    <label htmlFor="message" className="block text-hw-white">Message
-                                        <textarea id="name" placeholder="Type your message" className="block h-24 w-full resize-none rounded-md bg-hw-white px-3 py-2 text-hw-black" />
-                                    </label>
-                                    <div className="flex justify-center">
-                                        <button type="submit" className="mt-5 rounded-md bg-hw-white px-10 py-2 text-hw-black duration-200 hover:opacity-50">Send</button>
-                                    </div>
-                                </form>
-                            </div> */}
                         </div>
                     </section>
                     <footer className="my-10 flex justify-between">

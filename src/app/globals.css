@@ -8,6 +8,10 @@
     color-scheme: dark;
   }
 
+  p {
+    @apply whitespace-pre-line /** Allows string line breaks to be rendered properly */
+  }
+
   .scrollbar-hidden::-webkit-scrollbar {
     display: none;
   }

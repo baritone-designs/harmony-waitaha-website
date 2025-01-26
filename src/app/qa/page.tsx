@@ -13,7 +13,7 @@ import './index.css';
 import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { ChorusId, Event, Person } from '@prisma/client';
+import { ChorusId, Event, PageType, ParagraphContentType, Person } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
 // import qaLogo from './qa-logo.svg';
 import { googleMapsLocationUrl } from '@/components/utils';
@@ -36,7 +36,7 @@ const TeamProfile = ({ id, iconUrl, name, role }: Pick<Person, 'id' | 'iconUrl' 
         scroll={false}
         className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-1 duration-200 hover:scale-105 lg:p-4"
     >
-        <div className="h-40 w-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
+        <div className="size-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
         <span className="mt-5 text-center text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
         <span className="text-center font-pt-sans text-sm">{role}</span>
     </Link>
@@ -120,6 +120,11 @@ export default async function QAHome() {
         },
     }));
 
+    const paragraphContent = await prisma.paragraphContent.findMany({ where: { page: PageType.Qa } });
+
+    const aboutParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.About);
+    const recruitmentParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.Recruitment);
+
     return (
         <main className="[&>*]:font-pt-sans">
             <QAHeader />
@@ -156,16 +161,7 @@ export default async function QAHome() {
                         <span className="text-4xl font-semibold text-qa-blue">About Us</span>
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
                             <p className="z-10">
-                                We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
-                                In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat.
-                                Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
-                                <br />
-                                <br />
-                                We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
-                                In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat.
-                                Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
+                                {aboutParagraph?.content ?? 'Could not load content'}
                             </p>
                             <div className="">
                                 <CustomCarousel className="z-10 aspect-video w-full rounded-3xl" />
@@ -190,30 +186,12 @@ export default async function QAHome() {
                             ))}
                         </div>
                     </section>
-                    {/* <section id="media" className="space-y-4">
-                <span className="text-4xl font-semibold text-qa-blue">Media</span>
-                <div className="scrollbar-hidden -mx-20 overflow-x-scroll 2xl:mx-[-10vw]">
-                    <div className="mx-20 flex w-max flex-row gap-10 2xl:mx-[10vw]">
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                    </div>
-                </div>
-            </section> */}
                     <section id="join" className="mb-20 space-y-4">
                         <span className="text-4xl font-semibold text-qa-blue">Wanna Join?</span>
                         <div className="w-full gap-5 lg:flex lg:flex-row">
                             <div className="lg:w-2/3">
                                 <p>
-                                    We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide
-                                    range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus
-                                    semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla
-                                    rhoncus. In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem.
-                                    Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec
-                                    elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempor vitae.
+                                    {recruitmentParagraph?.content ?? 'Could not load content'}
                                 </p>
                             </div>
                             <MapComponent />
