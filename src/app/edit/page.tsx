@@ -7,6 +7,7 @@ import { Container, Grid2, IconButton, Paper, Skeleton, Stack, TextField } from 
 import { Formik } from 'formik';
 import { useCallback } from 'react';
 import { FaPlusCircle, FaTrash } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 const EmailWhitelist = protectedClientPage(({ user }) => {
@@ -18,6 +19,8 @@ const EmailWhitelist = protectedClientPage(({ user }) => {
 
     const handleDeleteEmail = useCallback(async (email: string) => {
         await deleteEmail(email);
+
+        toast.success(`Removed whitelist for: ${email}`);
 
         await refetch();
     }, [deleteEmail, refetch]);
@@ -67,6 +70,8 @@ const EmailWhitelist = protectedClientPage(({ user }) => {
                                 }}
                                 onSubmit={async ({ email }, { resetForm }) => {
                                     await addEmail(email);
+
+                                    toast.success(`Whitelisted: ${email}`);
 
                                     await refetch();
 
