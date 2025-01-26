@@ -2,13 +2,14 @@
 
 import { trpc } from '@/common/trpc';
 import { formikProps } from '@/components/formikUtils';
+import { protectedClientPage } from '@/components/protectedClientPage';
 import { Container, Grid2, IconButton, Paper, Skeleton, Stack, TextField } from '@mui/material';
 import { Formik } from 'formik';
 import { useCallback } from 'react';
 import { FaPlusCircle, FaTrash } from 'react-icons/fa';
 import * as yup from 'yup';
 
-function EmailWhitelist() {
+const EmailWhitelist = protectedClientPage(({ user }) => {
     const { data: databaseEmails, isError, isLoading: databaseEmailsLoading, refetch } = trpc.react.auth.getDatabaseWhitelistedEmails.useQuery();
     const { data: environmentEmails, isLoading: environmentEmailsLoading } = trpc.react.auth.getEnvironmentWhitelistedEmails.useQuery();
 
@@ -43,9 +44,9 @@ function EmailWhitelist() {
                                     <div key={email} className="flex flex-row items-center justify-between gap-1">
                                         <Stack spacing={0.5}>
                                             <span>{email}</span>
-                                            <span className="text-xs">Approved by: {whitelistedBy.name}</span>
+                                            <span className="text-xs">Approved by: {whitelistedBy.name}{whitelistedBy.email === user.email ? ' (you)' : ''}</span>
                                         </Stack>
-                                        <IconButton size="large" onClick={() => handleDeleteEmail(email)}><FaTrash size={15} /></IconButton>
+                                        {email === user.email ? <span>(you)</span> : <IconButton size="large" onClick={() => handleDeleteEmail(email)}><FaTrash size={15} /></IconButton>}
                                     </div>
                                 ))}
                         {!databaseEmailsLoading && !environmentEmailsLoading && (
@@ -90,7 +91,7 @@ function EmailWhitelist() {
             </Paper>
         </Grid2>
     );
-}
+});
 
 export default function EditRoot() {
     return (
