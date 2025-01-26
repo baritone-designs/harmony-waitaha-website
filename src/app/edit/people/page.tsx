@@ -8,7 +8,7 @@ import { Button, CircularProgress, Container, Fab, Grid2, IconButton, List, List
 import { toast } from 'react-toastify';
 import { useCallback, useState } from 'react';
 import { formikProps } from '@/components/formikUtils';
-import { ImageUpload } from '@/components/ImageUpload';
+import { MediaUpload } from '@/components/MediaUpload';
 import { PersonChorusSchema, PersonSchema } from '@/common/schema';
 import { Add, Close, Delete } from '@mui/icons-material';
 import revalidate from '../revalidate';
@@ -95,17 +95,17 @@ function PersonPane({ person, onSubmit, ...props }: PersonPaneProps) {
                                     </>
                                 )}
                             </FieldArray>
-                            <ImageUpload name="iconUrl" label="Person Icon">
+                            <MediaUpload name="iconUrl" label="Person Icon" acceptedTypes={['image/png', 'image/jpeg']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
                                     //  eslint-disable-next-line @next/next/no-img-element
                                     <img
                                         src={src}
                                         alt="person-icon"
-                                        className="h-36 w-36 rounded-full object-cover duration-200 group-hover:opacity-50"
+                                        className="size-36 rounded-full object-cover duration-200 group-hover:opacity-50"
                                     />
                                 )}
-                            </ImageUpload>
+                            </MediaUpload>
                             {(formik.dirty || props.type === 'new') && <Button variant="outlined" onClick={formik.submitForm}>{props.type === 'existing' ? 'Update' : 'Save'}</Button>}
                             {props.type === 'existing' && <Button variant="outlined" color="error" onClick={props.onDelete}>Delete</Button>}
                             <Backdrop sx={{ position: 'absolute' }} open={formik.isSubmitting}>

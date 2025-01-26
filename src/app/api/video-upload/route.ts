@@ -1,11 +1,11 @@
 import { nextAuthOptions } from '@/common/auth';
-import { MAX_IMAGE_SIZE_BYTES, VALID_IMAGE_FORMATS } from '@/common/constants';
+import { MAX_VIDEO_SIZE_BYTES, VALID_VIDEO_FORMATS } from '@/common/constants';
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 /**
- * Handles uploading of images to the vercel storage
+ * Handles uploading of videos to the vercel storage
  */
 export async function POST(request: Request): Promise<NextResponse> {
     const body = (await request.json()) as HandleUploadBody;
@@ -25,8 +25,8 @@ export async function POST(request: Request): Promise<NextResponse> {
                 }
 
                 return {
-                    allowedContentTypes: Object.keys(VALID_IMAGE_FORMATS),
-                    maximumSizeInBytes: MAX_IMAGE_SIZE_BYTES,
+                    allowedContentTypes: Object.keys(VALID_VIDEO_FORMATS),
+                    maximumSizeInBytes: MAX_VIDEO_SIZE_BYTES,
                     tokenPayload: clientPayload,
                 };
             },

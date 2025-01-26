@@ -4,7 +4,7 @@ import { trpc } from '@/common/trpc';
 import { Formik, FormikConfig } from 'formik';
 import * as yup from 'yup';
 import { QuartetSchema } from '@/common/schema';
-import { ImageUpload } from '@/components/ImageUpload';
+import { MediaUpload } from '@/components/MediaUpload';
 import { Quartet } from '@prisma/client';
 import { Backdrop, Button, CircularProgress, Container, Fab, Grid2, IconButton, Paper, Stack, TextField } from '@mui/material';
 import { formikProps } from '@/components/formikUtils';
@@ -85,29 +85,18 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                                     <NullableTextField variant="standard" label={key} fullWidth {...formikProps(`socials.${key}`, formik)} />
                                 ))}
                             </div>
-                            <ImageUpload name="logoUrl" label="Quartet Logo">
+                            <MediaUpload name="logoUrl" label="Quartet Logo" acceptedTypes={['image/png', 'image/svg+xml']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
                                     //  eslint-disable-next-line @next/next/no-img-element
                                     <img
                                         src={src}
                                         alt="quartet-logo"
-                                        className="h-36 w-36 rounded-full duration-200 group-hover:opacity-50"
+                                        className="size-36 rounded-full duration-200 group-hover:opacity-50"
                                     />
                                 )}
-                            </ImageUpload>
-                            <ImageUpload name="imageUrl" label="Quartet Image">
-                                {({ src }) => (
-                                    // next/image crashes without width/height props
-                                    //  eslint-disable-next-line @next/next/no-img-element
-                                    <img
-                                        src={src}
-                                        alt="quartet-logo"
-                                        className="h-44 w-96 rounded-md duration-200 group-hover:opacity-50"
-                                    />
-                                )}
-                            </ImageUpload>
-                            <ImageUpload name="backgroundImageUrl" label="Background Image">
+                            </MediaUpload>
+                            <MediaUpload name="imageUrl" label="Quartet Image" acceptedTypes={['image/png', 'image/jpeg']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
                                     //  eslint-disable-next-line @next/next/no-img-element
@@ -117,7 +106,18 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                                         className="h-44 w-96 rounded-md duration-200 group-hover:opacity-50"
                                     />
                                 )}
-                            </ImageUpload>
+                            </MediaUpload>
+                            <MediaUpload name="backgroundImageUrl" label="Background Image" acceptedTypes={['image/png', 'image/jpeg']}>
+                                {({ src }) => (
+                                    // next/image crashes without width/height props
+                                    //  eslint-disable-next-line @next/next/no-img-element
+                                    <img
+                                        src={src}
+                                        alt="quartet-logo"
+                                        className="h-44 w-96 rounded-md duration-200 group-hover:opacity-50"
+                                    />
+                                )}
+                            </MediaUpload>
                             {(formik.dirty || props.type === 'new') && <Button variant="outlined" onClick={formik.submitForm}>{props.type === 'existing' ? 'Update' : 'Save'}</Button>}
                             {props.type === 'existing' && <Button variant="outlined" color="error" onClick={props.onDelete}>Delete</Button>}
                             <Backdrop sx={{ position: 'absolute' }} open={formik.isSubmitting}>
