@@ -175,7 +175,7 @@ export default async function HarmonyWaitahaHome() {
                                 <QuartetProfile key={quartet.id} {...quartet} />
                             ))}
                             {quartets.length === 0 && (
-                                <span className="text-slate-500">Hmm, we couldn't find any quartets at this time, perhaps you should form one yourself!</span>
+                                <span>Hmm, we couldn't find any quartets at this time, perhaps you should form one yourself!</span>
                             )}
                         </div>
                     </section>
@@ -186,7 +186,7 @@ export default async function HarmonyWaitahaHome() {
                                 <EventProfile key={id} {...event} />
                             ))}
                             {events.length === 0 && (
-                                <span className="text-slate-500">There are no scheduled events at this time, check again at a later date for any new developments!</span>
+                                <span>There are no scheduled events at this time, check again at a later date for any new developments!</span>
                             )}
                         </div>
                     </section>
