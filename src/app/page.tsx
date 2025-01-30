@@ -111,17 +111,15 @@ export default async function HarmonyWaitahaHome() {
         },
     }));
 
-    const mediaContent = await prisma.primaryMediaContent.findMany({ where: { page: PageType.Home }, orderBy: { index: 'asc' } });
-
-    const headerMedia = mediaContent.filter(({ type }) => type === PrimaryMediaContentType.Header).map(({ url }) => url);
-
     const aboutParagraph = await prisma.paragraphContent.findFirst({ where: { page: PageType.Home, type: ParagraphContentType.About } });
+
+    const headerMedia = (await prisma.primaryMediaContent.findFirst({ where: { page: PageType.Home, type: PrimaryMediaContentType.Header }, orderBy: { index: 'asc' } }))?.url;
 
     return (
         <main className="[&>*]:font-poppins">
             <HWHeader />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
-                <MediaRenderer url={headerMedia[0]} className="size-full" />
+                <MediaRenderer url={headerMedia ?? DEFAULT_QUARTET_IMAGE} className="size-full" />
 
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
                     <Image src="./hw-logo.svg" className="" width={200} height={200} alt="logo" />

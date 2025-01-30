@@ -14,6 +14,7 @@ import { IconType } from 'react-icons';
 import { ScrollArrow } from '@/components/ScrollArrow';
 import ScrollImage from '@/components/ScrollImage';
 import MediaRenderer from '@/components/MediaRenderer';
+import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
 import PlainsmenHeader from './Header';
 import './index.css';
 
@@ -121,10 +122,9 @@ export default async function PlainsmenHome() {
     const aboutParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.About);
     const recruitmentParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.Recruitment);
 
-    const mediaContent = await prisma.primaryMediaContent.findMany({ where: { page: PageType.Plainsmen }, orderBy: { index: 'asc' } });
-
-    const headerMedia = mediaContent.filter(({ type }) => type === PrimaryMediaContentType.Header).map(({ url }) => url);
-    const carouselMedia = mediaContent.filter(({ type }) => type === PrimaryMediaContentType.Carousel).map(({ url }) => url);
+    const headerMedia = (await prisma.primaryMediaContent.findFirst({ where: { page: PageType.Plainsmen, type: PrimaryMediaContentType.Header }, orderBy: { index: 'asc' } }))?.url;
+    const carouselMedia = (await prisma.primaryMediaContent.findMany({ where: { page: PageType.Plainsmen, type: PrimaryMediaContentType.Carousel }, orderBy: { index: 'asc' } }))
+        .map(({ url }) => url);
 
     return (
         <main className="bg-hw-black [&>*]:font-poppins">
@@ -137,8 +137,8 @@ export default async function PlainsmenHome() {
                 <div className="pointer-events-none absolute inset-0">
                     <MediaRenderer
                         className="size-full"
-                        url={headerMedia[0]}
-                        imageOveride={<ScrollImage url={headerMedia[0]} className="opacity-30" />}
+                        url={headerMedia ?? DEFAULT_QUARTET_IMAGE}
+                        imageOveride={<ScrollImage url={headerMedia ?? DEFAULT_QUARTET_IMAGE} className="opacity-30" />}
                     />
                 </div>
                 <ScrollArrow />
