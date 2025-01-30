@@ -1,5 +1,5 @@
 import { nextAuthOptions } from '@/common/auth';
-import { MAX_VIDEO_SIZE_BYTES, VALID_VIDEO_FORMATS } from '@/common/constants';
+import { MAX_VIDEO_SIZE_BYTES, VIDEO_FILE_TYPES } from '@/common/constants';
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
@@ -25,7 +25,7 @@ export async function POST(request: Request): Promise<NextResponse> {
                 }
 
                 return {
-                    allowedContentTypes: Object.keys(VALID_VIDEO_FORMATS),
+                    allowedContentTypes: VIDEO_FILE_TYPES,
                     maximumSizeInBytes: MAX_VIDEO_SIZE_BYTES,
                     tokenPayload: clientPayload,
                 };

@@ -1,4 +1,3 @@
-import { ScrollImage } from '@/app/qa/ScrollImage';
 import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 // import { IoChevronDown } from 'react-icons/io5';
 // import { MotionA } from '@/components/Motion';
@@ -13,12 +12,14 @@ import './index.css';
 import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { ChorusId, Event, PageType, ParagraphContentType, Person } from '@prisma/client';
+import { ChorusId, Event, PageType, ParagraphContentType, Person, PrimaryMediaContentType } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
 // import qaLogo from './qa-logo.svg';
 import { googleMapsLocationUrl } from '@/components/utils';
 import Link from 'next/link';
-import { CustomCarousel } from '@/components/Carousel';
+import { MediaCarousel } from '@/components/Carousel';
+import ScrollImage from '@/components/ScrollImage';
+import MediaRenderer from '@/components/MediaRenderer';
 import QAHeader from './Header';
 
 export const metadata: Metadata = {
@@ -125,6 +126,11 @@ export default async function QAHome() {
     const aboutParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.About);
     const recruitmentParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.Recruitment);
 
+    const mediaContent = await prisma.primaryMediaContent.findMany({ where: { page: PageType.Qa }, orderBy: { index: 'asc' } });
+
+    const headerMedia = mediaContent.filter(({ type }) => type === PrimaryMediaContentType.Header).map(({ url }) => url);
+    const carouselMedia = mediaContent.filter(({ type }) => type === PrimaryMediaContentType.Carousel).map(({ url }) => url);
+
     return (
         <main className="[&>*]:font-pt-sans">
             <QAHeader />
@@ -152,7 +158,13 @@ export default async function QAHome() {
                         </div>
                     </div>
                 </div>
-                <div className="pointer-events-none absolute inset-0"><ScrollImage /></div>
+                <div className="pointer-events-none absolute inset-0">
+                    <MediaRenderer
+                        className="size-full"
+                        url={headerMedia[0]}
+                        imageOveride={<ScrollImage url={headerMedia[0]} className="-left-1/3 opacity-40 lg:left-[30%] lg:opacity-100 lg:shadow-[inset_400px_200px_200px_#101c2a]" />}
+                    />
+                </div>
                 <ScrollArrow />
             </section>
             <div className="flex justify-center">
@@ -164,7 +176,7 @@ export default async function QAHome() {
                                 {aboutParagraph?.content ?? 'Could not load content'}
                             </p>
                             <div className="">
-                                <CustomCarousel className="z-10 aspect-video w-full rounded-3xl" />
+                                <MediaCarousel className="z-10 aspect-auto w-full rounded-3xl" mediaUrls={carouselMedia} />
                             </div>
                         </div>
                         <div className="invisible flex w-full justify-center lg:visible">

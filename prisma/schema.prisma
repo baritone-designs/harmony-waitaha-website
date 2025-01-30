@@ -176,3 +176,20 @@ model ParagraphContent {
 
   @@id([page, type])
 }
+
+enum PrimaryMediaContentType {
+  Header
+  Carousel
+}
+
+model PrimaryMediaContent {
+  index Int
+
+  page PageType
+
+  type PrimaryMediaContentType
+
+  url String
+
+  @@id([page, type, index])
+}

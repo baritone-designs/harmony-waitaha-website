@@ -3,13 +3,14 @@ import { FC } from 'react';
 import { MdEmail, MdLocationPin, MdPhone } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { Event, PageType, ParagraphContentType, Quartet } from '@prisma/client';
+import { Event, PageType, ParagraphContentType, PrimaryMediaContentType, Quartet } from '@prisma/client';
 import Link from 'next/link';
 import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
 import { ScrollArrow } from '@/components/ScrollArrow';
 
 import './index.css';
 import { googleMapsLocationUrl } from '@/components/utils';
+import MediaRenderer from '@/components/MediaRenderer';
 import HWHeader from './Header';
 
 interface ChorusProfileProps {
@@ -110,15 +111,18 @@ export default async function HarmonyWaitahaHome() {
         },
     }));
 
+    const mediaContent = await prisma.primaryMediaContent.findMany({ where: { page: PageType.Home }, orderBy: { index: 'asc' } });
+
+    const headerMedia = mediaContent.filter(({ type }) => type === PrimaryMediaContentType.Header).map(({ url }) => url);
+
     const aboutParagraph = await prisma.paragraphContent.findFirst({ where: { page: PageType.Home, type: ParagraphContentType.About } });
 
     return (
         <main className="[&>*]:font-poppins">
             <HWHeader />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
-                <video autoPlay muted loop className="size-full object-cover">
-                    <source src="/main.mp4" type="video/mp4" />
-                </video>
+                <MediaRenderer url={headerMedia[0]} className="size-full" />
+
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
                     <Image src="./hw-logo.svg" className="" width={200} height={200} alt="logo" />
                 </div>

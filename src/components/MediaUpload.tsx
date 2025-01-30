@@ -1,14 +1,14 @@
 import { FC, ReactNode, useCallback, useState } from 'react';
 import { useField } from 'formik';
 import { Button, CircularProgress } from '@mui/material';
-import { MAX_IMAGE_SIZE_BYTES, MAX_VIDEO_SIZE_BYTES, VALID_IMAGE_FORMATS, VALID_VIDEO_FORMATS } from '@/common/constants';
+import { MAX_IMAGE_SIZE_BYTES, MAX_VIDEO_SIZE_BYTES, IMAGE_FILE_TYPES, IMAGE_FORMAT_MAPS, VIDEO_FILE_TYPES, VIDEO_FORMAT_MAPS } from '@/common/constants';
 import { upload } from '@vercel/blob/client';
 import { toast } from 'react-toastify';
 
-interface ImageUploadProps {
+interface MediaUploadProps {
     name: string;
     label?: string;
-    acceptedTypes: (keyof typeof VALID_IMAGE_FORMATS | keyof typeof VALID_VIDEO_FORMATS)[];
+    acceptedTypes: (typeof IMAGE_FILE_TYPES[number] | typeof VIDEO_FILE_TYPES[number])[];
     children: (props: { src: string }) => ReactNode;
 }
 
@@ -19,7 +19,7 @@ interface ImageUploadProps {
  * @param param0
  * @returns
  */
-export const MediaUpload: FC<ImageUploadProps> = ({ name, label, acceptedTypes, children: Children }) => {
+export const MediaUpload: FC<MediaUploadProps> = ({ name, label, acceptedTypes, children: Children }) => {
     const [{ value }, { error, touched }, { setValue, setTouched }] = useField<string | undefined | null>(name);
 
     const [uploading, setUploading] = useState(false);
@@ -45,14 +45,14 @@ export const MediaUpload: FC<ImageUploadProps> = ({ name, label, acceptedTypes, 
                 return;
             }
 
-            const validFileEndings = { ...VALID_VIDEO_FORMATS, ...VALID_IMAGE_FORMATS }[file.type]!;
+            const validFileEndings = { ...IMAGE_FORMAT_MAPS, ...VIDEO_FORMAT_MAPS }[file.type]!;
 
-            if (!validFileEndings.every((ending) => file.name.endsWith(ending))) {
+            if (!validFileEndings.some((ending) => file.name.endsWith(ending))) {
                 toast.error(`File of type ${file.type} must end with one of: ${validFileEndings.join(', ')}`);
                 return;
             }
 
-            const isVideo = Object.keys(VALID_VIDEO_FORMATS).includes(file.type);
+            const isVideo = (VIDEO_FILE_TYPES as string[]).includes(file.type);
 
             const maxSize = isVideo ? MAX_VIDEO_SIZE_BYTES : MAX_IMAGE_SIZE_BYTES;
 

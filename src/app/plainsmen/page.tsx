@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
-import { CustomCarousel } from '@/components/Carousel';
+import { MediaCarousel } from '@/components/Carousel';
 import { FaFacebook } from 'react-icons/fa';
 import { FC } from 'react';
 import Link from 'next/link';
-import { ChorusId, Person, Event, ParagraphContentType, PageType } from '@prisma/client';
+import { ChorusId, Person, Event, ParagraphContentType, PageType, PrimaryMediaContentType } from '@prisma/client';
 import { prisma } from '@/common/prisma';
 import { googleMapsLocationUrl } from '@/components/utils';
 import { google } from 'calendar-link';
@@ -12,8 +12,8 @@ import { MdLocationPin } from 'react-icons/md';
 import { MapComponent } from '@/components/map';
 import { IconType } from 'react-icons';
 import { ScrollArrow } from '@/components/ScrollArrow';
-
-import { ScrollImage } from './ScrollImage';
+import ScrollImage from '@/components/ScrollImage';
+import MediaRenderer from '@/components/MediaRenderer';
 import PlainsmenHeader from './Header';
 import './index.css';
 
@@ -121,6 +121,11 @@ export default async function PlainsmenHome() {
     const aboutParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.About);
     const recruitmentParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.Recruitment);
 
+    const mediaContent = await prisma.primaryMediaContent.findMany({ where: { page: PageType.Plainsmen }, orderBy: { index: 'asc' } });
+
+    const headerMedia = mediaContent.filter(({ type }) => type === PrimaryMediaContentType.Header).map(({ url }) => url);
+    const carouselMedia = mediaContent.filter(({ type }) => type === PrimaryMediaContentType.Carousel).map(({ url }) => url);
+
     return (
         <main className="bg-hw-black [&>*]:font-poppins">
             <PlainsmenHeader />
@@ -130,7 +135,11 @@ export default async function PlainsmenHome() {
                     <Image src="/plainsmen-logo.svg" alt="plainsmen-logo" width={500} height={500} className="z-10 h-32 lg:h-52" />
                 </div>
                 <div className="pointer-events-none absolute inset-0">
-                    <ScrollImage />
+                    <MediaRenderer
+                        className="size-full"
+                        url={headerMedia[0]}
+                        imageOveride={<ScrollImage url={headerMedia[0]} className="opacity-30" />}
+                    />
                 </div>
                 <ScrollArrow />
             </section>
@@ -151,7 +160,7 @@ export default async function PlainsmenHome() {
                                 </div>
                             </div>
                             <div className="flex flex-col justify-between">
-                                <CustomCarousel className="z-10 aspect-video w-full rounded-xl" />
+                                <MediaCarousel className="z-10 aspect-auto w-full rounded-xl" mediaUrls={carouselMedia} />
                             </div>
                         </div>
                     </section>

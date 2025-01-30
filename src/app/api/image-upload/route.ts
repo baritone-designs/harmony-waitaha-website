@@ -1,5 +1,5 @@
 import { nextAuthOptions } from '@/common/auth';
-import { MAX_IMAGE_SIZE_BYTES, VALID_IMAGE_FORMATS } from '@/common/constants';
+import { MAX_IMAGE_SIZE_BYTES, IMAGE_FILE_TYPES } from '@/common/constants';
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
@@ -25,7 +25,7 @@ export async function POST(request: Request): Promise<NextResponse> {
                 }
 
                 return {
-                    allowedContentTypes: Object.keys(VALID_IMAGE_FORMATS),
+                    allowedContentTypes: IMAGE_FILE_TYPES,
                     maximumSizeInBytes: MAX_IMAGE_SIZE_BYTES,
                     tokenPayload: clientPayload,
                 };
