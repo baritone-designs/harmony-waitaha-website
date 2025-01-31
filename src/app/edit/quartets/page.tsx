@@ -38,7 +38,7 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                     name: quartet?.name ?? '',
                     biography: quartet?.biography ?? '',
                     members: quartet?.members ?? { tenor: '', lead: '', bass: '', baritone: '' },
-                    socials: quartet?.socials ?? { facebook: null, instagram: null, x: null, youtube: null },
+                    socials: quartet?.socials ?? { facebook: null, instagram: null, tiktok: null, youtube: null },
                     logoUrl: quartet?.logoUrl ?? null,
                     imageUrl: quartet?.imageUrl ?? null,
                     backgroundImageUrl: quartet?.backgroundImageUrl ?? null,
