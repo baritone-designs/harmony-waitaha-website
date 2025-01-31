@@ -1,11 +1,8 @@
-import { FC, PropsWithChildren, ReactNode } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 
-const QaLayout: FC<PropsWithChildren<{
-    person: ReactNode;
-}>> = ({ person, children }) => (
+const QaLayout: FC<PropsWithChildren> = ({ children }) => (
     <main>
-        {person}
         {children}
     </main>
 );

@@ -13,34 +13,18 @@ import './index.css';
 import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { ChorusId, Event, Person } from '@prisma/client';
+import { ChorusId, Event } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
 // import qaLogo from './qa-logo.svg';
 import { googleMapsLocationUrl } from '@/components/utils';
-import Link from 'next/link';
 import { CustomCarousel } from '@/components/Carousel';
 import QAHeader from './Header';
+import People from './People';
 
 export const metadata: Metadata = {
     title: 'Quantum Acoustics',
     description: 'Youth barbershop mixed chorus from Christchurch, New Zealand',
 };
-
-const TeamProfile = ({ id, iconUrl, name, role }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string }) => (
-    <Link
-        href={{
-            query: {
-                person: id,
-            },
-        }}
-        scroll={false}
-        className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-1 duration-200 hover:scale-105 lg:p-4"
-    >
-        <div className="size-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
-        <span className="mt-5 text-center text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
-        <span className="text-center font-pt-sans text-sm">{role}</span>
-    </Link>
-);
 
 const EventProfile = ({ name, venueId, venueName, time, description }: Pick<Event, 'name' | 'venueId' | 'venueName' | 'time' | 'description'>) => (
     <div className="rounded-3xl border-4 border-qa-blue p-5">
@@ -97,13 +81,7 @@ export default async function QAHome() {
             chorusId: ChorusId.Qa,
         },
         include: {
-            person: {
-                select: {
-                    id: true,
-                    name: true,
-                    iconUrl: true,
-                },
-            },
+            person: true,
         },
     })).map((x) => ({
         role: x.role,
@@ -176,9 +154,7 @@ export default async function QAHome() {
                         </div>
                         <div className="flex w-full justify-center">
                             <div className="z-0 grid grid-cols-2 items-center justify-between gap-3 lg:flex lg:flex-row lg:gap-14">
-                                {people.map((person) => (
-                                    <TeamProfile key={person.id} {...person} />
-                                ))}
+                                <People people={people} />
                                 {people.length === 0 && (
                                     <span>
                                         We have team members we would like to show here, but they are a bit shy, why don't you come along to one of our rehearsals to meet them for real!
