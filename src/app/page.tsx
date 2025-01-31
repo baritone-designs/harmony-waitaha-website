@@ -172,6 +172,9 @@ export default async function HarmonyWaitahaHome() {
                             {quartets.map((quartet) => (
                                 <QuartetProfile key={quartet.id} {...quartet} />
                             ))}
+                            {quartets.length === 0 && (
+                                <span>Hmm, we couldn't find any quartets at this time, perhaps you should form one yourself!</span>
+                            )}
                         </div>
                     </section>
                     <section id="events" className="mt-10 space-y-5">
@@ -180,6 +183,9 @@ export default async function HarmonyWaitahaHome() {
                             {events.map(({ id, ...event }) => (
                                 <EventProfile key={id} {...event} />
                             ))}
+                            {events.length === 0 && (
+                                <span>There are no scheduled events at this time, check again at a later date for any new developments!</span>
+                            )}
                         </div>
                     </section>
                     <section id="contact" className="mt-10 space-y-5">

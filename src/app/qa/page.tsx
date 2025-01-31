@@ -187,6 +187,11 @@ export default async function QAHome() {
                                 {people.map((person) => (
                                     <TeamProfile key={person.id} {...person} />
                                 ))}
+                                {people.length === 0 && (
+                                    <span>
+                                        We have team members we would like to show here, but they are a bit shy, why don't you come along to one of our rehearsals to meet them for real!
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </section>
@@ -196,6 +201,17 @@ export default async function QAHome() {
                             {events.map(({ id, ...event }) => (
                                 <EventProfile key={id} {...event} />
                             ))}
+                            {events.length === 0 && (
+                                <span>
+                                    Quantum Acoustics have no scheduled events at this time, click
+                                    {' '}
+                                    <a href="/#events" className="text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense">
+                                        here
+                                    </a>
+                                    {' '}
+                                    to see events for all of Harmony Waitaha
+                                </span>
+                            )}
                         </div>
                     </section>
                     <section id="join" className="mb-20 space-y-4">
