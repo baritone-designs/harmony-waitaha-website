@@ -1,11 +1,57 @@
-import { prisma } from '@/common/prisma';
-import { MotionDiv, ServerAnimatePresence } from '@/components/Motion';
+'use client';
+
 import { Quartet } from '@prisma/client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaGlobe } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import { DEFAULT_QUARTET_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
+import { useSearchParams } from 'next/navigation';
+import { m, AnimatePresence } from 'framer-motion';
+import clsx from 'clsx';
+
+export function QuartetProfile({ id, name, imageUrl, logoUrl }: Pick<Quartet, 'id' | 'name' | 'imageUrl' | 'logoUrl'>) {
+    return (
+        <Link
+            href={{
+                href: '/',
+                query: {
+                    quartet: id,
+                },
+            }}
+            scroll={false}
+        >
+            <div
+                style={{
+                    borderRadius: '24px',
+                }}
+                className={clsx(
+                    'relative w-full overflow-hidden bg-hw-white',
+                    'h-60', // Mobile
+                    'lg:h-72', // Desktop
+                )}
+            >
+                <m.div
+                    whileHover={{
+                        scale: 1.1,
+                        transition: {
+                            duration: 0.3,
+                            ease: 'easeInOut',
+                        },
+                    }}
+                    className="absolute inset-0 bg-cover"
+                    style={{
+                        backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
+                    }}
+                />
+                <div className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-between px-8 pb-5">
+                    <span className="text-xl text-hw-white">{name}</span>
+                    {logoUrl && <Image src={logoUrl} height={20} width={30} alt={`${id}-logo`} className="rounded-full" />}
+                </div>
+            </div>
+        </Link>
+    );
+}
 
 function SocialsLink({ url, icon: Icon }: { url: string, icon: IconType }) {
     return (
@@ -26,21 +72,31 @@ function QuartetModal({
     websiteUrl,
 }: Pick<Quartet, 'id' | 'name' | 'biography' | 'backgroundImageUrl' | 'logoUrl' | 'members' | 'socials' | 'websiteUrl'>) {
     return (
-        <MotionDiv
-            key={id}
+        <m.div
             initial={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
             animate={{ backdropFilter: 'blur(8px) opacity(1)', backgroundColor: 'rgb(0 0 0 / 0.5)' }}
             exit={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
-            className="fixed inset-0 z-50"
+            className="fixed inset-0 z-40"
         >
-            <Link href="/" scroll={false} className="fixed inset-0" />
-            <MotionDiv
-                className="fixed inset-x-5 inset-y-28 flex flex-col gap-0 lg:inset-x-72 lg:inset-y-40 lg:flex-row"
+            <Link
+                href="/"
+                scroll={false}
+                className="absolute inset-0"
+            />
+            <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                style={{
+                    borderRadius: '24px',
+                }}
+                className={clsx(
+                    'absolute z-50 flex gap-0 overflow-hidden bg-hw-white',
+                    'inset-x-5 inset-y-28 flex-col', // Mobile
+                    'lg:inset-x-72 lg:inset-y-40 lg:flex-row', // Desktop
+                )}
             >
-                <div className="relative flex size-full flex-col justify-between rounded-t-3xl bg-hw-white pb-6 pl-8 pr-5 pt-5 lg:rounded-none lg:rounded-l-3xl 2xl:w-2/3">
+                <div className="relative flex size-full flex-col justify-between pb-6 pl-8 pr-5 pt-5 2xl:w-2/3">
                     <div className="flex flex-col gap-5">
                         <div className="flex w-full max-w-full items-center justify-between">
                             <h1 className="font-poppins text-4xl font-semibold text-hw-black">{name}</h1>
@@ -67,36 +123,26 @@ function QuartetModal({
                     </div>
                 </div>
                 <div
-                    className="aspect-video h-full rounded-b-3xl bg-cover bg-center lg:aspect-auto lg:w-full lg:rounded-none lg:rounded-r-3xl"
+                    className="h-full bg-cover lg:w-full"
                     style={{
                         backgroundImage: `url('${backgroundImageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
                     }}
                 />
-            </MotionDiv>
-        </MotionDiv>
+            </m.div>
+        </m.div>
     );
 }
 
-export default async function QuartetLoader({ searchParams }: { searchParams?: Record<string, string> }) {
-    const id = searchParams?.quartet;
+export default function QuartetLoader({ quartets }: { quartets: Quartet[] }) {
+    const searchParams = useSearchParams();
 
-    const data = id ? (await prisma.quartet.findFirst({
-        select: {
-            id: true,
-            name: true,
-            biography: true,
-            backgroundImageUrl: true,
-            logoUrl: true,
-            members: true,
-            socials: true,
-            websiteUrl: true,
-        },
-        where: { id },
-    })) : null;
+    const id = searchParams?.get('quartet');
+
+    const data = quartets.find((quartet) => quartet.id === id);
 
     return (
-        <ServerAnimatePresence>
+        <AnimatePresence>
             {data && <QuartetModal {...data} />}
-        </ServerAnimatePresence>
+        </AnimatePresence>
     );
 }

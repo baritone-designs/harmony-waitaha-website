@@ -3,14 +3,13 @@ import { FC } from 'react';
 import { MdEmail, MdLocationPin, MdPhone } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { Event, Quartet } from '@prisma/client';
-import Link from 'next/link';
-import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
+import { Event } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
 
 import './index.css';
 import { googleMapsLocationUrl } from '@/components/utils';
 import HWHeader from './Header';
+import QuartetLoader, { QuartetProfile } from './Quartets';
 
 interface ChorusProfileProps {
     name: string;
@@ -29,27 +28,6 @@ const ChorusProfile: FC<ChorusProfileProps> = ({ name, photo, logo }) => (
     >
         <Image src={logo} width={350} height={350} alt={`${name.toLowerCase()}-logo`} className="w-52 lg:w-64" />
     </a>
-);
-
-const QuartetProfile = ({ id, name, imageUrl, logoUrl }: Pick<Quartet, 'id' | 'name' | 'imageUrl' | 'logoUrl'>) => (
-    <Link
-        href={{
-            query: {
-                quartet: id,
-            },
-        }}
-        scroll={false}
-        className="flex h-60 w-full flex-col justify-between rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%] lg:h-72"
-        style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
-        }}
-    >
-        <div />
-        <div className="mx-8 mb-5 flex h-10 items-center justify-between">
-            <span className="text-xl text-hw-white">{name}</span>
-            {logoUrl && <Image src={logoUrl} height={20} width={30} alt={`${id}-logo`} className="rounded-full" />}
-        </div>
-    </Link>
 );
 
 const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Event, 'name' | 'venueName' | 'venueId' | 'time' | 'description'>) => (
@@ -90,7 +68,7 @@ const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Even
 );
 
 export default async function HarmonyWaitahaHome() {
-    const events = (await prisma.event.findMany({
+    const events = await prisma.event.findMany({
         select: {
             id: true,
             name: true,
@@ -99,22 +77,16 @@ export default async function HarmonyWaitahaHome() {
             time: true,
             description: true,
         },
-    }));
+    });
 
-    const quartets = (await prisma.quartet.findMany({
-        select: {
-            id: true,
-            name: true,
-            imageUrl: true,
-            logoUrl: true,
-        },
-    }));
+    const quartets = await prisma.quartet.findMany();
 
     return (
         <main className="[&>*]:font-poppins">
+            <QuartetLoader quartets={quartets} />
             <HWHeader />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
-                <video autoPlay muted loop className="h-full w-full object-cover">
+                <video autoPlay muted loop className="size-full object-cover">
                     <source src="/main.mp4" type="video/mp4" />
                 </video>
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
