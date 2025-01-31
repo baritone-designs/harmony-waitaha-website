@@ -3,9 +3,9 @@ import { MotionDiv, ServerAnimatePresence } from '@/components/Motion';
 import { Quartet } from '@prisma/client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaFacebook, FaGlobe, FaInstagram, FaTwitter, FaYoutubeSquare } from 'react-icons/fa';
+import { FaGlobe } from 'react-icons/fa';
 import { IconType } from 'react-icons';
-import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
+import { DEFAULT_QUARTET_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
 
 function SocialsLink({ url, icon: Icon }: { url: string, icon: IconType }) {
     return (
@@ -40,7 +40,7 @@ function QuartetModal({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
             >
-                <div className="relative flex h-full w-full flex-col justify-between rounded-t-3xl bg-hw-white pb-6 pl-8 pr-5 pt-5 lg:rounded-none lg:rounded-l-3xl 2xl:w-2/3">
+                <div className="relative flex size-full flex-col justify-between rounded-t-3xl bg-hw-white pb-6 pl-8 pr-5 pt-5 lg:rounded-none lg:rounded-l-3xl 2xl:w-2/3">
                     <div className="flex flex-col gap-5">
                         <div className="flex w-full max-w-full items-center justify-between">
                             <h1 className="font-poppins text-4xl font-semibold text-hw-black">{name}</h1>
@@ -56,10 +56,13 @@ function QuartetModal({
                         <span>{biography}</span>
                     </div>
                     <div className="mt-5 flex flex-row gap-5">
-                        {socials.facebook && <SocialsLink icon={FaFacebook} url={`https://facebook.com/${socials.facebook}`} />}
-                        {socials.x && <SocialsLink icon={FaTwitter} url={`https://x.com/${socials.x}`} />}
-                        {socials.instagram && <SocialsLink icon={FaInstagram} url={`https://instagram.com/${socials.instagram}`} />}
-                        {socials.youtube && <SocialsLink icon={FaYoutubeSquare} url={`https://youtube.com/@${socials.youtube}`} />}
+                        {Object.entries(socials)
+                            .map(([key, value]) => value && (
+                                <SocialsLink
+                                    icon={SOCIALS_ICONS[key as keyof typeof SOCIALS_ICONS]}
+                                    url={SOCIALS_PREFIX[key as keyof typeof SOCIALS_PREFIX] + value}
+                                />
+                            ))}
                         {websiteUrl && <SocialsLink icon={FaGlobe} url={websiteUrl} />}
                     </div>
                 </div>

@@ -6,12 +6,13 @@ import * as yup from 'yup';
 import { QuartetSchema } from '@/common/schema';
 import { ImageUpload } from '@/components/ImageUpload';
 import { Quartet } from '@prisma/client';
-import { Backdrop, Button, CircularProgress, Container, Fab, Grid2, IconButton, Paper, Stack, TextField } from '@mui/material';
+import { Backdrop, Button, CircularProgress, Container, Fab, Grid2, IconButton, Paper, Stack, TextField, InputAdornment } from '@mui/material';
 import { formikProps } from '@/components/formikUtils';
 import { toast } from 'react-toastify';
 import { useCallback, useState } from 'react';
 import { NullableTextField } from '@/components/NullableTextField';
 import { Add, Close } from '@mui/icons-material';
+import { SOCIALS_PREFIX } from '@/common/constants';
 import revalidate from '../revalidate';
 
 type QuartetSchemaType = yup.InferType<typeof QuartetSchema>
@@ -30,7 +31,7 @@ type QuartetPaneProps = {
 
 function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
     return (
-        <Grid2 size={3}>
+        <Grid2 size={6}>
             <Formik<QuartetSchemaType>
                 initialValues={{
                     id: quartet?.id ?? '',
@@ -82,7 +83,26 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                             </div>
                             <div className="grid grid-cols-2 gap-2 self-stretch">
                                 {Object.keys(formik.values.socials).map((key) => (
-                                    <NullableTextField variant="standard" label={key} fullWidth {...formikProps(`socials.${key}`, formik)} />
+                                    <NullableTextField
+                                        slotProps={{
+                                            input: {
+                                                startAdornment: (
+                                                    <InputAdornment
+                                                        position="start"
+                                                        sx={{
+                                                            margin: 0,
+                                                        }}
+                                                    >
+                                                        {SOCIALS_PREFIX[key as keyof typeof SOCIALS_PREFIX].substring(8)}
+                                                    </InputAdornment>
+                                                ),
+                                            },
+                                        }}
+                                        variant="standard"
+                                        label={key}
+                                        fullWidth
+                                        {...formikProps(`socials.${key}`, formik)}
+                                    />
                                 ))}
                             </div>
                             <ImageUpload name="logoUrl" label="Quartet Logo">
@@ -92,7 +112,7 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                                     <img
                                         src={src}
                                         alt="quartet-logo"
-                                        className="h-36 w-36 rounded-full duration-200 group-hover:opacity-50"
+                                        className="size-36 rounded-full duration-200 group-hover:opacity-50"
                                     />
                                 )}
                             </ImageUpload>
