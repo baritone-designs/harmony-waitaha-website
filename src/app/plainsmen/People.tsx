@@ -1,8 +1,26 @@
-import { prisma } from '@/common/prisma';
-import { MotionDiv, ServerAnimatePresence } from '@/components/Motion';
+'use client';
+
 import { Person } from '@prisma/client';
 import Link from 'next/link';
 import Image from 'next/image';
+import { m, AnimatePresence } from 'framer-motion';
+import { useSearchParams } from 'next/navigation';
+
+export const PersonProfile = ({ id, iconUrl, name, role }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string }) => (
+    <Link
+        href={{
+            query: {
+                person: id,
+            },
+        }}
+        scroll={false}
+        className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:opacity-50"
+    >
+        <div className="size-40 rounded-xl bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
+        <span className="mt-5 text-lg font-medium duration-200">{name}</span>
+        <span className="font-pt-sans text-sm">{role}</span>
+    </Link>
+);
 
 function PersonModal({
     id,
@@ -11,15 +29,15 @@ function PersonModal({
     iconUrl,
 }: Pick<Person, 'id' | 'name' | 'biography' | 'iconUrl'>) {
     return (
-        <MotionDiv
+        <m.div
             key={id}
             initial={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
             animate={{ backdropFilter: 'blur(8px)  opacity(1)', backgroundColor: 'rgb(0 0 0 / 0.5)' }}
             exit={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
             className="fixed inset-0 z-50 flex h-screen flex-col items-center justify-center"
         >
-            <Link href="/plainsmen" scroll={false} className="fixed inset-0" />
-            <MotionDiv
+            <Link href="/plainsmen" replace scroll={false} className="fixed inset-0" />
+            <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -31,27 +49,21 @@ function PersonModal({
                         <span className="text-center">{biography}</span>
                     </div>
                 </div>
-            </MotionDiv>
-        </MotionDiv>
+            </m.div>
+        </m.div>
     );
 }
 
-export default async function PersonLoader({ searchParams }: { searchParams?: Record<string, string> }) {
-    const id = searchParams?.person;
+export default function PeopleLoader({ people }: { people: Person[] }) {
+    const searchParams = useSearchParams();
 
-    const data = id ? (await prisma.person.findFirst({
-        select: {
-            id: true,
-            name: true,
-            biography: true,
-            iconUrl: true,
-        },
-        where: { id },
-    })) : null;
+    const id = searchParams?.get('person');
+
+    const data = people.find((person) => person.id === id);
 
     return (
-        <ServerAnimatePresence>
+        <AnimatePresence>
             {data && <PersonModal {...data} />}
-        </ServerAnimatePresence>
+        </AnimatePresence>
     );
 }

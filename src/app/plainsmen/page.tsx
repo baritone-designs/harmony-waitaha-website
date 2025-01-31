@@ -3,8 +3,7 @@ import Image from 'next/image';
 import { CustomCarousel } from '@/components/Carousel';
 import { FaFacebook } from 'react-icons/fa';
 import { FC } from 'react';
-import Link from 'next/link';
-import { ChorusId, Person, Event } from '@prisma/client';
+import { ChorusId, Event } from '@prisma/client';
 import { prisma } from '@/common/prisma';
 import { googleMapsLocationUrl } from '@/components/utils';
 import { google } from 'calendar-link';
@@ -16,27 +15,12 @@ import { ScrollArrow } from '@/components/ScrollArrow';
 import { ScrollImage } from './ScrollImage';
 import PlainsmenHeader from './Header';
 import './index.css';
+import PeopleLoader, { PersonProfile } from './People';
 
 export const metadata: Metadata = {
     title: 'The Plainsmen',
     description: 'Barbershop mens chorus from Christchurch, New Zealand',
 };
-
-const TeamProfile = ({ id, iconUrl, name, role }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string }) => (
-    <Link
-        href={{
-            query: {
-                person: id,
-            },
-        }}
-        scroll={false}
-        className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-4 duration-200 hover:opacity-50"
-    >
-        <div className="h-40 w-40 rounded-xl bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
-        <span className="mt-5 text-lg font-medium duration-200">{name}</span>
-        <span className="font-pt-sans text-sm">{role}</span>
-    </Link>
-);
 
 const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Event, 'name' | 'venueName' | 'venueId' | 'time' | 'description'>) => (
     <div className="rounded-xl bg-zinc-800 px-8 py-6">
@@ -93,13 +77,7 @@ export default async function PlainsmenHome() {
             chorusId: ChorusId.Plainsmen,
         },
         include: {
-            person: {
-                select: {
-                    id: true,
-                    name: true,
-                    iconUrl: true,
-                },
-            },
+            person: true,
         },
     })).map((x) => ({
         role: x.role,
@@ -117,8 +95,8 @@ export default async function PlainsmenHome() {
     }));
     return (
         <main className="bg-hw-black [&>*]:font-poppins">
+            <PeopleLoader people={people} />
             <PlainsmenHeader />
-
             <section id="home" className="relative h-screen">
                 <div className="z-10 flex h-full items-center justify-center text-8xl font-medium">
                     <Image src="/plainsmen-logo.svg" alt="plainsmen-logo" width={500} height={500} className="z-10 h-32 lg:h-52" />
@@ -143,7 +121,7 @@ export default async function PlainsmenHome() {
                                 </p>
                                 <div className="z-0 mt-4 grid grid-cols-2 items-center gap-1 lg:grid-cols-3 lg:gap-14">
                                     {people.map((person) => (
-                                        <TeamProfile key={person.id} {...person} />
+                                        <PersonProfile key={person.id} {...person} />
                                     ))}
                                 </div>
                             </div>

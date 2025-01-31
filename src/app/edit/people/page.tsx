@@ -102,7 +102,7 @@ function PersonPane({ person, onSubmit, ...props }: PersonPaneProps) {
                                     <img
                                         src={src}
                                         alt="person-icon"
-                                        className="h-36 w-36 rounded-full object-cover duration-200 group-hover:opacity-50"
+                                        className="size-36 rounded-full object-cover duration-200 group-hover:opacity-50"
                                     />
                                 )}
                             </ImageUpload>
