@@ -13,7 +13,7 @@ export const QuartetMembersSchema = yup.object().shape({
 });
 
 export const QuartetSocialsSchema = yup.object().shape({
-    x: yup.string().required().nullable(),
+    tiktok: yup.string().required().nullable(),
 
     instagram: yup.string().required().nullable(),
 
