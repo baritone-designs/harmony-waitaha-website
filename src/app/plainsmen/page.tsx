@@ -134,6 +134,17 @@ export default async function PlainsmenHome() {
                             {events.map(({ id, ...event }) => (
                                 <EventProfile key={id} {...event} />
                             ))}
+                            {events.length === 0 && (
+                                <span>
+                                    The Plainsmen have no scheduled events at this time, click
+                                    {' '}
+                                    <a href="/#events" className="text-pm-blue duration-200 hover:opacity-50">
+                                        here
+                                    </a>
+                                    {' '}
+                                    to see events for all of Harmony Waitaha
+                                </span>
+                            )}
                         </div>
                     </section>
 

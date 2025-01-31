@@ -155,6 +155,11 @@ export default async function QAHome() {
                         <div className="flex w-full justify-center">
                             <div className="z-0 grid grid-cols-2 items-center justify-between gap-3 lg:flex lg:flex-row lg:gap-14">
                                 <People people={people} />
+                                {people.length === 0 && (
+                                    <span>
+                                        We have team members we would like to show here, but they are a bit shy, why don't you come along to one of our rehearsals to meet them for real!
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </section>
@@ -164,6 +169,17 @@ export default async function QAHome() {
                             {events.map(({ id, ...event }) => (
                                 <EventProfile key={id} {...event} />
                             ))}
+                            {events.length === 0 && (
+                                <span>
+                                    Quantum Acoustics have no scheduled events at this time, click
+                                    {' '}
+                                    <a href="/#events" className="text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense">
+                                        here
+                                    </a>
+                                    {' '}
+                                    to see events for all of Harmony Waitaha
+                                </span>
+                            )}
                         </div>
                     </section>
                     {/* <section id="media" className="space-y-4">
