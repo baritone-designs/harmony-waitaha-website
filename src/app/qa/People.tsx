@@ -4,6 +4,7 @@ import { Person } from '@prisma/client';
 import Image from 'next/image';
 import { m, AnimatePresence } from 'framer-motion';
 import useLocalSearchParam from '@/components/useLocalSearchParam';
+import ModalBackdrop from '@/components/ModalBackdrop';
 
 const PersonProfile = ({ iconUrl, name, role, onClick }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string, onClick: Function }) => (
     <button
@@ -22,16 +23,10 @@ function PersonModal({
     name,
     biography,
     iconUrl,
-    onClick,
-}: Pick<Person, 'id' | 'name' | 'biography' | 'iconUrl'> & { onClick: Function}) {
+    onClose,
+}: Pick<Person, 'id' | 'name' | 'biography' | 'iconUrl'> & { onClose: () => void }) {
     return (
-        <m.div
-            initial={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
-            animate={{ backdropFilter: 'blur(8px) opacity(1)', backgroundColor: 'rgb(0 0 0 / 0.5)' }}
-            exit={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
-            className="fixed inset-0 z-50 flex h-screen flex-col items-center justify-center"
-        >
-            <button type="button" onClick={() => onClick()} className="fixed inset-0" />
+        <ModalBackdrop onClose={onClose}>
             <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -45,7 +40,7 @@ function PersonModal({
                     </div>
                 </div>
             </m.div>
-        </m.div>
+        </ModalBackdrop>
     );
 }
 
@@ -57,7 +52,7 @@ export default function People({ people }: { people: (Person & { role: string })
     return (
         <>
             <AnimatePresence>
-                {data && <PersonModal {...data} onClick={() => setId(null)} />}
+                {data && <PersonModal {...data} onClose={() => setId(null)} />}
             </AnimatePresence>
             {people.map((value) => <PersonProfile key={value.id} {...value} onClick={() => setId(value.id)} />)}
         </>

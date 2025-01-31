@@ -9,6 +9,7 @@ import { DEFAULT_QUARTET_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/c
 import { m, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import useLocalSearchParam from '@/components/useLocalSearchParam';
+import ModalBackdrop from '@/components/ModalBackdrop';
 
 function QuartetProfile({ id, name, imageUrl, logoUrl, onClick }: Pick<Quartet, 'id' | 'name' | 'imageUrl' | 'logoUrl'> & { onClick: Function }) {
     return (
@@ -62,20 +63,10 @@ function QuartetModal({
     members,
     socials,
     websiteUrl,
-    onClick,
-}: Pick<Quartet, 'id' | 'name' | 'biography' | 'backgroundImageUrl' | 'logoUrl' | 'members' | 'socials' | 'websiteUrl'> & { onClick: Function }) {
+    onClose,
+}: Pick<Quartet, 'id' | 'name' | 'biography' | 'backgroundImageUrl' | 'logoUrl' | 'members' | 'socials' | 'websiteUrl'> & { onClose: () => void }) {
     return (
-        <m.div
-            initial={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
-            animate={{ backdropFilter: 'blur(8px) opacity(1)', backgroundColor: 'rgb(0 0 0 / 0.5)' }}
-            exit={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
-            className="fixed inset-0 z-40"
-        >
-            <button
-                type="button"
-                onClick={() => onClick()}
-                className="absolute inset-0"
-            />
+        <ModalBackdrop onClose={onClose}>
             <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -122,7 +113,7 @@ function QuartetModal({
                     }}
                 />
             </m.div>
-        </m.div>
+        </ModalBackdrop>
     );
 }
 
@@ -134,7 +125,7 @@ export default function Quartets({ quartets }: { quartets: Quartet[] }) {
     return (
         <>
             <AnimatePresence>
-                {data && <QuartetModal {...data} onClick={() => setId(null)} />}
+                {data && <QuartetModal {...data} onClose={() => setId(null)} />}
             </AnimatePresence>
             {quartets.map((value) => <QuartetProfile key={value.id} {...value} onClick={() => setId(value.id)} />)}
         </>
