@@ -6,50 +6,42 @@ import Image from 'next/image';
 import { FaGlobe } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import { DEFAULT_QUARTET_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
-import { useSearchParams } from 'next/navigation';
 import { m, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
+import useLocalSearchParam from '@/components/useLocalSearchParam';
 
-export function QuartetProfile({ id, name, imageUrl, logoUrl }: Pick<Quartet, 'id' | 'name' | 'imageUrl' | 'logoUrl'>) {
+function QuartetProfile({ id, name, imageUrl, logoUrl, onClick }: Pick<Quartet, 'id' | 'name' | 'imageUrl' | 'logoUrl'> & { onClick: Function }) {
     return (
-        <Link
-            href={{
-                href: '/',
-                query: {
-                    quartet: id,
-                },
+        <button
+            type="button"
+            onClick={() => onClick()}
+            style={{
+                borderRadius: '24px',
             }}
-            scroll={false}
+            className={clsx(
+                'relative w-full overflow-hidden bg-hw-white',
+                'h-60', // Mobile
+                'lg:h-72', // Desktop
+            )}
         >
-            <div
-                style={{
-                    borderRadius: '24px',
+            <m.div
+                whileHover={{
+                    scale: 1.1,
+                    transition: {
+                        duration: 0.3,
+                        ease: 'easeInOut',
+                    },
                 }}
-                className={clsx(
-                    'relative w-full overflow-hidden bg-hw-white',
-                    'h-60', // Mobile
-                    'lg:h-72', // Desktop
-                )}
-            >
-                <m.div
-                    whileHover={{
-                        scale: 1.1,
-                        transition: {
-                            duration: 0.3,
-                            ease: 'easeInOut',
-                        },
-                    }}
-                    className="absolute inset-0 bg-cover"
-                    style={{
-                        backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
-                    }}
-                />
-                <div className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-between px-8 pb-5">
-                    <span className="text-xl text-hw-white">{name}</span>
-                    {logoUrl && <Image src={logoUrl} height={20} width={30} alt={`${id}-logo`} className="rounded-full" />}
-                </div>
+                className="absolute inset-0 bg-cover"
+                style={{
+                    backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
+                }}
+            />
+            <div className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-between px-8 pb-5">
+                <span className="text-xl text-hw-white">{name}</span>
+                {logoUrl && <Image src={logoUrl} height={20} width={30} alt={`${id}-logo`} className="rounded-full" />}
             </div>
-        </Link>
+        </button>
     );
 }
 
@@ -70,7 +62,8 @@ function QuartetModal({
     members,
     socials,
     websiteUrl,
-}: Pick<Quartet, 'id' | 'name' | 'biography' | 'backgroundImageUrl' | 'logoUrl' | 'members' | 'socials' | 'websiteUrl'>) {
+    onClick,
+}: Pick<Quartet, 'id' | 'name' | 'biography' | 'backgroundImageUrl' | 'logoUrl' | 'members' | 'socials' | 'websiteUrl'> & { onClick: Function }) {
     return (
         <m.div
             initial={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
@@ -78,9 +71,9 @@ function QuartetModal({
             exit={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
             className="fixed inset-0 z-40"
         >
-            <Link
-                href="/"
-                scroll={false}
+            <button
+                type="button"
+                onClick={() => onClick()}
                 className="absolute inset-0"
             />
             <m.div
@@ -133,16 +126,17 @@ function QuartetModal({
     );
 }
 
-export default function QuartetLoader({ quartets }: { quartets: Quartet[] }) {
-    const searchParams = useSearchParams();
-
-    const id = searchParams?.get('quartet');
+export default function Quartets({ quartets }: { quartets: Quartet[] }) {
+    const [id, setId] = useLocalSearchParam('quartet');
 
     const data = quartets.find((quartet) => quartet.id === id);
 
     return (
-        <AnimatePresence>
-            {data && <QuartetModal {...data} />}
-        </AnimatePresence>
+        <>
+            <AnimatePresence>
+                {data && <QuartetModal {...data} onClick={() => setId(null)} />}
+            </AnimatePresence>
+            {quartets.map((value) => <QuartetProfile key={value.id} {...value} onClick={() => setId(value.id)} />)}
+        </>
     );
 }

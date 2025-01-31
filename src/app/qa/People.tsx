@@ -1,25 +1,20 @@
 'use client';
 
 import { Person } from '@prisma/client';
-import Link from 'next/link';
 import Image from 'next/image';
 import { m, AnimatePresence } from 'framer-motion';
-import { useSearchParams } from 'next/navigation';
+import useLocalSearchParam from '@/components/useLocalSearchParam';
 
-export const PersonProfile = ({ id, iconUrl, name, role }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string }) => (
-    <Link
-        href={{
-            query: {
-                person: id,
-            },
-        }}
-        scroll={false}
+const PersonProfile = ({ iconUrl, name, role, onClick }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string, onClick: Function }) => (
+    <button
+        type="button"
+        onClick={() => onClick()}
         className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-1 duration-200 hover:scale-105 lg:p-4"
     >
         <div className="size-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
         <span className="mt-5 text-center text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
         <span className="text-center font-pt-sans text-sm">{role}</span>
-    </Link>
+    </button>
 );
 
 function PersonModal({
@@ -27,16 +22,16 @@ function PersonModal({
     name,
     biography,
     iconUrl,
-}: Pick<Person, 'id' | 'name' | 'biography' | 'iconUrl'>) {
+    onClick,
+}: Pick<Person, 'id' | 'name' | 'biography' | 'iconUrl'> & { onClick: Function}) {
     return (
         <m.div
-            key={id}
             initial={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
             animate={{ backdropFilter: 'blur(8px) opacity(1)', backgroundColor: 'rgb(0 0 0 / 0.5)' }}
             exit={{ backdropFilter: 'blur(12px) opacity(0)', backgroundColor: 'rgb(0 0 0 / 0)' }}
             className="fixed inset-0 z-50 flex h-screen flex-col items-center justify-center"
         >
-            <Link href="/qa" replace scroll={false} className="fixed inset-0" />
+            <button type="button" onClick={() => onClick()} className="fixed inset-0" />
             <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -54,16 +49,17 @@ function PersonModal({
     );
 }
 
-export default function PeopleLoader({ people }: { people: Person[] }) {
-    const searchParams = useSearchParams();
-
-    const id = searchParams?.get('person');
+export default function People({ people }: { people: (Person & { role: string })[] }) {
+    const [id, setId] = useLocalSearchParam('person');
 
     const data = people.find((person) => person.id === id);
 
     return (
-        <AnimatePresence>
-            {data && <PersonModal {...data} />}
-        </AnimatePresence>
+        <>
+            <AnimatePresence>
+                {data && <PersonModal {...data} onClick={() => setId(null)} />}
+            </AnimatePresence>
+            {people.map((value) => <PersonProfile key={value.id} {...value} onClick={() => setId(value.id)} />)}
+        </>
     );
 }

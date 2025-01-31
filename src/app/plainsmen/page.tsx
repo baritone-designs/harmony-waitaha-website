@@ -15,7 +15,7 @@ import { ScrollArrow } from '@/components/ScrollArrow';
 import { ScrollImage } from './ScrollImage';
 import PlainsmenHeader from './Header';
 import './index.css';
-import PeopleLoader, { PersonProfile } from './People';
+import People from './People';
 
 export const metadata: Metadata = {
     title: 'The Plainsmen',
@@ -95,7 +95,6 @@ export default async function PlainsmenHome() {
     }));
     return (
         <main className="bg-hw-black [&>*]:font-poppins">
-            <PeopleLoader people={people} />
             <PlainsmenHeader />
             <section id="home" className="relative h-screen">
                 <div className="z-10 flex h-full items-center justify-center text-8xl font-medium">
@@ -120,9 +119,7 @@ export default async function PlainsmenHome() {
                                     In non mauris lorem. Nullam aliquam massa porta, suscipit
                                 </p>
                                 <div className="z-0 mt-4 grid grid-cols-2 items-center gap-1 lg:grid-cols-3 lg:gap-14">
-                                    {people.map((person) => (
-                                        <PersonProfile key={person.id} {...person} />
-                                    ))}
+                                    <People people={people} />
                                 </div>
                             </div>
                             <div className="flex flex-col justify-between">

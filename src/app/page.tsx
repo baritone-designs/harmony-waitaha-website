@@ -9,7 +9,7 @@ import { ScrollArrow } from '@/components/ScrollArrow';
 import './index.css';
 import { googleMapsLocationUrl } from '@/components/utils';
 import HWHeader from './Header';
-import QuartetLoader, { QuartetProfile } from './Quartets';
+import Quartets from './Quartets';
 
 interface ChorusProfileProps {
     name: string;
@@ -83,7 +83,6 @@ export default async function HarmonyWaitahaHome() {
 
     return (
         <main className="[&>*]:font-poppins">
-            <QuartetLoader quartets={quartets} />
             <HWHeader />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
                 <video autoPlay muted loop className="size-full object-cover">
@@ -143,9 +142,7 @@ export default async function HarmonyWaitahaHome() {
                     <section id="quartets" className="mt-10 space-y-5">
                         <span className="text-4xl font-semibold">Quartets</span>
                         <div className="grid gap-5 lg:grid-cols-3">
-                            {quartets.map((quartet) => (
-                                <QuartetProfile key={quartet.id} {...quartet} />
-                            ))}
+                            <Quartets quartets={quartets} />
                         </div>
                     </section>
                     <section id="events" className="mt-10 space-y-5">

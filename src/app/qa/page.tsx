@@ -19,7 +19,7 @@ import { ScrollArrow } from '@/components/ScrollArrow';
 import { googleMapsLocationUrl } from '@/components/utils';
 import { CustomCarousel } from '@/components/Carousel';
 import QAHeader from './Header';
-import PeopleLoader, { PersonProfile } from './People';
+import People from './People';
 
 export const metadata: Metadata = {
     title: 'Quantum Acoustics',
@@ -100,7 +100,6 @@ export default async function QAHome() {
 
     return (
         <main className="[&>*]:font-pt-sans">
-            <PeopleLoader people={people} />
             <QAHeader />
             <section id="home" className="h-screen">
                 <div className="relative z-10 flex h-screen flex-col justify-center bg-gradient-to-t from-qa-blue-darker to-transparent to-30%">
@@ -155,9 +154,7 @@ export default async function QAHome() {
                         </div>
                         <div className="flex w-full justify-center">
                             <div className="z-0 grid grid-cols-2 items-center justify-between gap-3 lg:flex lg:flex-row lg:gap-14">
-                                {people.map((person) => (
-                                    <PersonProfile key={person.id} {...person} />
-                                ))}
+                                <People people={people} />
                             </div>
                         </div>
                     </section>
