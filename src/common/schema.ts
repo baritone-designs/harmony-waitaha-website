@@ -12,7 +12,7 @@ export const QuartetMembersSchema = yup.object().shape({
     bass: QuartetMemberName,
 });
 
-export const QuartetSocialsSchema = yup.object().shape({
+export const SocialsSchema = yup.object().shape({
     tiktok: yup.string().required().nullable(),
 
     instagram: yup.string().required().nullable(),
