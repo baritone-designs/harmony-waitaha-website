@@ -3,8 +3,7 @@ import { FC } from 'react';
 import { MdEmail, MdLocationPin, MdPhone } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { Event, PageType, ParagraphContentType, PrimaryMediaContentType, Quartet } from '@prisma/client';
-import Link from 'next/link';
+import { Event, PageType, ParagraphContentType, PrimaryMediaContentType } from '@prisma/client';
 import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
 import { ScrollArrow } from '@/components/ScrollArrow';
 
@@ -12,6 +11,7 @@ import './index.css';
 import { googleMapsLocationUrl } from '@/components/utils';
 import MediaRenderer from '@/components/MediaRenderer';
 import HWHeader from './Header';
+import Quartets from './Quartets';
 
 interface ChorusProfileProps {
     name: string;
@@ -30,27 +30,6 @@ const ChorusProfile: FC<ChorusProfileProps> = ({ name, photo, logo }) => (
     >
         <Image src={logo} width={350} height={350} alt={`${name.toLowerCase()}-logo`} className="w-52 lg:w-64" />
     </a>
-);
-
-const QuartetProfile = ({ id, name, imageUrl, logoUrl }: Pick<Quartet, 'id' | 'name' | 'imageUrl' | 'logoUrl'>) => (
-    <Link
-        href={{
-            query: {
-                quartet: id,
-            },
-        }}
-        scroll={false}
-        className="flex h-60 w-full flex-col justify-between rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%] lg:h-72"
-        style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
-        }}
-    >
-        <div />
-        <div className="mx-8 mb-5 flex h-10 items-center justify-between">
-            <span className="text-xl text-hw-white">{name}</span>
-            {logoUrl && <Image src={logoUrl} height={20} width={30} alt={`${id}-logo`} className="rounded-full" />}
-        </div>
-    </Link>
 );
 
 const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Event, 'name' | 'venueName' | 'venueId' | 'time' | 'description'>) => (
@@ -91,7 +70,7 @@ const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Even
 );
 
 export default async function HarmonyWaitahaHome() {
-    const events = (await prisma.event.findMany({
+    const events = await prisma.event.findMany({
         select: {
             id: true,
             name: true,
@@ -100,16 +79,9 @@ export default async function HarmonyWaitahaHome() {
             time: true,
             description: true,
         },
-    }));
+    });
 
-    const quartets = (await prisma.quartet.findMany({
-        select: {
-            id: true,
-            name: true,
-            imageUrl: true,
-            logoUrl: true,
-        },
-    }));
+    const quartets = await prisma.quartet.findMany();
 
     const aboutParagraph = await prisma.paragraphContent.findFirst({ where: { page: PageType.Home, type: ParagraphContentType.About } });
 
@@ -169,9 +141,7 @@ export default async function HarmonyWaitahaHome() {
                     <section id="quartets" className="mt-10 space-y-5">
                         <span className="text-4xl font-semibold">Quartets</span>
                         <div className="grid gap-5 lg:grid-cols-3">
-                            {quartets.map((quartet) => (
-                                <QuartetProfile key={quartet.id} {...quartet} />
-                            ))}
+                            <Quartets quartets={quartets} />
                             {quartets.length === 0 && (
                                 <span>Hmm, we couldn't find any quartets at this time, perhaps you should form one yourself!</span>
                             )}

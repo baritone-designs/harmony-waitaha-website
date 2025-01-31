@@ -1,3 +1,6 @@
+import { IconType } from 'react-icons';
+import { FaFacebook, FaInstagram, FaTiktok, FaYoutubeSquare } from 'react-icons/fa';
+
 export const URL_COMPLIANT_REGEX = /^[\w-]*$/;
 export const DEFAULT_QUARTET_IMAGE = 'defaultqt-photo.png';
 export const DEFAULT_REQUIRED_FIELD_MESSAGE = 'Required';
@@ -26,3 +29,17 @@ export const VIDEO_FORMAT_MAPS = {
 
 export const VIDEO_FILE_TYPES = Object.keys(VIDEO_FORMAT_MAPS) as (keyof typeof VIDEO_FORMAT_MAPS)[];
 export const VIDEO_FILE_ENDINGS = Object.values(VIDEO_FORMAT_MAPS).flat();
+
+export const SOCIALS_PREFIX: Record<keyof PrismaJson.Socials, string> = {
+    tiktok: 'https://tiktok.com/@',
+    facebook: 'https://facebook.com/',
+    instagram: 'https://instagram.com/',
+    youtube: 'https://youtube.com/@',
+};
+
+export const SOCIALS_ICONS: Record<keyof PrismaJson.Socials, IconType> = {
+    tiktok: FaTiktok,
+    facebook: FaFacebook,
+    instagram: FaInstagram,
+    youtube: FaYoutubeSquare,
+};

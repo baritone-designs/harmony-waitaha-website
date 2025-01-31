@@ -1,11 +1,8 @@
-import { FC, PropsWithChildren, ReactNode } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 
-const PlainsmenLayout: FC<PropsWithChildren<{
-    person: ReactNode;
-}>> = ({ person, children }) => (
+const PlainsmenLayout: FC<PropsWithChildren> = ({ children }) => (
     <main>
-        {person}
         {children}
     </main>
 );
