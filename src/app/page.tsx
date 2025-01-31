@@ -114,7 +114,7 @@ export default async function HarmonyWaitahaHome() {
         <main className="[&>*]:font-poppins">
             <HWHeader />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
-                <video autoPlay muted loop className="h-full w-full object-cover">
+                <video autoPlay muted loop className="size-full object-cover">
                     <source src="/main.mp4" type="video/mp4" />
                 </video>
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
@@ -174,6 +174,9 @@ export default async function HarmonyWaitahaHome() {
                             {quartets.map((quartet) => (
                                 <QuartetProfile key={quartet.id} {...quartet} />
                             ))}
+                            {quartets.length === 0 && (
+                                <span>Hmm, we couldn't find any quartets at this time, perhaps you should form one yourself!</span>
+                            )}
                         </div>
                     </section>
                     <section id="events" className="mt-10 space-y-5">
@@ -182,6 +185,9 @@ export default async function HarmonyWaitahaHome() {
                             {events.map(({ id, ...event }) => (
                                 <EventProfile key={id} {...event} />
                             ))}
+                            {events.length === 0 && (
+                                <span>There are no scheduled events at this time, check again at a later date for any new developments!</span>
+                            )}
                         </div>
                     </section>
                     <section id="contact" className="mt-10 space-y-5">

@@ -36,7 +36,7 @@ const TeamProfile = ({ id, iconUrl, name, role }: Pick<Person, 'id' | 'iconUrl' 
         scroll={false}
         className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-1 duration-200 hover:scale-105 lg:p-4"
     >
-        <div className="h-40 w-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
+        <div className="size-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
         <span className="mt-5 text-center text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
         <span className="text-center font-pt-sans text-sm">{role}</span>
     </Link>
@@ -179,6 +179,11 @@ export default async function QAHome() {
                                 {people.map((person) => (
                                     <TeamProfile key={person.id} {...person} />
                                 ))}
+                                {people.length === 0 && (
+                                    <span>
+                                        We have team members we would like to show here, but they are a bit shy, why don't you come along to one of our rehearsals to meet them for real!
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </section>
@@ -188,6 +193,17 @@ export default async function QAHome() {
                             {events.map(({ id, ...event }) => (
                                 <EventProfile key={id} {...event} />
                             ))}
+                            {events.length === 0 && (
+                                <span>
+                                    Quantum Acoustics have no scheduled events at this time, click
+                                    {' '}
+                                    <a href="/#events" className="text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense">
+                                        here
+                                    </a>
+                                    {' '}
+                                    to see events for all of Harmony Waitaha
+                                </span>
+                            )}
                         </div>
                     </section>
                     {/* <section id="media" className="space-y-4">
