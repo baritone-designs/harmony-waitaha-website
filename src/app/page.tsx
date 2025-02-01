@@ -8,6 +8,7 @@ import { ScrollArrow } from '@/components/ScrollArrow';
 
 import './index.css';
 import { googleMapsLocationUrl } from '@/components/utils';
+import { VideoControl } from '@/components/VideoControl';
 import HWHeader from './Header';
 import Quartets from './Quartets';
 
@@ -85,9 +86,7 @@ export default async function HarmonyWaitahaHome() {
         <main className="[&>*]:font-poppins">
             <HWHeader />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
-                <video autoPlay muted loop className="size-full object-cover">
-                    <source src="/main.mp4" type="video/mp4" />
-                </video>
+                <VideoControl />
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
                     <Image src="./hw-logo.svg" className="" width={200} height={200} alt="logo" />
                 </div>
