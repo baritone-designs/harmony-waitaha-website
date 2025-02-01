@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { MediaCarousel } from '@/components/Carousel';
 import { FaFacebook } from 'react-icons/fa';
 import { FC } from 'react';
-import { ChorusId, Event, ParagraphContentType, PageType, PrimaryMediaContentType } from '@prisma/client';
+import { ChorusId, Event, PageId } from '@prisma/client';
 import { prisma } from '@/common/prisma';
 import { googleMapsLocationUrl } from '@/components/utils';
 import { google } from 'calendar-link';
@@ -13,7 +13,7 @@ import { IconType } from 'react-icons';
 import { ScrollArrow } from '@/components/ScrollArrow';
 import ScrollImage from '@/components/ScrollImage';
 import MediaRenderer from '@/components/MediaRenderer';
-import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
+import { FALLBACK_IMAGE } from '@/common/constants';
 import PlainsmenHeader from './Header';
 import './index.css';
 import People from './People';
@@ -73,6 +73,20 @@ const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon, size = 45 }) => (
 );
 
 export default async function PlainsmenHome() {
+    const { iconUrl, aboutParagraph, carouselMediaUrls, logoUrl, headerMediaUrl, recruitmentParagraph } = await prisma.page.findFirstOrThrow({
+        where: {
+            id: PageId.Plainsmen,
+        },
+        select: {
+            iconUrl: true,
+            logoUrl: true,
+            aboutParagraph: true,
+            headerMediaUrl: true,
+            carouselMediaUrls: true,
+            recruitmentParagraph: true,
+        },
+    });
+
     const people = (await prisma.personChorus.findMany({
         where: {
             chorusId: ChorusId.Plainsmen,
@@ -95,27 +109,18 @@ export default async function PlainsmenHome() {
         },
     }));
 
-    const paragraphContent = await prisma.paragraphContent.findMany({ where: { page: PageType.Plainsmen } });
-
-    const aboutParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.About);
-    const recruitmentParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.Recruitment);
-
-    const headerMedia = (await prisma.primaryMediaContent.findFirst({ where: { page: PageType.Plainsmen, type: PrimaryMediaContentType.Header }, orderBy: { index: 'asc' } }))?.url;
-    const carouselMedia = (await prisma.primaryMediaContent.findMany({ where: { page: PageType.Plainsmen, type: PrimaryMediaContentType.Carousel }, orderBy: { index: 'asc' } }))
-        .map(({ url }) => url);
-
     return (
         <main className="bg-hw-black [&>*]:font-poppins">
-            <PlainsmenHeader />
+            <PlainsmenHeader iconUrl={iconUrl} />
             <section id="home" className="relative h-screen">
                 <div className="z-10 flex h-full items-center justify-center text-8xl font-medium">
-                    <Image src="/plainsmen-logo.svg" alt="plainsmen-logo" width={500} height={500} className="z-10 h-32 lg:h-52" />
+                    {logoUrl && <Image src={logoUrl} alt="plainsmen-logo" width={500} height={500} className="z-10 h-32 lg:h-52" />}
                 </div>
                 <div className="pointer-events-none absolute inset-0">
                     <MediaRenderer
                         className="size-full"
-                        url={headerMedia ?? DEFAULT_QUARTET_IMAGE}
-                        imageOveride={<ScrollImage url={headerMedia ?? DEFAULT_QUARTET_IMAGE} className="opacity-30" />}
+                        url={headerMediaUrl ?? FALLBACK_IMAGE}
+                        imageOveride={<ScrollImage url={headerMediaUrl ?? FALLBACK_IMAGE} className="opacity-30" />}
                     />
                 </div>
                 <ScrollArrow />
@@ -128,14 +133,14 @@ export default async function PlainsmenHome() {
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
                             <div>
                                 <p className="z-10">
-                                    {aboutParagraph?.content ?? 'Could not load content'}
+                                    {aboutParagraph}
                                 </p>
                                 <div className="z-0 mt-4 grid grid-cols-2 items-center gap-1 lg:grid-cols-3 lg:gap-14">
                                     <People people={people} />
                                 </div>
                             </div>
                             <div className="flex flex-col justify-between">
-                                <MediaCarousel className="z-10 aspect-auto w-full rounded-xl" mediaUrls={carouselMedia} />
+                                <MediaCarousel className="z-10 aspect-auto w-full rounded-xl" mediaUrls={carouselMediaUrls} />
                             </div>
                         </div>
                     </section>
@@ -165,7 +170,7 @@ export default async function PlainsmenHome() {
                         <div className="w-full gap-5 lg:flex lg:flex-row">
                             <div className="lg:w-2/3">
                                 <p>
-                                    {recruitmentParagraph?.content ?? 'Could not load content'}
+                                    {recruitmentParagraph}
                                 </p>
                             </div>
                             <MapComponent />

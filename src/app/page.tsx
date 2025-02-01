@@ -3,32 +3,26 @@ import { FC } from 'react';
 import { MdEmail, MdLocationPin, MdPhone } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { Event, PageType, ParagraphContentType, PrimaryMediaContentType } from '@prisma/client';
-import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
+import { Event, PageId } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
 
 import './index.css';
 import { googleMapsLocationUrl } from '@/components/utils';
 import MediaRenderer from '@/components/MediaRenderer';
+import { FALLBACK_IMAGE } from '@/common/constants';
 import HWHeader from './Header';
 import Quartets from './Quartets';
 
-interface ChorusProfileProps {
-    name: string;
-    photo: string;
-    logo: string;
-}
-
-const ChorusProfile: FC<ChorusProfileProps> = ({ name, photo, logo }) => (
+const ChorusProfile: FC<{ id: string, imageUrl: string | null, logoUrl: string | null }> = ({ id, imageUrl, logoUrl }) => (
     <a
         // This must be an a tag not a Link tag otherwise the prefetched CSS causes issues
-        href={name.toLowerCase()}
+        href={id.toLowerCase()}
         className="flex h-60 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%] lg:h-96"
         style={{
-            backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${photo}')`,
+            backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${imageUrl ?? FALLBACK_IMAGE}')`,
         }}
     >
-        <Image src={logo} width={350} height={350} alt={`${name.toLowerCase()}-logo`} className="w-52 lg:w-64" />
+        {logoUrl ? <Image src={logoUrl} width={350} height={350} alt={`${id.toLowerCase()}-logo`} className="w-52 lg:w-64" /> : id}
     </a>
 );
 
@@ -81,17 +75,33 @@ export default async function HarmonyWaitahaHome() {
         },
     });
 
+    const choruses = await prisma.chorus.findMany({
+        select: {
+            id: true,
+            imageUrl: true,
+            page: {
+                select: {
+                    logoUrl: true,
+                },
+            },
+        },
+    });
+
     const quartets = await prisma.quartet.findMany();
 
-    const aboutParagraph = await prisma.paragraphContent.findFirst({ where: { page: PageType.Home, type: ParagraphContentType.About } });
-
-    const headerMedia = (await prisma.primaryMediaContent.findFirst({ where: { page: PageType.Home, type: PrimaryMediaContentType.Header }, orderBy: { index: 'asc' } }))?.url;
+    const pageContent = await prisma.page.findFirstOrThrow({
+        where: { id: PageId.Home },
+        select: {
+            aboutParagraph: true,
+            headerMediaUrl: true,
+        },
+    });
 
     return (
         <main className="[&>*]:font-poppins">
             <HWHeader />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
-                <MediaRenderer url={headerMedia ?? DEFAULT_QUARTET_IMAGE} className="size-full" />
+                <MediaRenderer url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE} className="size-full" />
 
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
                     <Image src="./hw-logo.svg" className="" width={200} height={200} alt="logo" />
@@ -120,22 +130,13 @@ export default async function HarmonyWaitahaHome() {
                             <span className="text-hw-blue">sing</span>
                         </span>
                         <p>
-                            {aboutParagraph?.content ?? 'Could not load content'}
+                            {pageContent.aboutParagraph}
                         </p>
                     </section>
                     <section id="choruses" className="mt-10 space-y-5">
                         <span className="text-4xl font-semibold">Choruses</span>
                         <div className="grid gap-5 lg:grid-cols-2">
-                            <ChorusProfile
-                                name="Plainsmen"
-                                photo="plainsmen-photo_og.jpg"
-                                logo="plainsmen-logo.svg"
-                            />
-                            <ChorusProfile
-                                name="Qa"
-                                photo="qa-photo.png"
-                                logo="qa-logo.svg"
-                            />
+                            {choruses.map((chorus) => <ChorusProfile key={chorus.id} id={chorus.id} imageUrl={chorus.imageUrl} logoUrl={chorus.page.logoUrl} />)}
                         </div>
                     </section>
                     <section id="quartets" className="mt-10 space-y-5">

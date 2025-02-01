@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FaGlobe } from 'react-icons/fa';
 import { IconType } from 'react-icons';
-import { DEFAULT_QUARTET_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
+import { FALLBACK_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
 import { m, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import useLocalSearchParam from '@/components/useLocalSearchParam';
@@ -35,7 +35,7 @@ function QuartetProfile({ id, name, imageUrl, logoUrl, onClick }: Pick<Quartet, 
                 }}
                 className="absolute inset-0 bg-cover"
                 style={{
-                    backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
+                    backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? FALLBACK_IMAGE}')`,
                 }}
             />
             <div className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-between px-8 pb-5">
@@ -109,7 +109,7 @@ function QuartetModal({
                 <div
                     className="h-full bg-cover lg:w-full"
                     style={{
-                        backgroundImage: `url('${backgroundImageUrl ?? DEFAULT_QUARTET_IMAGE}')`,
+                        backgroundImage: `url('${backgroundImageUrl ?? FALLBACK_IMAGE}')`,
                     }}
                 />
             </m.div>

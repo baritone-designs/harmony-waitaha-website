@@ -86,6 +86,11 @@ enum ChorusId {
 model Chorus {
   id ChorusId @id
 
+  pageId PageId @unique
+  page   Page   @relation(fields: [pageId], references: [id])
+
+  imageUrl String?
+
   people PersonChorus[]
 
   events Event[]
@@ -156,40 +161,26 @@ model Quartet {
   websiteUrl String?
 }
 
-enum PageType {
+enum PageId {
   Home
   Plainsmen
   Qa
 }
 
-enum ParagraphContentType {
-  About
-  Recruitment
-}
+model Page {
+  id PageId @id
 
-model ParagraphContent {
-  page PageType
+  chorus Chorus?
 
-  type ParagraphContentType
+  iconUrl String?
 
-  content String
+  logoUrl String?
 
-  @@id([page, type])
-}
+  aboutParagraph String?
 
-enum PrimaryMediaContentType {
-  Header
-  Carousel
-}
+  recruitmentParagraph String?
 
-model PrimaryMediaContent {
-  index Int
+  headerMediaUrl String?
 
-  page PageType
-
-  type PrimaryMediaContentType
-
-  url String
-
-  @@id([page, type, index])
+  carouselMediaUrls String[]
 }

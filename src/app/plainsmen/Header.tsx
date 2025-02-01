@@ -102,7 +102,7 @@ const NavMobile = () => {
     );
 };
 
-export default function PlainsmenHeader() {
+export default function PlainsmenHeader({ iconUrl }: { iconUrl: string | null }) {
     const [active, setActive] = useState(0);
     const headerRef = useRef<HTMLHeadElement>(null);
 
@@ -138,15 +138,17 @@ export default function PlainsmenHeader() {
             // eslint-disable-next-line tailwindcss/migration-from-tailwind-2
             className="fixed z-40 flex w-full justify-center bg-black/0 lg:h-20 lg:bg-black/30"
         >
-            <div className="invisible flex h-full w-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24">
+            <div className="invisible flex size-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24">
 
                 <m.a href="#home" className="w-12" whileHover={{ opacity: 0.5 }}>
-                    <Image
-                        src="/plainsmen/icon.svg"
-                        alt="plainsmen-logo"
-                        height={60}
-                        width={60}
-                    />
+                    {iconUrl && (
+                        <Image
+                            src={iconUrl}
+                            alt="plainsmen-logo"
+                            height={60}
+                            width={60}
+                        />
+                    )}
                 </m.a>
 
                 <nav className="hidden flex-row gap-12 lg:flex">

@@ -1,6 +1,4 @@
 import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
-// import { IoChevronDown } from 'react-icons/io5';
-// import { MotionA } from '@/components/Motion';
 import Image from 'next/image';
 import { MapComponent } from '@/components/map';
 
@@ -12,13 +10,13 @@ import './index.css';
 import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { ChorusId, Event, PageType, ParagraphContentType, PrimaryMediaContentType } from '@prisma/client';
+import { ChorusId, Event } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
 import { googleMapsLocationUrl } from '@/components/utils';
 import { MediaCarousel } from '@/components/Carousel';
 import ScrollImage from '@/components/ScrollImage';
 import MediaRenderer from '@/components/MediaRenderer';
-import { DEFAULT_QUARTET_IMAGE } from '@/common/constants';
+import { FALLBACK_IMAGE } from '@/common/constants';
 import QAHeader from './Header';
 import People from './People';
 
@@ -77,6 +75,19 @@ const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon, size = 45, classNam
 );
 
 export default async function QAHome() {
+    const { iconUrl, aboutParagraph, carouselMediaUrls, headerMediaUrl, recruitmentParagraph } = await prisma.page.findFirstOrThrow({
+        where: {
+            id: ChorusId.Qa,
+        },
+        select: {
+            iconUrl: true,
+            aboutParagraph: true,
+            headerMediaUrl: true,
+            carouselMediaUrls: true,
+            recruitmentParagraph: true,
+        },
+    });
+
     const people = (await prisma.personChorus.findMany({
         where: {
             chorusId: ChorusId.Qa,
@@ -99,18 +110,9 @@ export default async function QAHome() {
         },
     }));
 
-    const paragraphContent = await prisma.paragraphContent.findMany({ where: { page: PageType.Qa } });
-
-    const aboutParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.About);
-    const recruitmentParagraph = paragraphContent.find(({ type }) => type === ParagraphContentType.Recruitment);
-
-    const headerMedia = (await prisma.primaryMediaContent.findFirst({ where: { page: PageType.Qa, type: PrimaryMediaContentType.Header }, orderBy: { index: 'asc' } }))?.url;
-    const carouselMedia = (await prisma.primaryMediaContent.findMany({ where: { page: PageType.Qa, type: PrimaryMediaContentType.Carousel }, orderBy: { index: 'asc' } }))
-        .map(({ url }) => url);
-
     return (
         <main className="[&>*]:font-pt-sans">
-            <QAHeader />
+            <QAHeader iconUrl={iconUrl} />
             <section id="home" className="h-screen">
                 <div className="relative z-10 flex h-screen flex-col justify-center bg-gradient-to-t from-qa-blue-darker to-transparent to-30%">
                     <div className="flex w-screen justify-center">
@@ -138,8 +140,8 @@ export default async function QAHome() {
                 <div className="pointer-events-none absolute inset-0">
                     <MediaRenderer
                         className="size-full"
-                        url={headerMedia ?? DEFAULT_QUARTET_IMAGE}
-                        imageOveride={<ScrollImage url={headerMedia ?? DEFAULT_QUARTET_IMAGE} className="opacity-30" />}
+                        url={headerMediaUrl ?? FALLBACK_IMAGE}
+                        imageOveride={<ScrollImage url={headerMediaUrl ?? FALLBACK_IMAGE} className="opacity-30" />}
                     />
                 </div>
                 <ScrollArrow />
@@ -150,10 +152,10 @@ export default async function QAHome() {
                         <span className="text-4xl font-semibold text-qa-blue">About Us</span>
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
                             <p className="z-10">
-                                {aboutParagraph?.content ?? 'Could not load content'}
+                                {aboutParagraph}
                             </p>
                             <div className="">
-                                <MediaCarousel className="z-10 aspect-auto w-full rounded-3xl" mediaUrls={carouselMedia} />
+                                <MediaCarousel className="z-10 aspect-auto w-full rounded-3xl" mediaUrls={carouselMediaUrls} />
                             </div>
                         </div>
                         <div className="invisible flex w-full justify-center lg:visible">
@@ -194,7 +196,7 @@ export default async function QAHome() {
                         <div className="w-full gap-5 lg:flex lg:flex-row">
                             <div className="lg:w-2/3">
                                 <p>
-                                    {recruitmentParagraph?.content ?? 'Could not load content'}
+                                    {recruitmentParagraph}
                                 </p>
                             </div>
                             <MapComponent />

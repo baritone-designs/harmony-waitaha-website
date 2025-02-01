@@ -1,4 +1,4 @@
-import { ChorusId, PageType, ParagraphContentType, PrimaryMediaContentType } from '@prisma/client';
+import { ChorusId, PageId } from '@prisma/client';
 import * as yup from 'yup';
 import { DEFAULT_REQUIRED_FIELD_MESSAGE, DEFAULT_TOO_LONG_MESSAGE, DEFAULT_TOO_SHORT_MESSAGE, URL_COMPLIANT_REGEX } from './constants';
 
@@ -23,17 +23,24 @@ export const SocialsSchema = yup.object().shape({
 });
 
 export const ChorusIdSchema = yup.mixed<ChorusId>().oneOf(Object.values(ChorusId));
-export const PageTypeSchema = yup.mixed<PageType>().oneOf(Object.values(PageType));
-export const ParagraphContentTypeSchema = yup.mixed<ParagraphContentType>().oneOf(Object.values(ParagraphContentType));
-
-const UrlArraySchema = yup.array(yup.string().url().required()).required();
+export const PageIdSchema = yup.mixed<PageId>().oneOf(Object.values(PageId));
 
 export const PageContentSchema = yup.object({
-    media: yup.object(Object.keys(PrimaryMediaContentType)
-        .reduce((acc, key) => ({ ...acc, [key]: UrlArraySchema }), {} as Record<PrimaryMediaContentType, typeof UrlArraySchema>)),
+    headerMediaUrl: yup.string().url().required().nullable(),
 
-    paragraphs: yup.object(Object.keys(ParagraphContentType)
-        .reduce((acc, key) => ({ ...acc, [key]: yup.string() }), {} as Record<ParagraphContentType, yup.StringSchema>)),
+    iconUrl: yup.string().url().required().nullable(),
+
+    logoUrl: yup.string().url().required().nullable(),
+
+    carouselMediaUrls: yup.array(yup.string().url().required()).required(),
+
+    aboutParagraph: yup.string().required().nullable(),
+
+    recruitmentParagraph: yup.string().required().nullable(),
+});
+
+export const ChorusSchema = yup.object({
+    imageUrl: yup.string().url().required().nullable(),
 });
 
 /**

@@ -2,7 +2,7 @@ import { IconType } from 'react-icons';
 import { FaFacebook, FaInstagram, FaTiktok, FaYoutubeSquare } from 'react-icons/fa';
 
 export const URL_COMPLIANT_REGEX = /^[\w-]*$/;
-export const DEFAULT_QUARTET_IMAGE = 'defaultqt-photo.png';
+export const FALLBACK_IMAGE = '/fallback-image.png';
 export const DEFAULT_REQUIRED_FIELD_MESSAGE = 'Required';
 export const DEFAULT_TOO_SHORT_MESSAGE = 'Too short';
 export const DEFAULT_TOO_LONG_MESSAGE = 'Too long';
