@@ -26,6 +26,10 @@ export const ChorusIdSchema = yup.mixed<ChorusId>().oneOf(Object.values(ChorusId
 export const PageIdSchema = yup.mixed<PageId>().oneOf(Object.values(PageId));
 
 export const PageContentSchema = yup.object({
+    title: yup.string().required().nullable(),
+
+    description: yup.string().required().nullable(),
+
     headerMediaUrl: yup.string().url().required().nullable(),
 
     iconUrl: yup.string().url().required().nullable(),

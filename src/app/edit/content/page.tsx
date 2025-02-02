@@ -47,6 +47,18 @@ function ContentPane({ page }: ContentPaneProps) {
                         <Stack spacing={1} p={2}>
                             <span className="text-xl">{page}</span>
                             <TextField
+                                label="Title"
+                                variant="standard"
+                                fullWidth
+                                {...formikProps('title', formik)}
+                            />
+                            <TextField
+                                label="Description"
+                                variant="standard"
+                                fullWidth
+                                {...formikProps('description', formik)}
+                            />
+                            <TextField
                                 label="About Paragraph"
                                 variant="standard"
                                 fullWidth

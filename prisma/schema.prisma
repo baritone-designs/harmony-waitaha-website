@@ -175,6 +175,10 @@ model Page {
 
   chorus Chorus?
 
+  title String?
+
+  description String?
+
   iconUrl String?
 
   logoUrl String?

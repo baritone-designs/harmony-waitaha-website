@@ -10,8 +10,11 @@ import './index.css';
 import { googleMapsLocationUrl } from '@/components/utils';
 import MediaRenderer from '@/components/MediaRenderer';
 import { FALLBACK_IMAGE } from '@/common/constants';
+import pageMetadata from '@/components/pageMetadata';
 import HWHeader from './Header';
 import Quartets from './Quartets';
+
+export const generateMetadata = () => pageMetadata(PageId.Home);
 
 const ChorusProfile: FC<{ id: string, imageUrl: string | null, logoUrl: string | null }> = ({ id, imageUrl, logoUrl }) => (
     <a

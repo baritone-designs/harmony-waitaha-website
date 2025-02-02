@@ -1,8 +1,7 @@
-import { Metadata } from 'next';
 import Image from 'next/image';
 import { MediaCarousel } from '@/components/Carousel';
 import { FC } from 'react';
-import { ChorusId, Event } from '@prisma/client';
+import { ChorusId, Event, PageId } from '@prisma/client';
 import { prisma } from '@/common/prisma';
 import { googleMapsLocationUrl } from '@/components/utils';
 import { google } from 'calendar-link';
@@ -14,14 +13,12 @@ import ScrollImage from '@/components/ScrollImage';
 import MediaRenderer from '@/components/MediaRenderer';
 import { FALLBACK_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
 import clsx from 'clsx';
+import pageMetadata from '@/components/pageMetadata';
 import PlainsmenHeader from './Header';
 import './index.css';
 import People from './People';
 
-export const metadata: Metadata = {
-    title: 'The Plainsmen',
-    description: 'Barbershop mens chorus from Christchurch, New Zealand',
-};
+export const generateMetadata = () => pageMetadata(PageId.Plainsmen);
 
 const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Event, 'name' | 'venueName' | 'venueId' | 'time' | 'description'>) => (
     <div className="rounded-xl bg-zinc-800 px-8 py-6">

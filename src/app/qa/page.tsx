@@ -3,13 +3,12 @@ import { MapComponent } from '@/components/map';
 
 import React, { FC } from 'react';
 import { IconType } from 'react-icons';
-import { Metadata } from 'next';
 
 import './index.css';
 import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { ChorusId, Event } from '@prisma/client';
+import { ChorusId, Event, PageId } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
 import { googleMapsLocationUrl } from '@/components/utils';
 import { MediaCarousel } from '@/components/Carousel';
@@ -17,13 +16,11 @@ import ScrollImage from '@/components/ScrollImage';
 import MediaRenderer from '@/components/MediaRenderer';
 import { FALLBACK_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
 import clsx from 'clsx';
+import pageMetadata from '@/components/pageMetadata';
 import QAHeader from './Header';
 import People from './People';
 
-export const metadata: Metadata = {
-    title: 'Quantum Acoustics',
-    description: 'Youth barbershop mixed chorus from Christchurch, New Zealand',
-};
+export const generateMetadata = () => pageMetadata(PageId.Qa);
 
 const EventProfile = ({ name, venueId, venueName, time, description }: Pick<Event, 'name' | 'venueId' | 'venueName' | 'time' | 'description'>) => (
     <div className="rounded-3xl border-4 border-qa-blue p-5">
