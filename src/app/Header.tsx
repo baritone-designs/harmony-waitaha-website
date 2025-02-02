@@ -6,10 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { m, AnimatePresence, motion } from 'framer-motion';
 import { useClickAway } from 'react-use';
-
 import { Squash as Hamburger } from 'hamburger-react';
-
-// import hwLogo from './hw-logo.svg';
 
 interface HeaderLinkProps {
     url: string;
@@ -112,7 +109,7 @@ const NavMobile = () => {
     );
 };
 
-export default function HWHeader() {
+export default function HWHeader({ logoUrl }: { logoUrl: string | null}) {
     const [active, setActive] = useState(0);
     const headerRef = useRef<HTMLHeadElement>(null);
 
@@ -145,15 +142,17 @@ export default function HWHeader() {
     return (
         <header className="fixed z-20 flex w-full justify-center lg:h-20 lg:bg-black/50" ref={headerRef}>
             <div
-                className="invisible flex h-full w-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
+                className="invisible flex size-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
             >
                 <m.a href="#home" className="w-24" whileHover={{ scale: 1.05 }}>
-                    <Image
-                        src="/hw-logo.svg"
-                        alt="hw-logo"
-                        width={100}
-                        height={100}
-                    />
+                    {logoUrl && (
+                        <Image
+                            src={logoUrl}
+                            alt="hw-logo"
+                            width={100}
+                            height={100}
+                        />
+                    )}
                 </m.a>
 
                 <nav className="hidden flex-row gap-12 lg:flex">

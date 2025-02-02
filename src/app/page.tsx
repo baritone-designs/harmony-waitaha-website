@@ -92,6 +92,7 @@ export default async function HarmonyWaitahaHome() {
     const pageContent = await prisma.page.findFirstOrThrow({
         where: { id: PageId.Home },
         select: {
+            logoUrl: true,
             aboutParagraph: true,
             headerMediaUrl: true,
         },
@@ -99,12 +100,12 @@ export default async function HarmonyWaitahaHome() {
 
     return (
         <main className="[&>*]:font-poppins">
-            <HWHeader />
+            <HWHeader logoUrl={pageContent.logoUrl} />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
                 <MediaRenderer url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE} className="size-full" />
 
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
-                    <Image src="./hw-logo.svg" className="" width={200} height={200} alt="logo" />
+                    {pageContent.logoUrl && <Image src={pageContent.logoUrl} className="" width={200} height={200} alt="logo" />}
                 </div>
                 <ScrollArrow />
             </section>
@@ -191,7 +192,7 @@ export default async function HarmonyWaitahaHome() {
                     </section>
                     <footer className="my-10 flex justify-between">
                         <div>
-                            <Image className="h-12 w-28" src="/hw-logo.svg" alt="hw-logo" width={500} height={500} />
+                            {pageContent.logoUrl && <Image className="h-12 w-28" src={pageContent.logoUrl} alt="hw-logo" width={500} height={500} />}
                             <p className="mt-3">© Harmony Waitaha {new Date().getFullYear()}</p>
                         </div>
                         <div className="flex flex-col justify-end">

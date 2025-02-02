@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://harmony-waitaha.vercel.app/">
-    <img src="src/app/hw-logo.svg" alt="Harmony Waitaha" height="140">
+    <img src="hw-logo.svg" alt="Harmony Waitaha" height="140">
   </a>
 </div>
 
