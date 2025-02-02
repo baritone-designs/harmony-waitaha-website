@@ -1,9 +1,8 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { MediaCarousel } from '@/components/Carousel';
-import { FaFacebook } from 'react-icons/fa';
 import { FC } from 'react';
-import { ChorusId, Event, PageId } from '@prisma/client';
+import { ChorusId, Event } from '@prisma/client';
 import { prisma } from '@/common/prisma';
 import { googleMapsLocationUrl } from '@/components/utils';
 import { google } from 'calendar-link';
@@ -13,7 +12,8 @@ import { IconType } from 'react-icons';
 import { ScrollArrow } from '@/components/ScrollArrow';
 import ScrollImage from '@/components/ScrollImage';
 import MediaRenderer from '@/components/MediaRenderer';
-import { FALLBACK_IMAGE } from '@/common/constants';
+import { FALLBACK_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
+import clsx from 'clsx';
 import PlainsmenHeader from './Header';
 import './index.css';
 import People from './People';
@@ -63,27 +63,31 @@ const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Even
 interface SocialLinkProps {
     href: string;
     icon: IconType;
-    size?: number;
 }
 
-const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon, size = 45 }) => (
+const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon }) => (
     <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-pm-blue">
-        <Icon size={size} />
+        <Icon size={25} />
     </a>
 );
 
 export default async function PlainsmenHome() {
-    const { iconUrl, aboutParagraph, carouselMediaUrls, logoUrl, headerMediaUrl, recruitmentParagraph } = await prisma.page.findFirstOrThrow({
+    const { socials, page: { iconUrl, logoUrl, aboutParagraph, carouselMediaUrls, headerMediaUrl, recruitmentParagraph } } = await prisma.chorus.findFirstOrThrow({
         where: {
-            id: PageId.Plainsmen,
+            id: ChorusId.Plainsmen,
         },
         select: {
-            iconUrl: true,
-            logoUrl: true,
-            aboutParagraph: true,
-            headerMediaUrl: true,
-            carouselMediaUrls: true,
-            recruitmentParagraph: true,
+            socials: true,
+            page: {
+                select: {
+                    logoUrl: true,
+                    iconUrl: true,
+                    aboutParagraph: true,
+                    headerMediaUrl: true,
+                    carouselMediaUrls: true,
+                    recruitmentParagraph: true,
+                },
+            },
         },
     });
 
@@ -177,17 +181,24 @@ export default async function PlainsmenHome() {
                         </div>
                     </section>
                     <section id="footer" className="mb-10 flex flex-row items-end justify-between">
-                        <div>
+                        <div className={clsx(Object.values(socials).filter((x) => !!x).length === 0 && 'invisible')}>
                             <span className="text-4xl font-semibold text-pm-blue">Follow Us</span>
                             <div className="mt-2 flex gap-3 text-white">
-                                <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" size={25} />
+                                {Object.entries(socials)
+                                    .map(([key, value]) => value && (
+                                        <SocialLink
+                                            key={key}
+                                            icon={SOCIALS_ICONS[key as keyof typeof SOCIALS_ICONS]}
+                                            href={SOCIALS_PREFIX[key as keyof typeof SOCIALS_PREFIX] + value}
+                                        />
+                                    ))}
                             </div>
                         </div>
                         <a className="hidden h-full flex-col items-center text-pm-blue duration-200 hover:opacity-50 lg:flex" href="/" target="_blank">
                             Harmony Waitaha Website ↗
                         </a>
                         <div className="flex flex-col items-end">
-                            <Image src="/plainsmen-logo.svg" alt="qa-logo/" width={100} height={100} />
+                            {logoUrl && <Image src={logoUrl} alt="plainsmen-logo" width={100} height={100} />}
                             <span>© Plainsmen {new Date().getFullYear()}</span>
                         </div>
                     </section>

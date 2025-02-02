@@ -1,4 +1,3 @@
-import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 import Image from 'next/image';
 import { MapComponent } from '@/components/map';
 
@@ -16,7 +15,8 @@ import { googleMapsLocationUrl } from '@/components/utils';
 import { MediaCarousel } from '@/components/Carousel';
 import ScrollImage from '@/components/ScrollImage';
 import MediaRenderer from '@/components/MediaRenderer';
-import { FALLBACK_IMAGE } from '@/common/constants';
+import { FALLBACK_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
+import clsx from 'clsx';
 import QAHeader from './Header';
 import People from './People';
 
@@ -64,27 +64,32 @@ const EventProfile = ({ name, venueId, venueName, time, description }: Pick<Even
 interface SocialLinkProps {
     href: string;
     icon: IconType;
-    size?: number;
     className: string;
 }
 
-const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon, size = 45, className }) => (
+const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon, className }) => (
     <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-qa-blue hover:drop-shadow-qa-glow-intense">
-        <Icon size={size} className={className} />
+        <Icon size={45} className={className} />
     </a>
 );
 
 export default async function QAHome() {
-    const { iconUrl, aboutParagraph, carouselMediaUrls, headerMediaUrl, recruitmentParagraph } = await prisma.page.findFirstOrThrow({
+    const { socials, page: { iconUrl, logoUrl, aboutParagraph, carouselMediaUrls, headerMediaUrl, recruitmentParagraph } } = await prisma.chorus.findFirstOrThrow({
         where: {
             id: ChorusId.Qa,
         },
         select: {
-            iconUrl: true,
-            aboutParagraph: true,
-            headerMediaUrl: true,
-            carouselMediaUrls: true,
-            recruitmentParagraph: true,
+            socials: true,
+            page: {
+                select: {
+                    logoUrl: true,
+                    iconUrl: true,
+                    aboutParagraph: true,
+                    headerMediaUrl: true,
+                    carouselMediaUrls: true,
+                    recruitmentParagraph: true,
+                },
+            },
         },
     });
 
@@ -127,10 +132,16 @@ export default async function QAHome() {
                                     <span>coustics</span>
                                 </span>
                                 <div className="flex justify-center lg:justify-start">
-                                    <div className="mt-2 flex gap-4 text-white lg:mt-6">
-                                        <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" className="w-6 lg:w-14" />
-                                        <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" className="w-6 lg:w-14" />
-                                        <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" className="w-6 lg:w-14" />
+                                    <div className="mt-2 flex gap-4 text-white lg:mt-6 lg:gap-8">
+                                        {Object.entries(socials)
+                                            .map(([key, value]) => value && (
+                                                <SocialLink
+                                                    key={key}
+                                                    icon={SOCIALS_ICONS[key as keyof typeof SOCIALS_ICONS]}
+                                                    href={SOCIALS_PREFIX[key as keyof typeof SOCIALS_PREFIX] + value}
+                                                    className="w-6 lg:w-10"
+                                                />
+                                            ))}
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +152,12 @@ export default async function QAHome() {
                     <MediaRenderer
                         className="size-full"
                         url={headerMediaUrl ?? FALLBACK_IMAGE}
-                        imageOveride={<ScrollImage url={headerMediaUrl ?? FALLBACK_IMAGE} className="opacity-30" />}
+                        imageOveride={(
+                            <ScrollImage
+                                url={headerMediaUrl ?? FALLBACK_IMAGE}
+                                className="-left-1/3 opacity-40 lg:left-[30%] lg:opacity-100 lg:shadow-[inset_400px_200px_200px_#101c2a]"
+                            />
+                        )}
                     />
                 </div>
                 <ScrollArrow />
@@ -203,19 +219,25 @@ export default async function QAHome() {
                         </div>
                     </section>
                     <section id="footer" className="mb-5 flex flex-row items-end justify-between lg:mb-10">
-                        <div>
+                        <div className={clsx(Object.values(socials).filter((x) => !!x).length === 0 && 'invisible')}>
                             <span className="text-4xl font-semibold text-qa-blue">Follow Us</span>
                             <div className="mt-0 flex gap-4 text-white lg:mt-1">
-                                <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" className="w-5 lg:w-7" />
-                                <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" className="w-5 lg:w-7" />
-                                <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" className="w-5 lg:w-7" />
+                                {Object.entries(socials)
+                                    .map(([key, value]) => value && (
+                                        <SocialLink
+                                            key={key}
+                                            icon={SOCIALS_ICONS[key as keyof typeof SOCIALS_ICONS]}
+                                            href={SOCIALS_PREFIX[key as keyof typeof SOCIALS_PREFIX] + value}
+                                            className="w-5 lg:w-7"
+                                        />
+                                    ))}
                             </div>
                         </div>
                         <a className="hidden h-full flex-col items-center text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense lg:flex" href="/" target="_blank">
                             Harmony Waitaha Website ↗
                         </a>
                         <div className="flex flex-col items-end">
-                            <Image src="/qa-logo.svg" alt="qa-logo/" width={150} height={150} className="w-32" />
+                            {logoUrl && <Image src={logoUrl} alt="qa-logo/" width={150} height={150} className="w-32" />}
                             <span>© Quantum Acoustics {new Date().getFullYear()}</span>
                         </div>
                     </section>

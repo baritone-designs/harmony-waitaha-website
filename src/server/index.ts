@@ -1,4 +1,5 @@
 import { authRouter } from './auth';
+import { chorusesRouter } from './choruses';
 import { contentRouter } from './content';
 import { eventsRouter } from './events';
 import { peopleRouter } from './people';
@@ -11,6 +12,7 @@ export const appRouter = router({
     quartets: quartetsRouter,
     auth: authRouter,
     content: contentRouter,
+    choruses: chorusesRouter,
 });
 
 export type AppRouter = typeof appRouter;

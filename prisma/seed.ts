@@ -17,6 +17,12 @@ async function seed() {
         create: {
             id,
             pageId: id,
+            socials: {
+                facebook: null,
+                instagram: null,
+                tiktok: null,
+                youtube: null,
+            },
         },
         update: {},
     })));

@@ -41,6 +41,7 @@ export const PageContentSchema = yup.object({
 
 export const ChorusSchema = yup.object({
     imageUrl: yup.string().url().required().nullable(),
+    socials: SocialsSchema,
 });
 
 /**

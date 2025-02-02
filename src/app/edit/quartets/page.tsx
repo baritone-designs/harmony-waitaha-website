@@ -6,13 +6,12 @@ import * as yup from 'yup';
 import { QuartetSchema } from '@/common/schema';
 import { MediaUpload } from '@/components/MediaUpload';
 import { Quartet } from '@prisma/client';
-import { Backdrop, Button, CircularProgress, Container, Fab, Grid2, IconButton, Paper, Stack, TextField, InputAdornment } from '@mui/material';
+import { Backdrop, Button, CircularProgress, Container, Fab, Grid2, IconButton, Paper, Stack, TextField } from '@mui/material';
 import { formikProps } from '@/components/formikUtils';
 import { toast } from 'react-toastify';
 import { useCallback, useState } from 'react';
-import { NullableTextField } from '@/components/NullableTextField';
 import { Add, Close } from '@mui/icons-material';
-import { SOCIALS_PREFIX } from '@/common/constants';
+import SocialsEditor from '@/components/SocialsEditor';
 import revalidate from '../revalidate';
 
 type QuartetSchemaType = yup.InferType<typeof QuartetSchema>
@@ -81,30 +80,7 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                                     <TextField variant="standard" label={key} fullWidth {...formikProps(`members.${key}`, formik)} />
                                 ))}
                             </div>
-                            <div className="grid grid-cols-2 gap-2 self-stretch">
-                                {Object.keys(formik.values.socials).map((key) => (
-                                    <NullableTextField
-                                        slotProps={{
-                                            input: {
-                                                startAdornment: (
-                                                    <InputAdornment
-                                                        position="start"
-                                                        sx={{
-                                                            margin: 0,
-                                                        }}
-                                                    >
-                                                        {SOCIALS_PREFIX[key as keyof typeof SOCIALS_PREFIX].substring(8)}
-                                                    </InputAdornment>
-                                                ),
-                                            },
-                                        }}
-                                        variant="standard"
-                                        label={key}
-                                        fullWidth
-                                        {...formikProps(`socials.${key}`, formik)}
-                                    />
-                                ))}
-                            </div>
+                            <SocialsEditor fieldName="socials" formik={formik} />
                             <MediaUpload name="logoUrl" label="Quartet Logo" acceptedTypes={['image/png', 'image/svg+xml']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props

@@ -91,6 +91,9 @@ model Chorus {
 
   imageUrl String?
 
+  /// [Socials]
+  socials Json
+
   people PersonChorus[]
 
   events Event[]
