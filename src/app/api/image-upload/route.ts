@@ -1,13 +1,11 @@
 import { nextAuthOptions } from '@/common/auth';
-import { MAX_IMAGE_SIZE_BYTES } from '@/common/constants';
+import { MAX_IMAGE_SIZE_BYTES, IMAGE_FILE_TYPES } from '@/common/constants';
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 /**
  * Handles uploading of images to the vercel storage
- * @param request
- * @returns
  */
 export async function POST(request: Request): Promise<NextResponse> {
     const body = (await request.json()) as HandleUploadBody;
@@ -27,16 +25,12 @@ export async function POST(request: Request): Promise<NextResponse> {
                 }
 
                 return {
-                    allowedContentTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'],
+                    allowedContentTypes: IMAGE_FILE_TYPES,
                     maximumSizeInBytes: MAX_IMAGE_SIZE_BYTES,
                     tokenPayload: clientPayload,
                 };
             },
-            onUploadCompleted: async () => {
-                // Get notified of client upload completion
-                // ⚠️ This will not work on `localhost` websites,
-                // Use ngrok or similar to get the full upload flow
-            },
+            onUploadCompleted: async () => {},
         });
 
         return NextResponse.json(jsonResponse);

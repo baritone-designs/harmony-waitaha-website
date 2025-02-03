@@ -1,30 +1,26 @@
-import { ScrollImage } from '@/app/qa/ScrollImage';
-import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
-// import { IoChevronDown } from 'react-icons/io5';
-// import { MotionA } from '@/components/Motion';
 import Image from 'next/image';
 import { MapComponent } from '@/components/map';
 
 import React, { FC } from 'react';
 import { IconType } from 'react-icons';
-import { Metadata } from 'next';
 
 import './index.css';
 import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { ChorusId, Event } from '@prisma/client';
+import { ChorusId, Event, PageId } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
-// import qaLogo from './qa-logo.svg';
 import { googleMapsLocationUrl } from '@/components/utils';
-import { CustomCarousel } from '@/components/Carousel';
+import { MediaCarousel } from '@/components/Carousel';
+import ScrollImage from '@/components/ScrollImage';
+import MediaRenderer from '@/components/MediaRenderer';
+import { FALLBACK_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
+import clsx from 'clsx';
+import pageMetadata from '@/components/pageMetadata';
 import QAHeader from './Header';
 import People from './People';
 
-export const metadata: Metadata = {
-    title: 'Quantum Acoustics',
-    description: 'Youth barbershop mixed chorus from Christchurch, New Zealand',
-};
+export const generateMetadata = () => pageMetadata(PageId.Qa);
 
 const EventProfile = ({ name, venueId, venueName, time, description }: Pick<Event, 'name' | 'venueId' | 'venueName' | 'time' | 'description'>) => (
     <div className="rounded-3xl border-4 border-qa-blue p-5">
@@ -65,17 +61,35 @@ const EventProfile = ({ name, venueId, venueName, time, description }: Pick<Even
 interface SocialLinkProps {
     href: string;
     icon: IconType;
-    size?: number;
     className: string;
 }
 
-const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon, size = 45, className }) => (
+const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon, className }) => (
     <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-qa-blue hover:drop-shadow-qa-glow-intense">
-        <Icon size={size} className={className} />
+        <Icon size={45} className={className} />
     </a>
 );
 
 export default async function QAHome() {
+    const { socials, page: { iconUrl, logoUrl, aboutParagraph, carouselMediaUrls, headerMediaUrl, recruitmentParagraph } } = await prisma.chorus.findFirstOrThrow({
+        where: {
+            id: ChorusId.Qa,
+        },
+        select: {
+            socials: true,
+            page: {
+                select: {
+                    logoUrl: true,
+                    iconUrl: true,
+                    aboutParagraph: true,
+                    headerMediaUrl: true,
+                    carouselMediaUrls: true,
+                    recruitmentParagraph: true,
+                },
+            },
+        },
+    });
+
     const people = (await prisma.personChorus.findMany({
         where: {
             chorusId: ChorusId.Qa,
@@ -100,7 +114,7 @@ export default async function QAHome() {
 
     return (
         <main className="[&>*]:font-pt-sans">
-            <QAHeader />
+            <QAHeader iconUrl={iconUrl} />
             <section id="home" className="h-screen">
                 <div className="relative z-10 flex h-screen flex-col justify-center bg-gradient-to-t from-qa-blue-darker to-transparent to-30%">
                     <div className="flex w-screen justify-center">
@@ -115,17 +129,34 @@ export default async function QAHome() {
                                     <span>coustics</span>
                                 </span>
                                 <div className="flex justify-center lg:justify-start">
-                                    <div className="mt-2 flex gap-4 text-white lg:mt-6">
-                                        <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" className="w-6 lg:w-14" />
-                                        <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" className="w-6 lg:w-14" />
-                                        <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" className="w-6 lg:w-14" />
+                                    <div className="mt-2 flex gap-4 text-white lg:mt-6 lg:gap-8">
+                                        {Object.entries(socials)
+                                            .map(([key, value]) => value && (
+                                                <SocialLink
+                                                    key={key}
+                                                    icon={SOCIALS_ICONS[key as keyof typeof SOCIALS_ICONS]}
+                                                    href={SOCIALS_PREFIX[key as keyof typeof SOCIALS_PREFIX] + value}
+                                                    className="w-6 lg:w-10"
+                                                />
+                                            ))}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="pointer-events-none absolute inset-0"><ScrollImage /></div>
+                <div className="pointer-events-none absolute inset-0">
+                    <MediaRenderer
+                        className="size-full"
+                        url={headerMediaUrl ?? FALLBACK_IMAGE}
+                        imageOveride={(
+                            <ScrollImage
+                                url={headerMediaUrl ?? FALLBACK_IMAGE}
+                                className="-left-1/3 opacity-40 lg:left-[30%] lg:opacity-100 lg:shadow-[inset_400px_200px_200px_#101c2a]"
+                            />
+                        )}
+                    />
+                </div>
                 <ScrollArrow />
             </section>
             <div className="flex justify-center">
@@ -134,19 +165,10 @@ export default async function QAHome() {
                         <span className="text-4xl font-semibold text-qa-blue">About Us</span>
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
                             <p className="z-10">
-                                We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
-                                In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat.
-                                Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
-                                <br />
-                                <br />
-                                We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Sed maximus semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla rhoncus.
-                                In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat.
-                                Donec maximus eget mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis.
+                                {aboutParagraph}
                             </p>
                             <div className="">
-                                <CustomCarousel className="z-10 aspect-video w-full rounded-3xl" />
+                                <MediaCarousel className="z-10 aspect-auto w-full rounded-3xl" mediaUrls={carouselMediaUrls} />
                             </div>
                         </div>
                         <div className="invisible flex w-full justify-center lg:visible">
@@ -182,49 +204,37 @@ export default async function QAHome() {
                             )}
                         </div>
                     </section>
-                    {/* <section id="media" className="space-y-4">
-                <span className="text-4xl font-semibold text-qa-blue">Media</span>
-                <div className="scrollbar-hidden -mx-20 overflow-x-scroll 2xl:mx-[-10vw]">
-                    <div className="mx-20 flex w-max flex-row gap-10 2xl:mx-[10vw]">
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                        <div className="h-80 w-80 rounded-3xl bg-black" />
-                    </div>
-                </div>
-            </section> */}
                     <section id="join" className="mb-20 space-y-4">
                         <span className="text-4xl font-semibold text-qa-blue">Wanna Join?</span>
                         <div className="w-full gap-5 lg:flex lg:flex-row">
                             <div className="lg:w-2/3">
                                 <p>
-                                    We are a Barbershop Chorus located in Christchurch, New Zealand that perform a wide
-                                    range of music blah lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus
-                                    semper lectus fa dfaf asdfasdf f adf asdfasdfasdf asdf asdf a dfasdf asdf asdfasdfringilla
-                                    rhoncus. In non mauris lorem. Nullam aliquam massa porta, suscipit urna a, fringilla sem.
-                                    Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec
-                                    elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempor vitae.
+                                    {recruitmentParagraph}
                                 </p>
                             </div>
                             <MapComponent />
                         </div>
                     </section>
                     <section id="footer" className="mb-5 flex flex-row items-end justify-between lg:mb-10">
-                        <div>
+                        <div className={clsx(Object.values(socials).filter((x) => !!x).length === 0 && 'invisible')}>
                             <span className="text-4xl font-semibold text-qa-blue">Follow Us</span>
                             <div className="mt-0 flex gap-4 text-white lg:mt-1">
-                                <SocialLink icon={FaInstagram} href="https://www.instagram.com/qachorus" className="w-5 lg:w-7" />
-                                <SocialLink icon={FaTiktok} href="https://www.tiktok.com/@qachorus" className="w-5 lg:w-7" />
-                                <SocialLink icon={FaFacebook} href="https://www.facebook.com/qachorus/" className="w-5 lg:w-7" />
+                                {Object.entries(socials)
+                                    .map(([key, value]) => value && (
+                                        <SocialLink
+                                            key={key}
+                                            icon={SOCIALS_ICONS[key as keyof typeof SOCIALS_ICONS]}
+                                            href={SOCIALS_PREFIX[key as keyof typeof SOCIALS_PREFIX] + value}
+                                            className="w-5 lg:w-7"
+                                        />
+                                    ))}
                             </div>
                         </div>
                         <a className="hidden h-full flex-col items-center text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense lg:flex" href="/" target="_blank">
                             Harmony Waitaha Website ↗
                         </a>
                         <div className="flex flex-col items-end">
-                            <Image src="/qa-logo.svg" alt="qa-logo/" width={150} height={150} className="w-32" />
+                            {logoUrl && <Image src={logoUrl} alt="qa-logo/" width={150} height={150} className="w-32" />}
                             <span>© Quantum Acoustics {new Date().getFullYear()}</span>
                         </div>
                     </section>

@@ -1,15 +1,16 @@
-import { prisma } from '@/common/prisma';
+import { Container, Grid2, Stack } from '@mui/material';
+import EmailWhitelist from './EmailWhitelist';
+import EditChoruses from './EditChoruses';
 
-export default async function EditRoot() {
-    const choruses = await prisma.chorus.findMany();
-
+export default function EditRoot() {
     return (
-        <div className="flex flex-row gap-5">
-            {choruses.map((chorus) => (
-                <div className="rounded-md bg-slate-900 p-5">
-                    <span>{chorus.id}</span>
-                </div>
-            ))}
-        </div>
+        <Container sx={{ marginY: 5 }} maxWidth="xl">
+            <Stack spacing={2}>
+                <Grid2 container spacing={2}>
+                    <EmailWhitelist />
+                </Grid2>
+                <EditChoruses />
+            </Stack>
+        </Container>
     );
 }

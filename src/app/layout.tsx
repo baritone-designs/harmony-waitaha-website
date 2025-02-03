@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import './gothic-font.css';
 import './globals.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-multi-carousel/lib/styles.css';
 import { CssBaseline } from '@mui/material';
 
 export const metadata: Metadata = {

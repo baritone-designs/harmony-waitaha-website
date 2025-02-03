@@ -3,30 +3,29 @@ import { FC } from 'react';
 import { MdEmail, MdLocationPin, MdPhone } from 'react-icons/md';
 import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
-import { Event } from '@prisma/client';
+import { Event, PageId } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
 
 import './index.css';
 import { googleMapsLocationUrl } from '@/components/utils';
+import MediaRenderer from '@/components/MediaRenderer';
+import { FALLBACK_IMAGE } from '@/common/constants';
+import pageMetadata from '@/components/pageMetadata';
 import HWHeader from './Header';
 import Quartets from './Quartets';
 
-interface ChorusProfileProps {
-    name: string;
-    photo: string;
-    logo: string;
-}
+export const generateMetadata = () => pageMetadata(PageId.Home);
 
-const ChorusProfile: FC<ChorusProfileProps> = ({ name, photo, logo }) => (
+const ChorusProfile: FC<{ id: string, imageUrl: string | null, logoUrl: string | null }> = ({ id, imageUrl, logoUrl }) => (
     <a
         // This must be an a tag not a Link tag otherwise the prefetched CSS causes issues
-        href={name.toLowerCase()}
+        href={id.toLowerCase()}
         className="flex h-60 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%] lg:h-96"
         style={{
-            backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${photo}')`,
+            backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${imageUrl ?? FALLBACK_IMAGE}')`,
         }}
     >
-        <Image src={logo} width={350} height={350} alt={`${name.toLowerCase()}-logo`} className="w-52 lg:w-64" />
+        {logoUrl ? <Image src={logoUrl} width={350} height={350} alt={`${id.toLowerCase()}-logo`} className="w-52 lg:w-64" /> : id}
     </a>
 );
 
@@ -79,17 +78,37 @@ export default async function HarmonyWaitahaHome() {
         },
     });
 
+    const choruses = await prisma.chorus.findMany({
+        select: {
+            id: true,
+            imageUrl: true,
+            page: {
+                select: {
+                    logoUrl: true,
+                },
+            },
+        },
+    });
+
     const quartets = await prisma.quartet.findMany();
+
+    const pageContent = await prisma.page.findFirstOrThrow({
+        where: { id: PageId.Home },
+        select: {
+            logoUrl: true,
+            aboutParagraph: true,
+            headerMediaUrl: true,
+        },
+    });
 
     return (
         <main className="[&>*]:font-poppins">
-            <HWHeader />
+            <HWHeader logoUrl={pageContent.logoUrl} />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
-                <video autoPlay muted loop className="size-full object-cover">
-                    <source src="/main.mp4" type="video/mp4" />
-                </video>
+                <MediaRenderer url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE} className="size-full" />
+
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
-                    <Image src="./hw-logo.svg" className="" width={200} height={200} alt="logo" />
+                    {pageContent.logoUrl && <Image src={pageContent.logoUrl} className="" width={200} height={200} alt="logo" />}
                 </div>
                 <ScrollArrow />
             </section>
@@ -115,28 +134,13 @@ export default async function HarmonyWaitahaHome() {
                             <span className="text-hw-blue">sing</span>
                         </span>
                         <p>
-                            Harmony Waitaha is an umbrella organization encompassing two vibrant a cappella choruses based in Christchurch, New Zealand: the Canterbury
-                            Plainsmen and Quantum Acoustics.
-                            These groups, united by their passion for barbershop style singing, offer unique experiences for singers and audiences alike.
-                            The Canterbury Plainsmen, established in 1947, boasts a rich history and reputation for excellence in barbershop singing.
-                            Their talented members, exceeding 50 men, mesmerize audiences with their precise harmonies and captivating performances.
-                            Quantum Acoustics, on the other hand, presents a fresh perspective with a focus on diversity and inclusion.
-                            This dynamic young group, composed of singers of various backgrounds, brings a contemporary energy to the barbershop scene.
+                            {pageContent.aboutParagraph}
                         </p>
                     </section>
                     <section id="choruses" className="mt-10 space-y-5">
                         <span className="text-4xl font-semibold">Choruses</span>
                         <div className="grid gap-5 lg:grid-cols-2">
-                            <ChorusProfile
-                                name="Plainsmen"
-                                photo="plainsmen-photo_og.jpg"
-                                logo="plainsmen-logo.svg"
-                            />
-                            <ChorusProfile
-                                name="Qa"
-                                photo="qa-photo.png"
-                                logo="qa-logo.svg"
-                            />
+                            {choruses.map((chorus) => <ChorusProfile key={chorus.id} id={chorus.id} imageUrl={chorus.imageUrl} logoUrl={chorus.page.logoUrl} />)}
                         </div>
                     </section>
                     <section id="quartets" className="mt-10 space-y-5">
@@ -187,29 +191,11 @@ export default async function HarmonyWaitahaHome() {
                                     </a>
                                 </div>
                             </div>
-                            {/* <div className="rounded-3xl bg-hw-black p-8">
-                                <form action="">
-                                    <div className="mb-3 grid grid-cols-2 gap-3">
-                                        <label htmlFor="name" className="block text-hw-white">Name
-                                            <input id="name" type="text" placeholder="Enter your name" className="block w-full rounded-md bg-hw-white px-3 py-2 text-hw-black" />
-                                        </label>
-                                        <label htmlFor="email" className="block text-hw-white">Email
-                                            <input id="name" type="text" placeholder="Enter your email" className="block w-full rounded-md bg-hw-white px-3 py-2 text-hw-black" />
-                                        </label>
-                                    </div>
-                                    <label htmlFor="message" className="block text-hw-white">Message
-                                        <textarea id="name" placeholder="Type your message" className="block h-24 w-full resize-none rounded-md bg-hw-white px-3 py-2 text-hw-black" />
-                                    </label>
-                                    <div className="flex justify-center">
-                                        <button type="submit" className="mt-5 rounded-md bg-hw-white px-10 py-2 text-hw-black duration-200 hover:opacity-50">Send</button>
-                                    </div>
-                                </form>
-                            </div> */}
                         </div>
                     </section>
                     <footer className="my-10 flex justify-between">
                         <div>
-                            <Image className="h-12 w-28" src="/hw-logo.svg" alt="hw-logo" width={500} height={500} />
+                            {pageContent.logoUrl && <Image className="h-12 w-28" src={pageContent.logoUrl} alt="hw-logo" width={500} height={500} />}
                             <p className="mt-3">© Harmony Waitaha {new Date().getFullYear()}</p>
                         </div>
                         <div className="flex flex-col justify-end">

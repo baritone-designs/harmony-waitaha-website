@@ -1,9 +1,9 @@
-import { QuartetMembersSchema, QuartetSocialsSchema } from '@/common/schema';
+import { QuartetMembersSchema, SocialsSchema } from '@/common/schema';
 import * as yup from 'yup';
 
 declare global {
     namespace PrismaJson {
-        type QuartetSocials = yup.InferType<typeof QuartetSocialsSchema>
+        type Socials = yup.InferType<typeof SocialsSchema>
 
         type QuartetMembers = yup.InferType<typeof QuartetMembersSchema>
 

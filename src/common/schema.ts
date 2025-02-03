@@ -1,4 +1,4 @@
-import { ChorusId } from '@prisma/client';
+import { ChorusId, PageId } from '@prisma/client';
 import * as yup from 'yup';
 import { DEFAULT_REQUIRED_FIELD_MESSAGE, DEFAULT_TOO_LONG_MESSAGE, DEFAULT_TOO_SHORT_MESSAGE, URL_COMPLIANT_REGEX } from './constants';
 
@@ -12,7 +12,7 @@ export const QuartetMembersSchema = yup.object().shape({
     bass: QuartetMemberName,
 });
 
-export const QuartetSocialsSchema = yup.object().shape({
+export const SocialsSchema = yup.object().shape({
     tiktok: yup.string().required().nullable(),
 
     instagram: yup.string().required().nullable(),
@@ -23,6 +23,30 @@ export const QuartetSocialsSchema = yup.object().shape({
 });
 
 export const ChorusIdSchema = yup.mixed<ChorusId>().oneOf(Object.values(ChorusId));
+export const PageIdSchema = yup.mixed<PageId>().oneOf(Object.values(PageId));
+
+export const PageContentSchema = yup.object({
+    title: yup.string().required().nullable(),
+
+    description: yup.string().required().nullable(),
+
+    headerMediaUrl: yup.string().url().required().nullable(),
+
+    iconUrl: yup.string().url().required().nullable(),
+
+    logoUrl: yup.string().url().required().nullable(),
+
+    carouselMediaUrls: yup.array(yup.string().url().required()).required(),
+
+    aboutParagraph: yup.string().required().nullable(),
+
+    recruitmentParagraph: yup.string().required().nullable(),
+});
+
+export const ChorusSchema = yup.object({
+    imageUrl: yup.string().url().required().nullable(),
+    socials: SocialsSchema,
+});
 
 /**
  * Schema describing the relation between a person and a chorus
@@ -110,7 +134,7 @@ export const QuartetSchema = yup.object().shape({
 
     members: QuartetMembersSchema,
 
-    socials: QuartetSocialsSchema,
+    socials: SocialsSchema,
 
     backgroundImageUrl: yup.string().url().required().nullable(),
     imageUrl: yup.string().url().required().nullable(),

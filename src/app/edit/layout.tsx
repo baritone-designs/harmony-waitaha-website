@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import { PropsWithChildren, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Dashboard, Event, People, Person, SvgIconComponent } from '@mui/icons-material';
+import { Article, Dashboard, Event, People, Person, SvgIconComponent } from '@mui/icons-material';
 import { useRouter, useSelectedLayoutSegment } from 'next/navigation';
 import { User } from 'next-auth';
 import { signOut } from 'next-auth/react';
@@ -82,6 +82,7 @@ const EditPage = protectedClientPage<PropsWithChildren>(({ user, children }) => 
                 <Box sx={{ width: 250 }} role="presentation">
                     <List onClick={() => setDrawerOpen(false)}>
                         <DrawerLink value="" icon={Dashboard}>Dashboard</DrawerLink>
+                        <DrawerLink value="content" icon={Article}>Content</DrawerLink>
                         <DrawerLink value="people" icon={Person}>People</DrawerLink>
                         <DrawerLink value="quartets" icon={People}>Quartets</DrawerLink>
                         <DrawerLink value="events" icon={Event}>Events</DrawerLink>

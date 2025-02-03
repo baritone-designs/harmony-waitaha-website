@@ -1,15 +1,15 @@
 'use client';
 
 import Carousel from 'react-multi-carousel';
-import Image from 'next/image';
-import 'react-multi-carousel/lib/styles.css';
+import MediaRenderer from './MediaRenderer';
 
-interface CustomCarouselProps {
+interface MediaCarouselProps {
     className: string;
+    mediaUrls: string[];
 }
 
-export function CustomCarousel(
-    { className }: CustomCarouselProps,
+export function MediaCarousel(
+    { className, mediaUrls }: MediaCarouselProps,
 ) {
     const responsive = {
         desktop: {
@@ -37,18 +37,7 @@ export function CustomCarousel(
             transitionDuration={500}
             className={className}
         >
-            <div>
-                <Image src="/qa-wave.png" alt="picture" width={10000} height={10000} className="h-full w-full object-cover" draggable={false} />
-            </div>
-            <div>
-                <Image src="/qa-photo.png" alt="picture" width={10000} height={10000} className="h-full w-full object-cover" draggable={false} />
-            </div>
-            <div>
-                <Image src="/plainsmen-photo_og.jpg" alt="picture" width={10000} height={10000} className="h-full w-full object-cover" draggable={false} />
-            </div>
-            <div>
-                <Image src="/defaultqt-photo.png" alt="picture" width={10000} height={10000} className="h-full w-full object-cover" draggable={false} />
-            </div>
+            {mediaUrls.map((url) => <MediaRenderer url={url} className="size-full" />)}
         </Carousel>
     );
 }

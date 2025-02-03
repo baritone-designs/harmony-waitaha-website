@@ -86,6 +86,14 @@ enum ChorusId {
 model Chorus {
   id ChorusId @id
 
+  pageId PageId @unique
+  page   Page   @relation(fields: [pageId], references: [id])
+
+  imageUrl String?
+
+  /// [Socials]
+  socials Json
+
   people PersonChorus[]
 
   events Event[]
@@ -150,8 +158,36 @@ model Quartet {
 
   logoUrl String?
 
-  /// [QuartetSocials]
+  /// [Socials]
   socials Json
 
   websiteUrl String?
+}
+
+enum PageId {
+  Home
+  Plainsmen
+  Qa
+}
+
+model Page {
+  id PageId @id
+
+  chorus Chorus?
+
+  title String?
+
+  description String?
+
+  iconUrl String?
+
+  logoUrl String?
+
+  aboutParagraph String?
+
+  recruitmentParagraph String?
+
+  headerMediaUrl String?
+
+  carouselMediaUrls String[]
 }

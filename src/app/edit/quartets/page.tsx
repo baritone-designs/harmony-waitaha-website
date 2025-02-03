@@ -4,15 +4,14 @@ import { trpc } from '@/common/trpc';
 import { Formik, FormikConfig } from 'formik';
 import * as yup from 'yup';
 import { QuartetSchema } from '@/common/schema';
-import { ImageUpload } from '@/components/ImageUpload';
+import { MediaUpload } from '@/components/MediaUpload';
 import { Quartet } from '@prisma/client';
-import { Backdrop, Button, CircularProgress, Container, Fab, Grid2, IconButton, Paper, Stack, TextField, InputAdornment } from '@mui/material';
+import { Backdrop, Button, CircularProgress, Container, Fab, Grid2, IconButton, Paper, Stack, TextField } from '@mui/material';
 import { formikProps } from '@/components/formikUtils';
 import { toast } from 'react-toastify';
 import { useCallback, useState } from 'react';
-import { NullableTextField } from '@/components/NullableTextField';
 import { Add, Close } from '@mui/icons-material';
-import { SOCIALS_PREFIX } from '@/common/constants';
+import SocialsEditor from '@/components/SocialsEditor';
 import revalidate from '../revalidate';
 
 type QuartetSchemaType = yup.InferType<typeof QuartetSchema>
@@ -81,31 +80,8 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                                     <TextField variant="standard" label={key} fullWidth {...formikProps(`members.${key}`, formik)} />
                                 ))}
                             </div>
-                            <div className="grid grid-cols-2 gap-2 self-stretch">
-                                {Object.keys(formik.values.socials).map((key) => (
-                                    <NullableTextField
-                                        slotProps={{
-                                            input: {
-                                                startAdornment: (
-                                                    <InputAdornment
-                                                        position="start"
-                                                        sx={{
-                                                            margin: 0,
-                                                        }}
-                                                    >
-                                                        {SOCIALS_PREFIX[key as keyof typeof SOCIALS_PREFIX].substring(8)}
-                                                    </InputAdornment>
-                                                ),
-                                            },
-                                        }}
-                                        variant="standard"
-                                        label={key}
-                                        fullWidth
-                                        {...formikProps(`socials.${key}`, formik)}
-                                    />
-                                ))}
-                            </div>
-                            <ImageUpload name="logoUrl" label="Quartet Logo">
+                            <SocialsEditor fieldName="socials" formik={formik} />
+                            <MediaUpload name="logoUrl" label="Quartet Logo" acceptedTypes={['image/png', 'image/svg+xml']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
                                     //  eslint-disable-next-line @next/next/no-img-element
@@ -115,8 +91,8 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                                         className="size-36 rounded-full duration-200 group-hover:opacity-50"
                                     />
                                 )}
-                            </ImageUpload>
-                            <ImageUpload name="imageUrl" label="Quartet Image">
+                            </MediaUpload>
+                            <MediaUpload name="imageUrl" label="Quartet Image" acceptedTypes={['image/png', 'image/jpeg']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
                                     //  eslint-disable-next-line @next/next/no-img-element
@@ -126,8 +102,8 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                                         className="h-44 w-96 rounded-md duration-200 group-hover:opacity-50"
                                     />
                                 )}
-                            </ImageUpload>
-                            <ImageUpload name="backgroundImageUrl" label="Background Image">
+                            </MediaUpload>
+                            <MediaUpload name="backgroundImageUrl" label="Background Image" acceptedTypes={['image/png', 'image/jpeg']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
                                     //  eslint-disable-next-line @next/next/no-img-element
@@ -137,7 +113,7 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                                         className="h-44 w-96 rounded-md duration-200 group-hover:opacity-50"
                                     />
                                 )}
-                            </ImageUpload>
+                            </MediaUpload>
                             {(formik.dirty || props.type === 'new') && <Button variant="outlined" onClick={formik.submitForm}>{props.type === 'existing' ? 'Update' : 'Save'}</Button>}
                             {props.type === 'existing' && <Button variant="outlined" color="error" onClick={props.onDelete}>Delete</Button>}
                             <Backdrop sx={{ position: 'absolute' }} open={formik.isSubmitting}>

@@ -107,7 +107,7 @@ const NavMobile = () => {
     );
 };
 
-export default function QAHeader() {
+export default function QAHeader({ iconUrl }: { iconUrl: string | null }) {
     const [active, setActive] = useState(0);
     const headerRef = useRef<HTMLHeadElement>(null);
 
@@ -143,15 +143,18 @@ export default function QAHeader() {
             ref={headerRef}
         >
             <div
-                className="invisible flex h-full w-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
+                className="invisible flex size-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
             >
+
                 <m.a href="#home" className="w-24" whileHover={{ opacity: 0.5 }}>
-                    <Image
-                        src="/qa/icon.svg"
-                        alt="qa-logo"
-                        width={50}
-                        height={50}
-                    />
+                    {iconUrl && (
+                        <Image
+                            src={iconUrl}
+                            alt="qa-logo"
+                            width={50}
+                            height={50}
+                        />
+                    ) }
                 </m.a>
 
                 <nav className="hidden flex-row gap-12 lg:flex">
