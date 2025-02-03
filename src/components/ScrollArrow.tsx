@@ -18,7 +18,7 @@ export function ScrollArrow() {
                     setHide(true);
                 }}
             >
-                <MdKeyboardArrowDown size={500} className="h-full w-full animate-bounce" />
+                <MdKeyboardArrowDown size={500} className="size-full animate-bounce duration-200 hover:opacity-50" />
             </a>
         </div>
     );
