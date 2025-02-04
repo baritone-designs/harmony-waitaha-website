@@ -105,7 +105,7 @@ export default async function HarmonyWaitahaHome() {
         <main className="[&>*]:font-poppins">
             <HWHeader logoUrl={pageContent.logoUrl} />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
-                <VideoAudio url="/main.mp4" />
+                <VideoAudio url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE} />
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
                     {pageContent.logoUrl && <Image src={pageContent.logoUrl} className="" width={200} height={200} alt="logo" />}
                 </div>
