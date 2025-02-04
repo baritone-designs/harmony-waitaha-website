@@ -22,7 +22,7 @@ export default function VideoAudio({ url }: VideoAudioProps) {
                 <button
                     className={`
                         ${hasAppeared && 'hidden opacity-0'} 
-                        ${fade && 'animate-fade-out opacity-0 transition duration-200'} 
+                        ${fade && 'animate-fade-out opacity-0 transition duration-200'}
                         flex flex-row items-center justify-center gap-2 rounded-full bg-black/60 p-5 text-white duration-200 hover:bg-black/90 hover:text-hw-blue`}
                     onClick={() => {
                         setFade(true);
