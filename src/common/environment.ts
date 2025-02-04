@@ -22,11 +22,8 @@ const EnvironmentSchema = yup.object().shape({
      * Use format: `postgresql://<username>:<password>@localhost:<port>/<database-name>`
      * Please use a local running postgres database we do not have a hosted development database
      */
-    DATABASE_PRISMA_URL: yup.string().required(),
-    /**
-     * Same as DATABASE_URL_NON_POOLING
-     */
-    DATABASE_URL_NON_POOLING: yup.string().required(),
+    DATABASE_URL: yup.string().required(),
+    DATABASE_URL_UNPOOLED: yup.string().required(),
     /**
      * ID of the google cloud credential for OAuth
      */

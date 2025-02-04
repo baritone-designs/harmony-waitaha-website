@@ -4,10 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "prisma generate && next dev",
-    "build": "prisma generate && prisma db push && next build",
-    "build:production": "prisma generate && next build",
+    "build": "prisma generate && prisma migrate deploy && prisma db seed && next build",
     "start": "next start",
-    "start:production": "prisma db push && next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
@@ -24,7 +22,9 @@
     "@trpc/client": "^10.43.6",
     "@trpc/next": "^10.43.6",
     "@trpc/server": "^10.43.6",
+    "@vercel/analytics": "^1.4.1",
     "@vercel/blob": "^0.22.1",
+    "@vercel/speed-insights": "^1.1.0",
     "autosuggest-highlight": "^3.3.4",
     "calendar-link": "^2.7.0",
     "clsx": "^2.0.0",

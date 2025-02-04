@@ -10,6 +10,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import GoogleProvider from '@/providers/GoogleProvider';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { ThemeProvider } from '@mui/material';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { darkTheme } from './materialTheme';
 
 interface ProvidersProps {
@@ -23,6 +25,8 @@ const Providers: FC<PropsWithChildren<ProvidersProps>> = ({ session, children })
                 <SessionProvider session={session}>
                     <LazyMotion features={domMax}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <Analytics />
+                            <SpeedInsights />
                             {children}
                         </LocalizationProvider>
                     </LazyMotion>
