@@ -174,7 +174,6 @@ export default async function HarmonyWaitahaHome() {
                             </div>
                             <div className="rounded-3xl bg-hw-black">
                                 <div className="grid grid-cols-1 gap-5 p-8">
-                                    {/* <span className="text-2xl text-hw-white">Information</span> */}
                                     <a
                                         className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50"
                                         href={googleMapsLocationUrl('3 Brake Street', 'ChIJOYKExbeKMW0Ri4BKBGW0jm8')}
