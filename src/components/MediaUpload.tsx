@@ -47,7 +47,7 @@ export const MediaUpload: FC<MediaUploadProps> = ({ name, label, acceptedTypes, 
 
             const validFileEndings = { ...IMAGE_FORMAT_MAPS, ...VIDEO_FORMAT_MAPS }[file.type]!;
 
-            if (!validFileEndings.some((ending) => file.name.endsWith(ending))) {
+            if (!validFileEndings.some((ending) => file.name.toLowerCase().endsWith(ending))) {
                 toast.error(`File of type ${file.type} must end with one of: ${validFileEndings.join(', ')}`);
                 return;
             }
@@ -65,7 +65,7 @@ export const MediaUpload: FC<MediaUploadProps> = ({ name, label, acceptedTypes, 
             setUploading(true);
 
             try {
-                const { url } = await upload(file.name, file, {
+                const { url } = await upload(file.name.toLowerCase(), file, {
                     access: 'public',
                     handleUploadUrl: isVideo ? '/api/video-upload' : '/api/image-upload',
                 });
