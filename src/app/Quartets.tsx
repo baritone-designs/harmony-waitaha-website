@@ -33,7 +33,7 @@ function QuartetProfile({ id, name, imageUrl, logoUrl, onClick }: Pick<Quartet, 
                         ease: 'easeInOut',
                     },
                 }}
-                className="absolute inset-0 bg-cover"
+                className="absolute inset-0 bg-cover bg-center"
                 style={{
                     backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)), url('${imageUrl ?? FALLBACK_IMAGE}')`,
                 }}
@@ -107,7 +107,7 @@ function QuartetModal({
                     </div>
                 </div>
                 <div
-                    className="h-full bg-cover lg:w-full"
+                    className="h-full bg-cover bg-center lg:w-full"
                     style={{
                         backgroundImage: `url('${backgroundImageUrl ?? FALLBACK_IMAGE}')`,
                     }}
