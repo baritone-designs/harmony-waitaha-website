@@ -5,12 +5,13 @@ import { google } from 'calendar-link';
 import { prisma } from '@/common/prisma';
 import { Event, PageId } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
+import VideoAudio from '@/components/VideoAudio';
 
 import './index.css';
 import { googleMapsLocationUrl } from '@/components/utils';
-import MediaRenderer from '@/components/MediaRenderer';
 import { FALLBACK_IMAGE } from '@/common/constants';
 import pageMetadata from '@/components/pageMetadata';
+import MediaRenderer from '@/components/MediaRenderer';
 import HWHeader from './Header';
 import Quartets from './Quartets';
 
@@ -105,8 +106,7 @@ export default async function HarmonyWaitahaHome() {
         <main className="[&>*]:font-poppins">
             <HWHeader logoUrl={pageContent.logoUrl} />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
-                <MediaRenderer url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE} className="size-full" />
-
+                <MediaRenderer url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE} className="size-full" videoOveride={<VideoAudio url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE} />} />
                 <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
                     {pageContent.logoUrl && <Image src={pageContent.logoUrl} className="" width={200} height={200} alt="logo" />}
                 </div>

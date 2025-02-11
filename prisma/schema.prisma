@@ -11,8 +11,8 @@ generator json {
 
 datasource db {
   provider          = "postgresql"
-  url               = env("DATABASE_PRISMA_URL") // uses connection pooling
-  shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
+  url               = env("DATABASE_URL") // uses connection pooling
+  shadowDatabaseUrl = env("DATABASE_URL_UNPOOLED") // used for migrations
 }
 
 //----------------//
