@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import LocationAutocomplete from '@/components/LocationAutocomplete';
 import { Add, Close } from '@mui/icons-material';
 import { TIMEZONE } from '@/common/constants';
+import { NullableTextField } from '@/components/NullableTextField';
 import revalidate from '../revalidate';
 
 type EventSchemaType = yup.InferType<typeof EventSchema>
@@ -40,6 +41,7 @@ function EventPane({ event, onSubmit, ...props }: EventPaneProps) {
                     venueId: event?.venueId ?? '',
                     venueName: event?.venueName ?? '',
                     time: event?.time ?? new Date(),
+                    learnMoreUrl: event?.learnMoreUrl ?? null,
                     choruses: event?.choruses.map(({ id }) => id) ?? [],
                 }}
                 validationSchema={EventSchema}
@@ -61,6 +63,12 @@ function EventPane({ event, onSubmit, ...props }: EventPaneProps) {
                                 fullWidth
                                 multiline
                                 {...formikProps('description', formik)}
+                            />
+                            <NullableTextField
+                                label="Learn More Url"
+                                variant="standard"
+                                fullWidth
+                                {...formikProps('learnMoreUrl', formik)}
                             />
                             <LocationAutocomplete idField="venueId" nameField="venueName" label="Venue" />
                             <DateTimePicker

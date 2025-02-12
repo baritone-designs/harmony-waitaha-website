@@ -167,15 +167,15 @@ export default async function QAHome() {
                             <p className="z-10">
                                 {aboutParagraph}
                             </p>
-                            <div className="">
-                                <MediaCarousel className="z-10 aspect-auto w-full rounded-3xl" mediaUrls={carouselMediaUrls} />
+                            <div>
+                                <MediaCarousel className="z-10 aspect-video w-full rounded-3xl" mediaUrls={carouselMediaUrls} />
                             </div>
                         </div>
                         <div className="invisible flex w-full justify-center lg:visible">
                             <div className="mb-1 h-0.5 w-60 rounded-full bg-qa-white lg:mt-4" />
                         </div>
                         <div className="flex w-full justify-center">
-                            <div className="z-0 grid grid-cols-2 items-center justify-between gap-3 lg:flex lg:flex-row lg:gap-14">
+                            <div className="grid grid-cols-2 items-center justify-between gap-3 lg:flex lg:flex-row lg:gap-14">
                                 <People people={people} />
                                 {people.length === 0 && (
                                     <span>

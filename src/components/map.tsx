@@ -100,13 +100,13 @@ const defaultMapOptions = {
 // };
 
 const MapComponent = () => (
-    <div className="mt-5 h-60 w-full lg:mt-0 lg:w-1/3">
+    <div className="z-10 mt-5 h-60 w-full lg:mt-0 lg:w-1/3">
         <GoogleMap
             mapContainerStyle={defaultMapContainerStyle}
             center={defaultMapCenter}
             zoom={defaultMapZoom}
             options={defaultMapOptions}
-            // styles={defaultMapStyle}
+        // styles={defaultMapStyle}
         >
             <Marker
                 position={defaultMapCenter}
