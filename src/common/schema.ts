@@ -107,6 +107,8 @@ export const EventSchema = yup.object().shape({
         .string()
         .required(DEFAULT_REQUIRED_FIELD_MESSAGE),
 
+    learnMoreUrl: yup.string().url().required().nullable(),
+
     time: yup.date().required(DEFAULT_REQUIRED_FIELD_MESSAGE),
 
     choruses: yup.array(ChorusIdSchema.required()).required(),

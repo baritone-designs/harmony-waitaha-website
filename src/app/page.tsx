@@ -30,7 +30,7 @@ const ChorusProfile: FC<{ id: string, imageUrl: string | null, logoUrl: string |
     </a>
 );
 
-const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Event, 'name' | 'venueName' | 'venueId' | 'time' | 'description'>) => (
+const EventProfile = ({ name, venueName, venueId, time, description, learnMoreUrl }: Pick<Event, 'name' | 'venueName' | 'venueId' | 'time' | 'description' | 'learnMoreUrl'>) => (
     <div className="rounded-3xl bg-hw-black px-8 py-6">
         <div className="mb-3 flex flex-row justify-between">
             <div>
@@ -63,7 +63,7 @@ const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Even
             </a>
         </div>
         <p className="font-light text-hw-white">{description}</p>
-        <a href="/" className="text-hw-blue underline duration-200 hover:opacity-50">Learn more</a>
+        {learnMoreUrl && <a href={learnMoreUrl} target="_blank" className="text-hw-blue underline duration-200 hover:opacity-50" rel="noreferrer">Learn more</a>}
     </div>
 );
 
@@ -76,6 +76,10 @@ export default async function HarmonyWaitahaHome() {
             venueId: true,
             time: true,
             description: true,
+            learnMoreUrl: true,
+        },
+        orderBy: {
+            time: 'asc',
         },
     });
 
