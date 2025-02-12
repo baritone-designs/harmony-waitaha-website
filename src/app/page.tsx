@@ -99,6 +99,7 @@ export default async function HarmonyWaitahaHome() {
             logoUrl: true,
             aboutParagraph: true,
             headerMediaUrl: true,
+            recruitmentParagraph: true,
         },
     });
 
@@ -164,11 +165,15 @@ export default async function HarmonyWaitahaHome() {
                         </div>
                     </section>
                     <section id="contact" className="mt-10 space-y-5">
-                        <span className="text-4xl font-semibold">Contact Us</span>
-                        <div className="grid gap-5 lg:grid-cols-2">
+                        <span className="text-4xl font-semibold">Join Us Today!</span>
+                        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-5">
+                            <div className="col-span-2 mb-5 rounded-3xl p-0 lg:mb-0">
+                                <p>
+                                    {pageContent.recruitmentParagraph}
+                                </p>
+                            </div>
                             <div className="rounded-3xl bg-hw-black">
                                 <div className="grid grid-cols-1 gap-5 p-8">
-                                    <span className="text-2xl text-hw-white">Information</span>
                                     <a
                                         className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50"
                                         href={googleMapsLocationUrl('3 Brake Street', 'ChIJOYKExbeKMW0Ri4BKBGW0jm8')}
@@ -178,12 +183,12 @@ export default async function HarmonyWaitahaHome() {
                                         <MdLocationPin size={20} />
                                         <div>
                                             <p className="ml-2 text-hw-white">Upper Ricarton Methodist Church</p>
-                                            <p className="ml-2 text-hw-white"> 3 Brake Street, Riccarton, Christchurch</p>
+                                            <p className="ml-2 text-hw-white">3 Brake Street, Riccarton, Christchurch</p>
                                         </div>
                                     </a>
                                     <a className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50" href="tel:+642123456789">
                                         <MdPhone size={20} />
-                                        <span className="ml-2 text-hw-white">021 2345 6789</span>
+                                        <span className="ml-2 text-hw-white">+64 211 427 668</span>
                                     </a>
                                     <a className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50" href="mailto:enquire@harmonywaitaha.co.nz">
                                         <MdEmail size={20} />
@@ -205,7 +210,7 @@ export default async function HarmonyWaitahaHome() {
                                 className="text-hw-blue underline duration-200 hover:opacity-50"
                                 rel="noreferrer"
                             >
-                                Members only site ↗
+                                Members ↗
                             </a>
                         </div>
                     </footer>
