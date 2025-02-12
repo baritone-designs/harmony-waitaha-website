@@ -139,11 +139,11 @@ export default function QAHeader({ iconUrl }: { iconUrl: string | null }) {
 
     return (
         <header
-            className="fixed z-40 flex w-full justify-center bg-gradient-to-b from-qa-blue-darker from-5% to-transparent lg:h-32"
+            className="fixed z-30 flex w-full justify-center bg-gradient-to-b from-qa-blue-darker from-5% to-transparent lg:h-32"
             ref={headerRef}
         >
             <div
-                className="invisible flex size-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
+                className="size-full invisible flex max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
             >
 
                 <m.a href="#home" className="w-24" whileHover={{ opacity: 0.5 }}>
@@ -154,7 +154,7 @@ export default function QAHeader({ iconUrl }: { iconUrl: string | null }) {
                             width={50}
                             height={50}
                         />
-                    ) }
+                    )}
                 </m.a>
 
                 <nav className="hidden flex-row gap-12 lg:flex">

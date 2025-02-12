@@ -31,6 +31,7 @@ function PersonModal({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                className="z-50 flex h-full w-full items-center justify-center"
             >
                 <div className="relative flex w-96 flex-col items-center justify-start gap-5 rounded-xl bg-hw-black">
                     {iconUrl && <Image src={iconUrl} height={1000} width={1000} alt={`${id}-logo`} className="h-72 w-full rounded-t-xl object-cover" />}
