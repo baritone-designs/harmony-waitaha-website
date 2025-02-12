@@ -37,7 +37,7 @@ function PersonModal({
                     {iconUrl && <Image src={iconUrl} height={1000} width={1000} alt={`${id}-logo`} className="h-72 w-full rounded-t-3xl object-cover" />}
                     <div className="flex flex-col gap-2 p-8 pt-3">
                         <h1 className="text-center font-ar-gothic text-4xl font-semibold text-qa-white">{name}</h1>
-                        <span className="text-center">{biography}</span>
+                        <span className="text-center font-pt-sans">{biography}</span>
                     </div>
                 </div>
             </m.div>
