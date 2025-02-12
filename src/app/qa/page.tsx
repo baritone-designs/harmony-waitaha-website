@@ -168,7 +168,7 @@ export default async function QAHome() {
                                 {aboutParagraph}
                             </p>
                             <div>
-                                <MediaCarousel className="z-10 w-full rounded-3xl" mediaUrls={carouselMediaUrls} />
+                                <MediaCarousel className="z-10 aspect-video w-full rounded-3xl" mediaUrls={carouselMediaUrls} />
                             </div>
                         </div>
                         <div className="invisible flex w-full justify-center lg:visible">
