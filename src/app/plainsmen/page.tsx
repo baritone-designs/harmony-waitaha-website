@@ -11,7 +11,7 @@ import { IconType } from 'react-icons';
 import { ScrollArrow } from '@/components/ScrollArrow';
 import ScrollImage from '@/components/ScrollImage';
 import MediaRenderer from '@/components/MediaRenderer';
-import { FALLBACK_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
+import { FALLBACK_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX, TIMEZONE } from '@/common/constants';
 import clsx from 'clsx';
 import pageMetadata from '@/components/pageMetadata';
 import PlainsmenHeader from './Header';
@@ -48,8 +48,8 @@ const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Even
                 target="_blank"
                 rel="noreferrer"
             >
-                <span className="">{time.toLocaleDateString()}</span>
-                <span className="">{time.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
+                <span>{time.toLocaleDateString(undefined, { timeZone: TIMEZONE })}</span>
+                <span>{time.toLocaleTimeString(undefined, { timeStyle: 'short', timeZone: TIMEZONE }).toUpperCase()}</span>
             </a>
         </div>
         <p className="font-light text-hw-white">{description}</p>

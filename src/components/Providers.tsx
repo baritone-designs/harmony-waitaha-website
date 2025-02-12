@@ -12,7 +12,13 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { ThemeProvider } from '@mui/material';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import { darkTheme } from './materialTheme';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 interface ProvidersProps {
     session: Session;
@@ -20,19 +26,21 @@ interface ProvidersProps {
 
 const Providers: FC<PropsWithChildren<ProvidersProps>> = ({ session, children }) => (
     <AppRouterCacheProvider>
-        <ThemeProvider theme={darkTheme}>
-            <GoogleProvider>
-                <SessionProvider session={session}>
-                    <LazyMotion features={domMax}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <Analytics />
-                            <SpeedInsights />
-                            {children}
-                        </LocalizationProvider>
-                    </LazyMotion>
-                </SessionProvider>
-            </GoogleProvider>
-        </ThemeProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <ThemeProvider theme={darkTheme}>
+                <GoogleProvider>
+                    <SessionProvider session={session}>
+                        <LazyMotion features={domMax}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <Analytics />
+                                <SpeedInsights />
+                                {children}
+                            </LocalizationProvider>
+                        </LazyMotion>
+                    </SessionProvider>
+                </GoogleProvider>
+            </ThemeProvider>
+        </LocalizationProvider>
     </AppRouterCacheProvider>
 );
 

@@ -14,7 +14,7 @@ import { googleMapsLocationUrl } from '@/components/utils';
 import { MediaCarousel } from '@/components/Carousel';
 import ScrollImage from '@/components/ScrollImage';
 import MediaRenderer from '@/components/MediaRenderer';
-import { FALLBACK_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX } from '@/common/constants';
+import { FALLBACK_IMAGE, SOCIALS_ICONS, SOCIALS_PREFIX, TIMEZONE } from '@/common/constants';
 import clsx from 'clsx';
 import pageMetadata from '@/components/pageMetadata';
 import QAHeader from './Header';
@@ -49,8 +49,8 @@ const EventProfile = ({ name, venueId, venueName, time, description }: Pick<Even
                 target="_blank"
                 rel="noreferrer"
             >
-                <span className="font-pt-sans">{time.toLocaleDateString()}</span>
-                <span className="font-pt-sans">{time.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
+                <span className="font-pt-sans">{time.toLocaleDateString(undefined, { timeZone: TIMEZONE })}</span>
+                <span className="font-pt-sans">{time.toLocaleTimeString(undefined, { timeStyle: 'short', timeZone: TIMEZONE }).toUpperCase()}</span>
             </a>
         </div>
         <p className="">{description}</p>

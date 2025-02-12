@@ -43,3 +43,5 @@ export const SOCIALS_ICONS: Record<keyof PrismaJson.Socials, IconType> = {
     instagram: FaInstagram,
     youtube: FaYoutubeSquare,
 };
+
+export const TIMEZONE = 'Pacific/Auckland';

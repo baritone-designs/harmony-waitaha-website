@@ -9,7 +9,7 @@ import VideoAudio from '@/components/VideoAudio';
 
 import './index.css';
 import { googleMapsLocationUrl } from '@/components/utils';
-import { FALLBACK_IMAGE } from '@/common/constants';
+import { FALLBACK_IMAGE, TIMEZONE } from '@/common/constants';
 import pageMetadata from '@/components/pageMetadata';
 import MediaRenderer from '@/components/MediaRenderer';
 import HWHeader from './Header';
@@ -58,8 +58,8 @@ const EventProfile = ({ name, venueName, venueId, time, description }: Pick<Even
                 target="_blank"
                 rel="noreferrer"
             >
-                <span className="">{time.toLocaleDateString()}</span>
-                <span className="">{time.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
+                <span>{time.toLocaleDateString(undefined, { timeZone: TIMEZONE })}</span>
+                <span>{time.toLocaleTimeString(undefined, { timeStyle: 'short', timeZone: TIMEZONE }).toUpperCase()}</span>
             </a>
         </div>
         <p className="font-light text-hw-white">{description}</p>

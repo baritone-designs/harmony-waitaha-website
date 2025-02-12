@@ -13,6 +13,7 @@ import { ReactNode, useCallback, useState } from 'react';
 import dayjs from 'dayjs';
 import LocationAutocomplete from '@/components/LocationAutocomplete';
 import { Add, Close } from '@mui/icons-material';
+import { TIMEZONE } from '@/common/constants';
 import revalidate from '../revalidate';
 
 type EventSchemaType = yup.InferType<typeof EventSchema>
@@ -64,7 +65,7 @@ function EventPane({ event, onSubmit, ...props }: EventPaneProps) {
                             <LocationAutocomplete idField="venueId" nameField="venueName" label="Venue" />
                             <DateTimePicker
                                 label="Date/time"
-                                timezone="system"
+                                timezone={TIMEZONE}
                                 value={dayjs(formik.values.time)}
                                 onChange={(value) => formik.setFieldValue('time', value?.toDate(), true)}
                                 className="w-full"
