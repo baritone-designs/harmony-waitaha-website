@@ -72,6 +72,7 @@ function EventPane({ event, onSubmit, ...props }: EventPaneProps) {
                             <LocationAutocomplete idField="venueId" nameField="venueName" label="Venue" />
                             <DateTimePicker
                                 label="Date/time"
+                                timezone="system"
                                 value={dayjs(formik.values.time)}
                                 onChange={(value) => formik.setFieldValue('time', value?.toDate(), true)}
                                 className="w-full"
