@@ -33,7 +33,7 @@ export default function EventProfile({ name, venueId, venueName, time, descripti
                     target="_blank"
                     rel="noreferrer"
                 >
-                    <span className="font-pt-sans">{time.toLocaleDateString()}</span>
+                    <span className="font-pt-sans">{time.toLocaleDateString(undefined, { dateStyle: 'medium' })}</span>
                     <span className="font-pt-sans">{time.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
                 </a>
             </div>

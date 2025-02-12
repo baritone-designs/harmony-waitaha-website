@@ -34,8 +34,8 @@ export default function EventProfile({ name, venueName, venueId, time, descripti
                     target="_blank"
                     rel="noreferrer"
                 >
-                    <span className="">{time.toLocaleDateString()}</span>
-                    <span className="">{time.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
+                    <span>{time.toLocaleDateString(undefined, { dateStyle: 'medium' })}</span>
+                    <span>{time.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
                 </a>
             </div>
             <p className="font-light text-hw-white">{description}</p>
