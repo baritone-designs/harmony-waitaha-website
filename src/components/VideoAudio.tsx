@@ -18,7 +18,7 @@ export default function VideoAudio({ url }: VideoAudioProps) {
 
     return (
         <div>
-            <div className="absolute bottom-28 z-50 flex w-screen justify-center">
+            <div className="absolute bottom-28 z-40 flex w-screen justify-center">
                 <button
                     className={`
                         ${hasAppeared && 'hidden opacity-0'} 
