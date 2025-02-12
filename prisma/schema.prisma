@@ -12,7 +12,8 @@ generator json {
 datasource db {
   provider          = "postgresql"
   url               = env("DATABASE_URL") // uses connection pooling
-  shadowDatabaseUrl = env("DATABASE_URL_UNPOOLED") // used for migrations
+  directUrl         = env("DATABASE_URL_UNPOOLED") // used for migrations
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL_UNPOOLED")
 }
 
 //----------------//
@@ -136,6 +137,8 @@ model Event {
   time DateTime
 
   description String
+
+  learnMoreUrl String?
 
   choruses Chorus[]
 
