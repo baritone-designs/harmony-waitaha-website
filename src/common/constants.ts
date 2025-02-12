@@ -1,5 +1,5 @@
 import { IconType } from 'react-icons';
-import { FaFacebook, FaInstagram, FaTiktok, FaYoutubeSquare } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from 'react-icons/fa';
 
 export const URL_COMPLIANT_REGEX = /^[\w-]*$/;
 export const FALLBACK_IMAGE = '/fallback-image.png';
@@ -41,5 +41,5 @@ export const SOCIALS_ICONS: Record<keyof PrismaJson.Socials, IconType> = {
     tiktok: FaTiktok,
     facebook: FaFacebook,
     instagram: FaInstagram,
-    youtube: FaYoutubeSquare,
+    youtube: FaYoutube,
 };
