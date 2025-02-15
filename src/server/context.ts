@@ -18,7 +18,7 @@ export async function createContext(options: CreateNextContextOptions) {
         projectId: env.GCLOUD_PROJECT_ID,
         credentials: {
             client_email: env.GCLOUD_CLIENT_EMAIL,
-            private_key: env.GCLOUD_PRIVATE_KEY,
+            private_key: env.GCLOUD_PRIVATE_KEY.split(String.raw`\n`).join('\n'), // Needed to fix decoder runtime error
         },
     });
 
