@@ -17,7 +17,7 @@ Codebase for Harmony Waitahas public web suite
 | [`TRPC`](https://trpc.io/)                                                         | Used for the majority of server endpoints. Allows typesafe communication between front end and server |
 | [`Prisma`](https://www.prisma.io/)                                                 | An ORM used for interfacing the postgres database and declaring the database schema                   |
 | [`Postgres`](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads) | Postgres is our database of choice.                                                                   |
-| [`Vercel BLOB`](https://vercel.com/storage/blob)                                   | Used for storing data which cannot be put in a relational database                                    |
+| [`Google Cloud Storage`](https://cloud.google.com/storage)                         | Used for storing data which cannot be put in a relational database                                    |
 
 ## Repo Structure
 
@@ -39,25 +39,25 @@ Codebase for Harmony Waitahas public web suite
 
 Config for the project is done with an untracked `.env` file. The structure of this is documented in [`environment.ts`](src\common\environment.ts).
 
+> [!IMPORTANT]
+> This project has not been setup to work without API secrets from our services such as google auth and storage, so you will not be able to run this without being part of the dev team
+
 ### Database
 
-You must have a postgres instance running locally or one on a personal server as we do not have a hosted development database. Postgres server can be downloaded [here](https://hub.docker.com/_/postgres). Alternatively you can run a [docker image](https://hub.docker.com/_/postgres).
+This project uses a Postgres relational database, using [`Prisma`](https://www.prisma.io/) as an ORM and schema/migration manager.
 
-Vercel BLOB storage cannot be run locally and we do not have a development instance so please be **EXTREMELY** careful when working with this once we are in production.
+Postgres server can be downloaded [here](https://hub.docker.com/_/postgres). Alternatively you can run a [docker image](https://hub.docker.com/_/postgres).
 
-> [!IMPORTANT]
-> Vercel BLOB `onUploadCompleted` will not be called on localhost sites so any image uploads which require a post upload task will not work properly on local
+It is recommended that you run `prisma migrate deploy && prisma db seed` to ensure the database is setup correctly. Note that your database **MUST** be empty when applying migrations for the first time, otherwise it will not be baselined incorrectly.
 
 ## Commands
 
-| Command                    | Description                                                                                                                                                                                                                                                                                          |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`              | Runs a development instance of the NextJS website (this includes the server minus storage/database). This will also generate the Prisma Client code                                                                                                                                                  |
-| `npm run build`            | This will compile the NextJS website including server minus storage/database. This will also generate the Prisma Client code and push the prisma schema to the postgres database. It is recommended you run this before pushing to check for compile errors as `npm run dev` will **NOT** catch them |
-| `npm run build:production` | Same as `npm run build` without pushing the prisma schema to postgres                                                                                                                                                                                                                                |
-| `npm run start`            | This will run an instance of the last compiled NextJS website (`npm run build`)                                                                                                                                                                                                                      |
-| `npm run start:production` | Same as `npm run start` as well as pushing the prisma schema to postgres                                                                                                                                                                                                                             |
-| `npm run lint`             | Runs the  linter                                                                                                                                                                                                                                                                                     |
+| Command                    | Description                                                                                                                                                                                                                                                                                 |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `npm run dev`              | Runs a development instance of the NextJS website (this does not include cloud storage and database). This will also generate the Prisma Client code                                                                                                                                        |
+| `npm run build`            | This will approve the server URL in google storage CORS, generate the prisma schema, apply pending database migrations and seed it, and finally build the NextJS server. It is recommended you run this before pushing to check for compile errors as `npm run dev` will **NOT** catch them |
+| `npm run start`            | This will run an instance of the last compiled NextJS website (`npm run build`)                                                                                                                                                                                                             |
+| `npm run lint`             | Runs the linter                                                                                                                                                                                                                                                                             |
 
 ## Dev tools
 
