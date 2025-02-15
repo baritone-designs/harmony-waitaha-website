@@ -5,8 +5,8 @@
   "scripts": {
     "approve-cors": "tsx approve-cors.ts",
     "dev": "prisma generate && next dev",
-    "build": "prisma generate && prisma migrate deploy && prisma db seed && next build",
-    "start": "npm run approve-cors && next start",
+    "build": "npm run approve-cors && prisma generate && prisma migrate deploy && prisma db seed && next build",
+    "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
