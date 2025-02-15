@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "approve-cors": "tsx approve-cors.ts",
     "dev": "prisma generate && next dev",
     "build": "prisma generate && prisma migrate deploy && prisma db seed && next build",
-    "start": "next start",
+    "start": "npm run approve-cors && next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
@@ -30,6 +31,7 @@
     "calendar-link": "^2.7.0",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.13",
+    "dotenv": "^16.4.7",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.5",
     "hamburger-react": "^2.5.1",
