@@ -1,0 +1,8 @@
+[
+    {
+      "origin": ["http://localhost:3000", "https://www.harmonywaitaha.co.nz/"],
+      "method": ["POST"],
+      "responseHeader": ["Content-Type"],
+      "maxAgeSeconds": 3600
+    }
+]
