@@ -1,5 +1,8 @@
 import * as yup from 'yup';
 
+// Needed for side scripts such as 'approve-cors.ts'
+require('dotenv').config();
+
 const { env: ENV } = process;
 
 /**
@@ -27,11 +30,16 @@ const EnvironmentSchema = yup.object().shape({
     /**
      * ID of the google cloud credential for OAuth
      */
-    GOOGLE_CLIENT_ID: yup.string().required(),
+    GOOGLE_OAUTH_CLIENT_ID: yup.string().required(),
     /**
      * Secret of the google cloud credential for OAuth
      */
-    GOOGLE_CLIENT_SECRET: yup.string().required(),
+    GOOGLE_OAUTH_CLIENT_SECRET: yup.string().required(),
+
+    GCLOUD_PROJECT_ID: yup.string().required(),
+    GCLOUD_CLIENT_EMAIL: yup.string().required(),
+    GCLOUD_PRIVATE_KEY: yup.string().required(),
+    STORAGE_BUCKET_NAME: yup.string().required(),
 
     /**
      * Whitelist of comma seperated email adresses allowed to sign in. Add your email to this to override the database list

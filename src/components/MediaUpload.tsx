@@ -2,8 +2,8 @@ import { FC, ReactNode, useCallback, useState } from 'react';
 import { useField } from 'formik';
 import { Button, CircularProgress } from '@mui/material';
 import { MAX_IMAGE_SIZE_BYTES, MAX_VIDEO_SIZE_BYTES, IMAGE_FILE_TYPES, IMAGE_FORMAT_MAPS, VIDEO_FILE_TYPES, VIDEO_FORMAT_MAPS } from '@/common/constants';
-import { upload } from '@vercel/blob/client';
 import { toast } from 'react-toastify';
+import uploadFile from './uploadFile';
 
 interface MediaUploadProps {
     name: string;
@@ -65,10 +65,7 @@ export const MediaUpload: FC<MediaUploadProps> = ({ name, label, acceptedTypes, 
             setUploading(true);
 
             try {
-                const { url } = await upload(file.name.toLowerCase(), file, {
-                    access: 'public',
-                    handleUploadUrl: isVideo ? '/api/video-upload' : '/api/image-upload',
-                });
+                const url = await uploadFile(file);
 
                 setValue(url);
             } catch (e) {
