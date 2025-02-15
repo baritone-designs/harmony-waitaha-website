@@ -1,6 +1,13 @@
 import { env } from '@/common/environment';
 import { Storage } from '@google-cloud/storage';
 
+const ALL_URLS = new Set([
+    ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []),
+    ...(process.env.VERCEL_BRANCH_URL ? [`https://${process.env.VERCEL_BRANCH_URL}`] : []),
+    ...(process.env.VERCEL_PROJECT_PRODUCTION_URL ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`] : []),
+    ...(process.env.NEXTAUTH_URL ? [process.env.NEXTAUTH_URL] : []), // Nextauth url contains http(s):// prefix
+]);
+
 /**
  * Adds the current server URL to the approved origins in the google cloud storage bucket CORS configuration
  */
@@ -17,11 +24,11 @@ async function configureBucketCors() {
 
     const [metadata] = await bucket.getMetadata();
 
-    const existingCors = metadata.cors?.[0];
+    const existingOrigins = new Set(metadata.cors?.[0].origin ?? []);
 
-    if (!existingCors?.origin?.includes(env.NEXTAUTH_URL)) {
+    if (!existingOrigins.isSupersetOf(ALL_URLS)) {
         await bucket.setCorsConfiguration([{
-            origin: Array.from(new Set([...(existingCors?.origin ?? []), env.NEXTAUTH_URL])),
+            origin: Array.from(existingOrigins.union(ALL_URLS)),
             method: ['POST'],
             responseHeader: ['Content-Type'],
             maxAgeSeconds: 3600,
@@ -29,4 +36,4 @@ async function configureBucketCors() {
     }
 }
 
-configureBucketCors().then(() => console.log(`Successfully approved ${env.NEXTAUTH_URL} for cloud storage CORS`)).catch(console.error);
+configureBucketCors().then(() => console.log(`Successfully approved ${Array.from(ALL_URLS).join(', ')} for cloud storage CORS`)).catch(console.error);

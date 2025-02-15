@@ -12,10 +12,6 @@ const { env: ENV } = process;
  */
 const EnvironmentSchema = yup.object().shape({
     /**
-     * URL of the website, required for redirects from login providers
-     */
-    NEXTAUTH_URL: yup.string().required(),
-    /**
      * Can be anything, but preferably some long random string
      */
     NEXTAUTH_SECRET: yup.string().required(),
