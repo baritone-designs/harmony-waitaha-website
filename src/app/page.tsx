@@ -172,7 +172,7 @@ export default async function HarmonyWaitahaHome() {
                         </div>
                         <div className="flex flex-col justify-end">
                             <a
-                                href="https://members.harmonywaitaha.co.nz/dbpage.php?pg=membersonly"
+                                href="https://www.members.harmonywaitaha.co.nz/dbpage.php?pg=membersonly"
                                 target="_blank"
                                 className="text-hw-blue underline duration-200 hover:opacity-50"
                                 rel="noreferrer"
