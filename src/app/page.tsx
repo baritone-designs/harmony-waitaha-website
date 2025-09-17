@@ -11,6 +11,7 @@ import { googleMapsLocationUrl } from '@/components/utils';
 import { FALLBACK_IMAGE } from '@/common/constants';
 import pageMetadata from '@/components/pageMetadata';
 import MediaRenderer from '@/components/MediaRenderer';
+import ConventionPopup from '@/components/ConventionPopup';
 import HWHeader from './Header';
 import Quartets from './Quartets';
 import EventProfile from './EventProfile';
@@ -243,6 +244,7 @@ export default async function HarmonyWaitahaHome() {
                     </footer>
                 </div>
             </div>
+            <ConventionPopup />
         </main>
     );
 }
