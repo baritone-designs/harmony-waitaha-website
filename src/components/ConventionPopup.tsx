@@ -33,10 +33,10 @@ export default function ConventionPopup() {
                                 borderRadius: '24px',
                             }}
                             className={clsx(
-                                'absolute left-1/2 top-48 z-50 flex -translate-x-1/2 flex-col items-center gap-3 overflow-hidden bg-hw-white p-10',
+                                'absolute left-1/2 top-1/2 z-50 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-3 overflow-hidden bg-hw-white p-10 text-center',
                             )}
                         >
-                            <img src="/convention-logo.png" alt="convention-logo" />
+                            <img src="/convention-logo.png" alt="convention-logo" className="hidden lg:block" />
                             <span className="text-5xl">Welcome to <b>He Awa Whiria</b>!</span>
                             <span className="text-4xl">BHNZ 2025 Convention</span>
                             <span className="text-3xl">Hosted by Harmony Waitaha</span>
