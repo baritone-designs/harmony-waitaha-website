@@ -42,10 +42,17 @@ export default function ConventionPopup() {
                             <button onClick={() => setOpen('false')} type="button">
                                 <Close className="absolute right-5 top-5 text-hw-black duration-200 hover:opacity-75" />
                             </button>
+                            <span className="mt-10 text-xl">Important Links:</span>
                             <div className="flex flex-row gap-5 text-xl text-hw-black underline">
                                 <a target="_blank" href="https://convention.barbershopharmony.nz/" rel="noreferrer">Convention Website</a>
                                 <a target="_blank" href="https://convention.barbershopharmony.nz/files/He%20Awa%20Whira%202025%20Programme%20(15).pdf" rel="noreferrer">Programme</a>
                                 <a target="_blank" href="https://whosup.live/bhnz25" rel="noreferrer">Whosup</a>
+                            </div>
+                            <span className="text-xl">Live Streams:</span>
+                            <div className="flex flex-row gap-5 text-xl text-hw-black underline">
+                                <a target="_blank" href="https://www.youtube.com/watch?v=2np8jCglBoA" rel="noreferrer">Quartet Semifinals</a>
+                                <a target="_blank" href="https://www.youtube.com/watch?v=jI7zmbCM-FU" rel="noreferrer">Quartet Finals</a>
+                                <a target="_blank" href="https://www.youtube.com/watch?v=7fIit2BoFnY" rel="noreferrer">Chorus Finals</a>
                             </div>
                         </m.div>
                     </ModalBackdrop>
