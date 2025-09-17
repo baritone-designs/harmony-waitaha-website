@@ -9,11 +9,13 @@ import ModalBackdrop from './ModalBackdrop';
 export default function ConventionPopup() {
     const [open, setOpen] = useCookie('convention-popup');
 
+    if (new Date() >= new Date('2025-09-22')) {
+        return null;
+    }
+
     if (open === null) {
         setOpen('true');
     }
-
-    const show = (open === 'true') && (new Date() < new Date('2025-09-22'));
 
     return (
         <>
@@ -21,7 +23,7 @@ export default function ConventionPopup() {
                 <span className="text-3xl" style={{ writingMode: 'vertical-rl' }}>Convention</span>
             </button>
             <AnimatePresence>
-                {show && (
+                {open === 'true' && (
                     <ModalBackdrop onClose={() => setOpen('false')}>
                         <m.div
                             initial={{ opacity: 0 }}
