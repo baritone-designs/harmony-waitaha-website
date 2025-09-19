@@ -52,9 +52,9 @@ export default function ConventionPopup() {
                             </div>
                             <span className="text-xl">Live Streams:</span>
                             <div className="flex flex-row gap-5 text-xl text-hw-black underline">
-                                <a target="_blank" href="https://www.youtube.com/watch?v=2np8jCglBoA" rel="noreferrer">Quartet Semifinals</a>
-                                <a target="_blank" href="https://www.youtube.com/watch?v=jI7zmbCM-FU" rel="noreferrer">Quartet Finals</a>
-                                <a target="_blank" href="https://www.youtube.com/watch?v=7fIit2BoFnY" rel="noreferrer">Chorus Finals</a>
+                                <a target="_blank" href="https://www.youtube.com/watch?v=WHkCray69Ek" rel="noreferrer">Quartet Semifinals</a>
+                                <a target="_blank" href="https://www.youtube.com/watch?v=RtsK8befXEA" rel="noreferrer">Quartet Finals</a>
+                                <a target="_blank" href="https://www.youtube.com/watch?v=z3Q-huhLFLc" rel="noreferrer">Chorus Finals</a>
                             </div>
                         </m.div>
                     </ModalBackdrop>
