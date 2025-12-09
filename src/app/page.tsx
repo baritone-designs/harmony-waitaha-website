@@ -121,7 +121,7 @@ export default async function HarmonyWaitahaHome() {
                 <MediaRenderer
                     url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE}
                     className="size-full"
-                    videoOveride={
+                    videoOverride={
                         <VideoAudio url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE} />
                     }
                 />
