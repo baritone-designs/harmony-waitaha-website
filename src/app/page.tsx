@@ -48,7 +48,9 @@ const ChorusProfile: FC<{
 );
 
 export default async function HarmonyWaitahaHome() {
-    const events = await prisma.event.findMany({
+    const now = new Date();
+
+    const upcomingEvents = await prisma.event.findMany({
         select: {
             id: true,
             name: true,
@@ -58,8 +60,33 @@ export default async function HarmonyWaitahaHome() {
             description: true,
             learnMoreUrl: true,
         },
+        where: {
+            time: {
+                gte: now,
+            },
+        },
         orderBy: {
             time: 'asc',
+        },
+    });
+
+    const pastEvents = await prisma.event.findMany({
+        select: {
+            id: true,
+            name: true,
+            venueName: true,
+            venueId: true,
+            time: true,
+            description: true,
+            learnMoreUrl: true,
+        },
+        where: {
+            time: {
+                lt: now,
+            },
+        },
+        orderBy: {
+            time: 'desc',
         },
     });
 
@@ -158,10 +185,10 @@ export default async function HarmonyWaitahaHome() {
                     <section id="events" className="mt-10 space-y-5">
                         <span className="text-4xl font-semibold">Upcoming Events</span>
                         <div className="grid w-full gap-5 lg:grid-cols-3">
-                            {events.map(({ id, ...event }) => (
+                            {upcomingEvents.map(({ id, ...event }) => (
                                 <EventProfile key={id} {...event} />
                             ))}
-                            {events.length === 0 && (
+                            {upcomingEvents.length === 0 && (
                                 <span>
                                     There are no scheduled events at this time, check again at a
                                     later date for any new developments!
@@ -169,6 +196,16 @@ export default async function HarmonyWaitahaHome() {
                             )}
                         </div>
                     </section>
+                    {pastEvents.length > 0 && (
+                        <section id="past-events" className="mt-10 space-y-5">
+                            <span className="text-4xl font-semibold">Past Events</span>
+                            <div className="grid w-full gap-5 lg:grid-cols-3">
+                                {pastEvents.map(({ id, ...event }) => (
+                                    <EventProfile key={id} {...event} />
+                                ))}
+                            </div>
+                        </section>
+                    )}
                     <section id="contact" className="mt-10 space-y-5">
                         <span className="text-4xl font-semibold">Join Us Today!</span>
                         <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-5">

@@ -7,7 +7,7 @@ interface MediaRendererProps {
     className: string;
 
     videoOveride?: ReactNode;
-    imageOveride?: ReactNode;
+    imageOverride?: ReactNode;
 }
 
 /**
@@ -15,7 +15,7 @@ interface MediaRendererProps {
  *
  * The type of rendering is infered from the file ending on the URL, the provided URL must have this file ending or the component may not work
  */
-export default function MediaRenderer({ url, className, imageOveride, videoOveride }: MediaRendererProps) {
+export default function MediaRenderer({ url, className, imageOverride: imageOveride, videoOveride }: MediaRendererProps) {
     const isVideo = VIDEO_FILE_ENDINGS.some((ending) => url.endsWith(ending));
 
     const isImage = IMAGE_FILE_ENDINGS.some((ending) => url.endsWith(ending));
