@@ -15,6 +15,7 @@ import {
 } from '@/common/constants';
 import clsx from 'clsx';
 import pageMetadata from '@/components/pageMetadata';
+import EventsSection from '@/components/EventsSection';
 import PlainsmenHeader from './Header';
 import './index.css';
 import People from './People';
@@ -144,28 +145,24 @@ export default async function PlainsmenHome() {
                         </div>
                     </section>
 
-                    <section id="events" className="mb-10 space-y-4">
-                        <span className="text-4xl font-semibold text-pm-blue">
-                            Upcoming Events
-                        </span>
-                        <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-3">
-                            {events.map(({ id, ...event }) => (
-                                <EventProfile key={id} {...event} />
-                            ))}
-                            {events.length === 0 && (
-                                <span>
-                                    The Plainsmen have no scheduled events at this time, click{' '}
-                                    <a
-                                        href="/#events"
-                                        className="text-pm-blue duration-200 hover:opacity-50"
-                                    >
-                                        here
-                                    </a>{' '}
-                                    to see events for all of Harmony Waitaha
-                                </span>
-                            )}
-                        </div>
-                    </section>
+                    <EventsSection
+                        events={events}
+                        renderEvent={(event) => <EventProfile {...event} />}
+                        emptyMessage={(
+                            <span>
+                                The Plainsmen have no scheduled events at this time, click{' '}
+                                <a
+                                    href="/#events"
+                                    className="text-pm-blue duration-200 hover:opacity-50"
+                                >
+                                    here
+                                </a>{' '}
+                                to see events for all of Harmony Waitaha
+                            </span>
+                        )}
+                        titleClassName="text-4xl font-semibold text-pm-blue"
+                        className="mb-10"
+                    />
 
                     <section id="join" className="mb-20 space-y-4">
                         <span className="text-4xl font-semibold text-pm-blue">

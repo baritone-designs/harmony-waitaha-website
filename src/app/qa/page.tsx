@@ -18,6 +18,7 @@ import {
 } from '@/common/constants';
 import clsx from 'clsx';
 import pageMetadata from '@/components/pageMetadata';
+import EventsSection from '@/components/EventsSection';
 import QAHeader from './Header';
 import People from './People';
 import EventProfile from './EventProfile';
@@ -85,37 +86,13 @@ export default async function QAHome() {
         ...x.person,
     }));
 
-    const now = new Date();
-
-    const upcomingEvents = await prisma.event.findMany({
+    const events = await prisma.event.findMany({
         where: {
             choruses: {
                 some: {
                     id: ChorusId.Qa,
                 },
             },
-            time: {
-                gte: now,
-            },
-        },
-        orderBy: {
-            time: 'asc',
-        },
-    });
-
-    const pastEvents = await prisma.event.findMany({
-        where: {
-            choruses: {
-                some: {
-                    id: ChorusId.Qa,
-                },
-            },
-            time: {
-                lt: now,
-            },
-        },
-        orderBy: {
-            time: 'desc',
         },
     });
 
@@ -208,40 +185,24 @@ export default async function QAHome() {
                             </div>
                         </div>
                     </section>
-                    <section id="events" className="mb-10 space-y-4">
-                        <span className="text-4xl font-semibold text-qa-blue">
-                            Upcoming Events
-                        </span>
-                        <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-3">
-                            {upcomingEvents.map(({ id, ...event }) => (
-                                <EventProfile key={id} {...event} />
-                            ))}
-                            {upcomingEvents.length === 0 && (
-                                <span>
-                                    Quantum Acoustics have no scheduled events at this time, click{' '}
-                                    <a
-                                        href="/#events"
-                                        className="text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense"
-                                    >
-                                        here
-                                    </a>{' '}
-                                    to see events for all of Harmony Waitaha
-                                </span>
-                            )}
-                        </div>
-                    </section>
-                    {pastEvents.length > 0 && (
-                        <section id="past-events" className="mb-10 space-y-4">
-                            <span className="text-4xl font-semibold text-qa-blue">
-                                Past Events
+                    <EventsSection
+                        events={events}
+                        renderEvent={(event) => <EventProfile {...event} />}
+                        emptyMessage={(
+                            <span>
+                                Quantum Acoustics have no scheduled events at this time, click{' '}
+                                <a
+                                    href="/#events"
+                                    className="text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense"
+                                >
+                                    here
+                                </a>{' '}
+                                to see events for all of Harmony Waitaha
                             </span>
-                            <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-3">
-                                {pastEvents.map(({ id, ...event }) => (
-                                    <EventProfile key={id} {...event} />
-                                ))}
-                            </div>
-                        </section>
-                    )}
+                        )}
+                        titleClassName="text-4xl font-semibold text-qa-blue"
+                        className="mb-10"
+                    />
                     <section id="join" className="mb-20 space-y-4">
                         <span className="text-4xl font-semibold text-qa-blue">
                             Wanna Join?
