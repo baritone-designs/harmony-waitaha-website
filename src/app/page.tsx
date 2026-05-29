@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { FC } from 'react';
-import { MdEmail, MdLocationPin, MdPhone } from 'react-icons/md';
+import { MdEmail, MdLocationPin } from 'react-icons/md';
 import { prisma } from '@/common/prisma';
 import { PageId } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
