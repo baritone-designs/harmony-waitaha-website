@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { FC } from 'react';
-import { MdEmail, MdLocationPin, MdPhone } from 'react-icons/md';
+import { MdEmail, MdLocationPin } from 'react-icons/md';
 import { prisma } from '@/common/prisma';
 import { PageId } from '@prisma/client';
 import { ScrollArrow } from '@/components/ScrollArrow';
@@ -198,18 +198,11 @@ export default async function HarmonyWaitahaHome() {
                                     </a>
                                     <a
                                         className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50"
-                                        href="tel:+642123456789"
-                                    >
-                                        <MdPhone size={20} />
-                                        <span className="ml-2 text-hw-white">+64 211 427 668</span>
-                                    </a>
-                                    <a
-                                        className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50"
-                                        href="mailto:enquire@harmonywaitaha.co.nz"
+                                        href="mailto:secretary@harmonywaitaha.co.nz"
                                     >
                                         <MdEmail size={20} />
                                         <span className="ml-2 text-hw-white">
-                                            enquire@harmonywaitaha.co.nz
+                                            secretary@harmonywaitaha.co.nz
                                         </span>
                                     </a>
                                 </div>
