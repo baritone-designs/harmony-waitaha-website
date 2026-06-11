@@ -25,7 +25,7 @@ const ChorusProfile: FC<{
 }> = ({ id, imageUrl, logoUrl }) => (
     <a // This must be an a tag not a Link tag otherwise the prefetched CSS causes issues
         href={id.toLowerCase()}
-        className="flex h-60 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%] lg:h-96"
+        className="flex h-60 w-full items-center justify-center rounded-3xl bg-size-[100%] bg-position-[center_60%] duration-300 hover:bg-size-[110%] lg:h-96"
         style={{
             backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${
                 imageUrl ?? FALLBACK_IMAGE
@@ -112,7 +112,7 @@ export default async function HarmonyWaitahaHome() {
             </section>
 
             <div className="flex justify-center">
-                <div className="max-w-screen-2xl px-5 lg:px-20">
+                <div className="max-w-(--breakpoint-2xl) px-5 lg:px-20">
                     <section
                         id="about"
                         className="flex flex-col items-center gap-5 pt-16"
@@ -177,7 +177,7 @@ export default async function HarmonyWaitahaHome() {
                             <div className="rounded-3xl bg-hw-black">
                                 <div className="grid grid-cols-1 gap-5 p-8">
                                     <a
-                                        className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50"
+                                        className="flex items-center *:duration-200 *:hover:opacity-50"
                                         href={googleMapsLocationUrl(
                                             '3 Brake Street',
                                             'ChIJOYKExbeKMW0Ri4BKBGW0jm8',
@@ -196,7 +196,7 @@ export default async function HarmonyWaitahaHome() {
                                         </div>
                                     </a>
                                     <a
-                                        className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50"
+                                        className="flex items-center *:duration-200 *:hover:opacity-50"
                                         href="mailto:secretary@harmonywaitaha.co.nz"
                                     >
                                         <MdEmail size={20} />

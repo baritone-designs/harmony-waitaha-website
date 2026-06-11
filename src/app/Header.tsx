@@ -142,7 +142,7 @@ export default function HWHeader({ logoUrl }: { logoUrl: string | null}) {
     return (
         <header className="fixed z-20 flex w-full justify-center lg:h-20 lg:bg-black/50" ref={headerRef}>
             <div
-                className="invisible flex size-full max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
+                className="invisible flex size-full max-w-(--breakpoint-2xl) flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
             >
                 <m.a href="#home" className="w-24" whileHover={{ scale: 1.05 }}>
                     {logoUrl && (
