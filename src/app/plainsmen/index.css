@@ -1,16 +1,19 @@
-@layer {
+@reference "./globals.css";
+
+@layer base {
   * {
     scroll-margin-top: 14vh;
   }
 
   body {
-    @apply bg-hw-black !important;
+    background-color: var(--color-hw-black) !important;
   }
 
   a,
   span,
   label,
   p {
-    @apply font-poppins text-hw-white;
+    font-family: var(--font-poppins);
+    color: var(--color-hw-white);
   }
 }
