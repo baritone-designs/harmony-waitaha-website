@@ -23,8 +23,7 @@ const ChorusProfile: FC<{
   imageUrl: string | null;
   logoUrl: string | null;
 }> = ({ id, imageUrl, logoUrl }) => (
-    <a
-    // This must be an a tag not a Link tag otherwise the prefetched CSS causes issues
+    <a // This must be an a tag not a Link tag otherwise the prefetched CSS causes issues
         href={id.toLowerCase()}
         className="flex h-60 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%] lg:h-96"
         style={{
