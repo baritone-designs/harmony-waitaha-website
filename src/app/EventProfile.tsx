@@ -12,7 +12,7 @@ export default function EventProfile({ name, venueName, venueId, time, descripti
                 <div>
                     <span className="text-2xl text-hw-white">{name}</span>
                     <a
-                        className="flex flex-row items-center gap-2 [&>*]:duration-200 [&>*]:hover:opacity-50"
+                        className="flex flex-row items-center gap-2 *:duration-200 *:hover:opacity-50"
                         href={googleMapsLocationUrl(venueName, venueId)}
                         target="_blank"
                         rel="noreferrer"
@@ -23,7 +23,7 @@ export default function EventProfile({ name, venueName, venueId, time, descripti
                 </div>
 
                 <a
-                    className="flex flex-col items-end [&>*]:text-hw-white [&>*]:duration-200 [&>*]:hover:opacity-50"
+                    className="flex flex-col items-end [&>*]:text-hw-white *:duration-200 *:hover:opacity-50"
                     href={google({
                         title: name,
                         description,

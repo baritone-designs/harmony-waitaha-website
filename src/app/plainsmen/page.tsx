@@ -89,7 +89,7 @@ export default async function PlainsmenHome() {
             </section>
 
             <div className="flex justify-center">
-                <div className="w-full max-w-screen-2xl px-5 lg:px-20">
+                <div className="w-full max-w-(--breakpoint-2xl) px-5 lg:px-20">
                     <section id="about" className="my-10 space-y-4">
                         <span className="text-4xl font-semibold text-pm-blue">About Us</span>
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
