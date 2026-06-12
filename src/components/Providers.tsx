@@ -19,7 +19,7 @@ interface ProvidersProps {
 }
 
 const Providers: FC<PropsWithChildren<ProvidersProps>> = ({ session, children }) => (
-    <AppRouterCacheProvider>
+    <AppRouterCacheProvider options={{ enableCssLayer: true }}>
         <ThemeProvider theme={darkTheme}>
             <GoogleProvider>
                 <SessionProvider session={session}>
