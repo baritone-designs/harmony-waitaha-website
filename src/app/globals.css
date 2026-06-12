@@ -1,6 +1,8 @@
 @import 'tailwindcss' layer(base);
 @import 'tailwindcss';
 
+@layer theme, base, mui, components, utilities;
+
 @layer {
   :root {
     @apply scroll-smooth overflow-x-hidden;
