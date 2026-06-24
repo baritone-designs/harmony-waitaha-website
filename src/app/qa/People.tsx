@@ -6,15 +6,15 @@ import { m, AnimatePresence } from 'framer-motion';
 import useLocalSearchParam from '@/components/useLocalSearchParam';
 import ModalBackdrop from '@/components/ModalBackdrop';
 
-const PersonProfile = ({ iconUrl, name, role, onClick }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string, onClick: Function }) => (
+const PersonProfile = ({ iconUrl, name, role, onClick }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string, onClick: () => void }) => (
     <button
         type="button"
         onClick={() => onClick()}
         className="group flex flex-col items-center rounded-3xl border-2 border-transparent p-1 duration-200 hover:scale-105 lg:p-4"
     >
         <div className="size-40 rounded-full bg-cover bg-center duration-200" style={{ backgroundImage: `url('${iconUrl}')` }} />
-        <span className="mt-5 text-center text-lg font-medium duration-200 group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light">{name}</span>
-        <span className="text-center font-pt-sans text-sm">{role}</span>
+        <span className="group-hover:text-qa-blue group-hover:drop-shadow-qa-glow-light mt-5 text-center text-lg font-medium duration-200">{name}</span>
+        <span className="font-pt-sans text-center text-sm">{role}</span>
     </button>
 );
 
@@ -33,11 +33,11 @@ function PersonModal({
                 exit={{ opacity: 0 }}
                 className="z-50 flex h-full w-full items-center justify-center"
             >
-                <div className="relative z-50 flex w-96 flex-col items-center justify-start gap-5 rounded-3xl bg-qa-blue-dark">
+                <div className="bg-qa-blue-dark relative z-50 flex w-96 flex-col items-center justify-start gap-5 rounded-3xl">
                     {iconUrl && <Image src={iconUrl} height={1000} width={1000} alt={`${id}-logo`} className="h-72 w-full rounded-t-3xl object-cover" />}
                     <div className="flex flex-col gap-2 p-8 pt-3">
-                        <h1 className="text-center font-ar-gothic text-4xl font-semibold text-qa-white">{name}</h1>
-                        <span className="text-center font-pt-sans">{biography}</span>
+                        <h1 className="font-ar-gothic text-qa-white text-center text-4xl font-semibold">{name}</h1>
+                        <span className="font-pt-sans text-center">{biography}</span>
                     </div>
                 </div>
             </m.div>

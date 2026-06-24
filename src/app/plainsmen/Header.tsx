@@ -44,7 +44,7 @@ const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
         {active && (
             <motion.div
                 layoutId="header-link-underline"
-                className="absolute inset-x-0 bottom-1 h-0.5 rounded-full bg-pm-red"
+                className="bg-pm-red absolute inset-x-0 bottom-1 h-0.5 rounded-full"
             />
         )}
     </Link>
@@ -86,7 +86,7 @@ const NavMobile = () => {
                                     >
                                         <a
                                             onClick={() => setOpen((prev) => !prev)}
-                                            className="flex w-fit items-center justify-between rounded-full bg-hw-black p-3"
+                                            className="bg-hw-black flex w-fit items-center justify-between rounded-full p-3"
                                             href={href}
                                         >
                                             <span className="flex gap-1 text-white">{title}</span>
@@ -135,7 +135,6 @@ export default function PlainsmenHeader({ iconUrl }: { iconUrl: string | null })
     return (
         <header
             ref={headerRef}
-            // eslint-disable-next-line tailwindcss/migration-from-tailwind-2
             className="fixed z-40 flex w-full justify-center bg-black/0 lg:h-20 lg:bg-black/30"
         >
             <div className="invisible flex size-full max-w-(--breakpoint-2xl) flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24">
@@ -162,7 +161,7 @@ export default function PlainsmenHeader({ iconUrl }: { iconUrl: string | null })
 
                 <div className="w-12" />
             </div>
-            <div className="visible mr-5 mt-5 flex items-center justify-end rounded-full bg-black/50 p-1 lg:invisible">
+            <div className="visible mt-5 mr-5 flex items-center justify-end rounded-full bg-black/50 p-1 lg:invisible">
                 <NavMobile />
             </div>
         </header>

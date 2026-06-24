@@ -1,6 +1,7 @@
 'use client';
 
 import { googleMapsLocationUrl } from '@/components/utils';
+import Link from 'next/link';
 import { Event } from '@prisma/client';
 import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
@@ -10,7 +11,7 @@ export default function EventProfile({ name, venueName, venueId, time, descripti
         <div className="rounded-xl bg-zinc-800 px-8 py-6">
             <div className="mb-3 flex flex-row justify-between">
                 <div>
-                    <span className="text-2xl text-hw-white">{name}</span>
+                    <span className="text-hw-white text-2xl">{name}</span>
                     <a
                         className="flex flex-row items-center gap-2 *:duration-200 *:hover:opacity-50"
                         href={googleMapsLocationUrl(venueName, venueId)}
@@ -23,7 +24,7 @@ export default function EventProfile({ name, venueName, venueId, time, descripti
                 </div>
 
                 <a
-                    className="flex flex-col items-end [&>*]:text-hw-white *:duration-200 *:hover:opacity-50"
+                    className="*:text-hw-white flex flex-col items-end *:duration-200 *:hover:opacity-50"
                     href={google({
                         title: name,
                         description,
@@ -38,8 +39,8 @@ export default function EventProfile({ name, venueName, venueId, time, descripti
                     <span>{time.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
                 </a>
             </div>
-            <p className="font-light text-hw-white">{description}</p>
-            <a href="/" className="text-pm-blue underline duration-200 hover:opacity-50">Learn more</a>
+            <p className="text-hw-white font-light">{description}</p>
+            <Link href="/" className="text-pm-blue underline duration-200 hover:opacity-50">Learn more</Link>
         </div>
     );
 }

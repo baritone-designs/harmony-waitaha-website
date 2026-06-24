@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { QuartetSchema } from '@/common/schema';
 import { MediaUpload } from '@/components/MediaUpload';
 import { Quartet } from '@prisma/client';
-import { Backdrop, Button, CircularProgress, Container, Fab, Grid2, IconButton, Paper, Stack, TextField } from '@mui/material';
+import { Backdrop, Button, CircularProgress, Container, Fab, Grid, IconButton, Paper, Stack, TextField } from '@mui/material';
 import { formikProps } from '@/components/formikUtils';
 import { toast } from 'react-toastify';
 import { useCallback, useState } from 'react';
@@ -14,7 +14,7 @@ import { Add, Close } from '@mui/icons-material';
 import SocialsEditor from '@/components/SocialsEditor';
 import revalidate from '../revalidate';
 
-type QuartetSchemaType = yup.InferType<typeof QuartetSchema>
+type QuartetSchemaType = yup.InferType<typeof QuartetSchema>;
 
 type QuartetPaneProps = {
     onSubmit: FormikConfig<QuartetSchemaType>['onSubmit'];
@@ -26,11 +26,11 @@ type QuartetPaneProps = {
     type: 'new';
     quartet?: Quartet;
     onClose: () => void;
-})
+});
 
 function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
     return (
-        <Grid2 size={6}>
+        <Grid size={6}>
             <Formik<QuartetSchemaType>
                 initialValues={{
                     id: quartet?.id ?? '',
@@ -84,7 +84,7 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                             <MediaUpload name="logoUrl" label="Quartet Logo" acceptedTypes={['image/png', 'image/svg+xml']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
-                                    //  eslint-disable-next-line @next/next/no-img-element
+
                                     <img
                                         src={src}
                                         alt="quartet-logo"
@@ -95,7 +95,7 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                             <MediaUpload name="imageUrl" label="Quartet Image" acceptedTypes={['image/png', 'image/jpeg']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
-                                    //  eslint-disable-next-line @next/next/no-img-element
+
                                     <img
                                         src={src}
                                         alt="quartet-logo"
@@ -106,7 +106,7 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                             <MediaUpload name="backgroundImageUrl" label="Background Image" acceptedTypes={['image/png', 'image/jpeg']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
-                                    //  eslint-disable-next-line @next/next/no-img-element
+
                                     <img
                                         src={src}
                                         alt="quartet-logo"
@@ -123,7 +123,7 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                     </Paper>
                 )}
             </Formik>
-        </Grid2>
+        </Grid>
     );
 }
 
@@ -144,7 +144,7 @@ export default function EditQuartets() {
     );
     return (
         <Container sx={{ marginY: 5 }} maxWidth="xl">
-            <Grid2 container spacing={2}>
+            <Grid container spacing={2}>
                 {quartets.map((quartet) => (
                     <QuartetPane
                         type="existing"
@@ -187,7 +187,7 @@ export default function EditQuartets() {
                         }}
                     />
                 ))}
-            </Grid2>
+            </Grid>
             <Fab
                 variant="extended"
                 color="primary"

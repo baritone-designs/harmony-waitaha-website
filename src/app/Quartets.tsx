@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import useLocalSearchParam from '@/components/useLocalSearchParam';
 import ModalBackdrop from '@/components/ModalBackdrop';
 
-function QuartetProfile({ id, name, imageUrl, logoUrl, onClick }: Pick<Quartet, 'id' | 'name' | 'imageUrl' | 'logoUrl'> & { onClick: Function }) {
+function QuartetProfile({ id, name, imageUrl, logoUrl, onClick }: Pick<Quartet, 'id' | 'name' | 'imageUrl' | 'logoUrl'> & { onClick: () => void }) {
     return (
         <button
             type="button"
@@ -20,7 +20,7 @@ function QuartetProfile({ id, name, imageUrl, logoUrl, onClick }: Pick<Quartet, 
                 borderRadius: '24px',
             }}
             className={clsx(
-                'relative w-full overflow-hidden bg-hw-white',
+                'bg-hw-white relative w-full overflow-hidden',
                 'h-60', // Mobile
                 'lg:h-72', // Desktop
             )}
@@ -39,7 +39,7 @@ function QuartetProfile({ id, name, imageUrl, logoUrl, onClick }: Pick<Quartet, 
                 }}
             />
             <div className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-between px-8 pb-5">
-                <span className="text-xl text-hw-white">{name}</span>
+                <span className="text-hw-white text-xl">{name}</span>
                 {logoUrl && <Image src={logoUrl} height={20} width={30} alt={`${id}-logo`} className="rounded-full" />}
             </div>
         </button>
@@ -75,22 +75,34 @@ function QuartetModal({
                     borderRadius: '24px',
                 }}
                 className={clsx(
-                    'absolute z-50 flex gap-0 overflow-hidden bg-hw-white',
+                    'bg-hw-white absolute z-50 flex gap-0 overflow-hidden',
                     'inset-x-5 inset-y-28 flex-col', // Mobile
                     'lg:inset-x-72 lg:inset-y-40 lg:flex-row', // Desktop
                 )}
             >
-                <div className="relative flex size-full flex-col justify-between pb-6 pl-8 pr-5 pt-5 2xl:w-2/3">
+                <div className="relative flex size-full flex-col justify-between pt-5 pr-5 pb-6 pl-8 2xl:w-2/3">
                     <div className="flex flex-col gap-5">
                         <div className="flex w-full max-w-full items-center justify-between">
-                            <h1 className="font-poppins text-4xl font-semibold text-hw-black">{name}</h1>
+                            <h1 className="font-poppins text-hw-black text-4xl font-semibold">{name}</h1>
                             {logoUrl && <Image src={logoUrl} height={60} width={60} alt={`${id}-logo`} className="h-14 rounded-full object-cover" />}
                         </div>
                         <div className="flex flex-col gap-2 font-semibold">
-                            <span>Tenor: {members.tenor}</span>
-                            <span>Lead: {members.lead}</span>
-                            <span>Baritone: {members.baritone}</span>
-                            <span>Bass: {members.bass}</span>
+                            <span>
+                                Tenor:
+                                {members.tenor}
+                            </span>
+                            <span>
+                                Lead:
+                                {members.lead}
+                            </span>
+                            <span>
+                                Baritone:
+                                {members.baritone}
+                            </span>
+                            <span>
+                                Bass:
+                                {members.bass}
+                            </span>
                         </div>
 
                         <span>{biography}</span>

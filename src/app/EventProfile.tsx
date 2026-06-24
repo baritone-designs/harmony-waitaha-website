@@ -7,10 +7,10 @@ import { google } from 'calendar-link';
 
 export default function EventProfile({ name, venueName, venueId, time, description, learnMoreUrl }: Pick<Event, 'name' | 'venueName' | 'venueId' | 'time' | 'description' | 'learnMoreUrl'>) {
     return (
-        <div className="rounded-3xl bg-hw-black px-8 py-6">
+        <div className="bg-hw-black rounded-3xl px-8 py-6">
             <div className="mb-3 flex flex-row justify-between">
                 <div>
-                    <span className="text-2xl text-hw-white">{name}</span>
+                    <span className="text-hw-white text-2xl">{name}</span>
                     <a
                         className="flex flex-row items-center gap-2 *:duration-200 *:hover:opacity-50"
                         href={googleMapsLocationUrl(venueName, venueId)}
@@ -23,7 +23,7 @@ export default function EventProfile({ name, venueName, venueId, time, descripti
                 </div>
 
                 <a
-                    className="flex flex-col items-end [&>*]:text-hw-white *:duration-200 *:hover:opacity-50"
+                    className="[&>*]:text-hw-white flex flex-col items-end *:duration-200 *:hover:opacity-50"
                     href={google({
                         title: name,
                         description,
@@ -38,7 +38,7 @@ export default function EventProfile({ name, venueName, venueId, time, descripti
                     <span>{time.toLocaleTimeString(undefined, { timeStyle: 'short' }).toUpperCase()}</span>
                 </a>
             </div>
-            <p className="font-light text-hw-white">{description}</p>
+            <p className="text-hw-white font-light">{description}</p>
             {learnMoreUrl && <a href={learnMoreUrl} target="_blank" className="text-hw-blue underline duration-200 hover:opacity-50" rel="noreferrer">Learn more</a>}
         </div>
     );

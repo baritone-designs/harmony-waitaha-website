@@ -1,5 +1,6 @@
 @import 'tailwindcss' layer(base);
 @import 'tailwindcss';
+@config '../../tailwind.config.ts';
 
 @layer theme, base, mui, components, utilities;
 

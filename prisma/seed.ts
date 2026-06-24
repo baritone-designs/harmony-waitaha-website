@@ -1,6 +1,8 @@
+import { PrismaPg } from '@prisma/adapter-pg';
 import { ChorusId, PageId, PrismaClient } from '@prisma/client';
+import { env } from '@/common/environment';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ adapter: new PrismaPg(env.DATABASE_URL) });
 
 async function seed() {
     await Promise.all(Object.values(PageId).map((id) => prisma.page.upsert({

@@ -5,7 +5,7 @@ import { Field, Formik, FormikConfig } from 'formik';
 import * as yup from 'yup';
 import { Chorus, Event, ChorusId } from '@prisma/client';
 import { EventSchema } from '@/common/schema';
-import { Backdrop, Button, Checkbox, CircularProgress, Container, Fab, FormControlLabel, FormGroup, Grid2, IconButton, Paper, Stack, TextField } from '@mui/material';
+import { Backdrop, Button, Checkbox, CircularProgress, Container, Fab, FormControlLabel, FormGroup, Grid, IconButton, Paper, Stack, TextField } from '@mui/material';
 import { formikProps } from '@/components/formikUtils';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { toast } from 'react-toastify';
@@ -16,7 +16,7 @@ import { Add, Close } from '@mui/icons-material';
 import { NullableTextField } from '@/components/NullableTextField';
 import revalidate from '../revalidate';
 
-type EventSchemaType = yup.InferType<typeof EventSchema>
+type EventSchemaType = yup.InferType<typeof EventSchema>;
 
 type EventPaneProps = {
     onSubmit: FormikConfig<EventSchemaType>['onSubmit'];
@@ -28,11 +28,11 @@ type EventPaneProps = {
     type: 'new';
     event?: Event & { choruses: Pick<Chorus, 'id'>[] };
     onClose: () => void;
-})
+});
 
 function EventPane({ event, onSubmit, ...props }: EventPaneProps) {
     return (
-        <Grid2 size={3}>
+        <Grid size={3}>
             <Formik<EventSchemaType>
                 initialValues={{
                     name: event?.name ?? '',
@@ -107,7 +107,7 @@ function EventPane({ event, onSubmit, ...props }: EventPaneProps) {
                     </Paper>
                 )}
             </Formik>
-        </Grid2>
+        </Grid>
     );
 }
 
@@ -129,7 +129,7 @@ export default function EditEvents() {
 
     return (
         <Container sx={{ marginY: 5 }} maxWidth="xl">
-            <Grid2 container spacing={2}>
+            <Grid container spacing={2}>
                 {events.map((event) => (
                     <EventPane
                         type="existing"
@@ -172,7 +172,7 @@ export default function EditEvents() {
                         }}
                     />
                 ))}
-            </Grid2>
+            </Grid>
             <Fab
                 variant="extended"
                 color="primary"

@@ -3,6 +3,7 @@
 import { User } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import { notFound } from 'next/navigation';
+import { ReactElement } from 'react';
 
 /**
  * A component wrapper that ensures the user is logged in before rendering.
@@ -11,7 +12,7 @@ import { notFound } from 'next/navigation';
  * @param Component - Function component definition for component to be rendered. Function arguments will be the props generic, plus logged in user data
  * @returns Wrapped function component which ensures login before rendering
  */
-export function protectedClientPage<P extends {}>(Component: (props: P & { user: User }) => JSX.Element) {
+export function protectedClientPage<P extends object>(Component: (props: P & { user: User }) => ReactElement) {
     // This function works by essentially creating another react component layer which handles session fetching
     // And then returns a call to the actual component passed as an argument
     return (props: P) => {

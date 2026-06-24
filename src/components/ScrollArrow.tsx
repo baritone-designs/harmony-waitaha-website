@@ -7,7 +7,7 @@ export function ScrollArrow() {
     const [hide, setHide] = useState(false);
     const [fade, setFade] = useState(false);
     return (
-        <div className="absolute bottom-5 z-10 flex h-12 w-screen animate-fade-in justify-center">
+        <div className="animate-fade-in absolute bottom-5 z-10 flex h-12 w-screen justify-center">
             <a
                 href="#about"
                 className={`${hide && 'hidden opacity-0'} ${fade && 'animate-fade-out opacity-0 transition duration-200'}`}
