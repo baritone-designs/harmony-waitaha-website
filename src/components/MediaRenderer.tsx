@@ -6,8 +6,8 @@ interface MediaRendererProps {
     url: string;
     className: string;
 
-    videoOveride?: ReactNode;
-    imageOveride?: ReactNode;
+    videoOverride?: ReactNode;
+    imageOverride?: ReactNode;
 }
 
 /**
@@ -15,13 +15,13 @@ interface MediaRendererProps {
  *
  * The type of rendering is infered from the file ending on the URL, the provided URL must have this file ending or the component may not work
  */
-export default function MediaRenderer({ url, className, imageOveride, videoOveride }: MediaRendererProps) {
+export default function MediaRenderer({ url, className, imageOverride, videoOverride }: MediaRendererProps) {
     const isVideo = VIDEO_FILE_ENDINGS.some((ending) => url.endsWith(ending));
 
     const isImage = IMAGE_FILE_ENDINGS.some((ending) => url.endsWith(ending));
 
     if (isVideo) {
-        return videoOveride ?? (
+        return videoOverride ?? (
             <video autoPlay muted loop className={clsx('object-cover', className)}>
                 <source src={url} />
             </video>
@@ -29,7 +29,7 @@ export default function MediaRenderer({ url, className, imageOveride, videoOveri
     }
 
     if (isImage) {
-        return imageOveride ?? (
+        return imageOverride ?? (
             <img className={clsx('object-cover', className)} src={url} alt="media" />
         );
     }

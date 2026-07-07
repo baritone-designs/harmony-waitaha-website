@@ -12,6 +12,7 @@ import { FALLBACK_IMAGE } from '@/common/constants';
 import pageMetadata from '@/components/pageMetadata';
 import MediaRenderer from '@/components/MediaRenderer';
 import ConventionPopup from '@/components/ConventionPopup';
+import EventsSection from '@/components/EventsSection';
 import HWHeader from './Header';
 import Quartets from './Quartets';
 import EventProfile from './EventProfile';
@@ -58,9 +59,6 @@ export default async function HarmonyWaitahaHome() {
             description: true,
             learnMoreUrl: true,
         },
-        orderBy: {
-            time: 'asc',
-        },
     });
 
     const choruses = await prisma.chorus.findMany({
@@ -94,7 +92,7 @@ export default async function HarmonyWaitahaHome() {
                 <MediaRenderer
                     url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE}
                     className="size-full"
-                    videoOveride={
+                    videoOverride={
                         <VideoAudio url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE} />
                     }
                 />
@@ -155,20 +153,18 @@ export default async function HarmonyWaitahaHome() {
                             )}
                         </div>
                     </section>
-                    <section id="events" className="mt-10 space-y-5">
-                        <span className="text-4xl font-semibold">Upcoming Events</span>
-                        <div className="grid w-full gap-5 lg:grid-cols-3">
-                            {events.map(({ id, ...event }) => (
-                                <EventProfile key={id} {...event} />
-                            ))}
-                            {events.length === 0 && (
-                                <span>
-                                    There are no scheduled events at this time, check again at a
-                                    later date for any new developments!
-                                </span>
-                            )}
-                        </div>
-                    </section>
+                    <EventsSection
+                        events={events}
+                        renderEvent={(event) => <EventProfile {...event} />}
+                        emptyMessage={(
+                            <span>
+                                There are no scheduled events at this time, check again at a
+                                later date for any new developments!
+                            </span>
+                        )}
+                        titleClassName="text-4xl font-semibold text-hw-black"
+                        className="mt-10"
+                    />
                     <section id="contact" className="mt-10 space-y-5">
                         <span className="text-4xl font-semibold">Join Us Today!</span>
                         <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-5">
