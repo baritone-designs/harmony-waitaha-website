@@ -180,8 +180,8 @@ export default async function HarmonyWaitahaHome() {
                                     <a
                                         className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50"
                                         href={googleMapsLocationUrl(
-                                            '3 Brake Street',
-                                            'ChIJOYKExbeKMW0Ri4BKBGW0jm8',
+                                            'Beckenham Te Kura o Pūroto',
+                                            'ChIJCUzxoa0gMm0RIY053v_yRVo',
                                         )}
                                         target="_blank"
                                         rel="noreferrer"
@@ -189,10 +189,10 @@ export default async function HarmonyWaitahaHome() {
                                         <MdLocationPin size={20} />
                                         <div>
                                             <p className="ml-2 text-hw-white">
-                                                Upper Ricarton Methodist Church
+                                                Beckenham Te Kura o Pūroto
                                             </p>
                                             <p className="ml-2 text-hw-white">
-                                                3 Brake Street, Riccarton, Christchurch
+                                                71 Sandwich Road, Beckenham, Christchurch
                                             </p>
                                         </div>
                                     </a>
