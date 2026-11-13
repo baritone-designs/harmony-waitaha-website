@@ -16,6 +16,8 @@ import HWHeader from './Header';
 import Quartets from './Quartets';
 import EventProfile from './EventProfile';
 
+// Testing something
+
 export const generateMetadata = () => pageMetadata(PageId.Home);
 
 const ChorusProfile: FC<{
