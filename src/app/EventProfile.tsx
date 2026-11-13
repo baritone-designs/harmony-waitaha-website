@@ -23,7 +23,7 @@ export default function EventProfile({ name, venueName, venueId, time, descripti
                 </div>
 
                 <a
-                    className="[&>*]:text-hw-white flex flex-col items-end *:duration-200 *:hover:opacity-50"
+                    className="*:text-hw-white flex flex-col items-end *:duration-200 *:hover:opacity-50"
                     href={google({
                         title: name,
                         description,

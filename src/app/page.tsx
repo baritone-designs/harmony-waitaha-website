@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { Metadata } from 'next';
 import { FC } from 'react';
 import { MdEmail, MdLocationPin } from 'react-icons/md';
 import { prisma } from '@/common/prisma';
@@ -16,7 +17,7 @@ import HWHeader from './Header';
 import Quartets from './Quartets';
 import EventProfile from './EventProfile';
 
-export const generateMetadata = () => pageMetadata(PageId.Home);
+export const generateMetadata = (): Promise<Metadata> => pageMetadata(PageId.Home);
 
 const ChorusProfile: FC<{
     id: string;
@@ -87,7 +88,7 @@ export default async function HarmonyWaitahaHome() {
     });
 
     return (
-        <main className="[&>*]:font-poppins">
+        <main className="*:font-poppins">
             <HWHeader logoUrl={pageContent.logoUrl} />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
                 <MediaRenderer
@@ -186,8 +187,8 @@ export default async function HarmonyWaitahaHome() {
                                     <a
                                         className="flex items-center *:duration-200 *:hover:opacity-50"
                                         href={googleMapsLocationUrl(
-                                            '3 Brake Street',
-                                            'ChIJOYKExbeKMW0Ri4BKBGW0jm8',
+                                            'Beckenham Te Kura o Pūroto',
+                                            'ChIJCUzxoa0gMm0RIY053v_yRVo',
                                         )}
                                         target="_blank"
                                         rel="noreferrer"
@@ -195,10 +196,10 @@ export default async function HarmonyWaitahaHome() {
                                         <MdLocationPin size={20} />
                                         <div>
                                             <p className="text-hw-white ml-2">
-                                                Upper Ricarton Methodist Church
+                                                Beckenham Te Kura o Pūroto
                                             </p>
                                             <p className="text-hw-white ml-2">
-                                                3 Brake Street, Riccarton, Christchurch
+                                                71 Sandwich Road, Beckenham, Christchurch
                                             </p>
                                         </div>
                                     </a>

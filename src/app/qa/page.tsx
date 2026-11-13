@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { MapComponent } from '@/components/map';
 
@@ -19,7 +20,7 @@ import QAHeader from './Header';
 import People from './People';
 import EventProfile from './EventProfile';
 
-export const generateMetadata = () => pageMetadata(PageId.Qa);
+export const generateMetadata = (): Promise<Metadata> => pageMetadata(PageId.Qa);
 
 interface SocialLinkProps {
     href: string;
@@ -76,7 +77,7 @@ export default async function QAHome() {
     }));
 
     return (
-        <main className="[&>*]:font-pt-sans">
+        <main className="*:font-pt-sans">
             <QAHeader iconUrl={iconUrl} />
             <section id="home" className="h-screen">
                 <div className="from-qa-blue-darker relative z-10 flex h-screen flex-col justify-center bg-linear-to-t to-transparent to-30%">

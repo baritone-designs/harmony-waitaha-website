@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { MediaCarousel } from '@/components/Carousel';
 import { FC } from 'react';
@@ -17,7 +18,7 @@ import './index.css';
 import People from './People';
 import EventProfile from './EventProfile';
 
-export const generateMetadata = () => pageMetadata(PageId.Plainsmen);
+export const generateMetadata = (): Promise<Metadata> => pageMetadata(PageId.Plainsmen);
 
 interface SocialLinkProps {
     href: string;
@@ -73,7 +74,7 @@ export default async function PlainsmenHome() {
     }));
 
     return (
-        <main className="bg-hw-black [&>*]:font-poppins">
+        <main className="bg-hw-black *:font-poppins">
             <PlainsmenHeader iconUrl={iconUrl} />
             <section id="home" className="relative h-screen">
                 <div className="z-10 flex h-full items-center justify-center text-8xl font-medium">

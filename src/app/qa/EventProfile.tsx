@@ -13,7 +13,7 @@ export default function EventProfile({ name, venueId, venueName, time, descripti
                 <div>
                     <span className="text-2xl">{name}</span>
                     <a
-                        className="[&>*]:hover:text-qa-blue [&>*]:hover:drop-shadow-qa-glow-intense flex flex-row items-center gap-2 *:duration-300"
+                        className="*:hover:text-qa-blue *:hover:drop-shadow-qa-glow-intense flex flex-row items-center gap-2 *:duration-300"
                         href={googleMapsLocationUrl(venueName, venueId)}
                         target="_blank"
                         rel="noreferrer"
@@ -23,7 +23,7 @@ export default function EventProfile({ name, venueId, venueName, time, descripti
                     </a>
                 </div>
                 <a
-                    className="[&>*]:hover:text-qa-blue [&>*]:hover:drop-shadow-qa-glow-intense flex flex-col items-end *:duration-300"
+                    className="*:hover:text-qa-blue *:hover:drop-shadow-qa-glow-intense flex flex-col items-end *:duration-300"
                     href={google({
                         title: name,
                         description,
