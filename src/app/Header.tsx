@@ -159,7 +159,7 @@ export default function HWHeader({ logoUrl }: { logoUrl: string | null }) {
                     {routes.map((route) => {
                         const { href, title, checkActive } = route;
                         return (
-                            <HeaderLink url={href} active={active === checkActive}>{title}</HeaderLink>
+                            <HeaderLink key={title} url={href} active={active === checkActive}>{title}</HeaderLink>
                         );
                     })}
                 </nav>

@@ -3,19 +3,20 @@
 import { SignInError } from '@/common/auth';
 import { signIn, useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
-import { FC } from 'react';
+import { FC, use } from 'react';
 import { FaGoogle } from 'react-icons/fa';
 
 interface SignInPageProps {
-    searchParams: {
+    searchParams: Promise<{
         error?: SignInError;
-    };
+    }>;
 }
 
 /**
  * Signin page which allows user to sign-in/sign-up (depending on whether the user has already) using one of three OAuth providers
  */
-const SignIn: FC<SignInPageProps> = ({ searchParams: { error } }) => {
+const SignIn: FC<SignInPageProps> = ({ searchParams }) => {
+    const { error } = use(searchParams);
     const { data } = useSession();
 
     if (data) {
