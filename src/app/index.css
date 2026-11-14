@@ -1,19 +1,18 @@
 @reference "./globals.css";
 
-@layer base {
+@layer globals {
   * {
-    scroll-margin-top: 10vh;
+    @apply scroll-mt-[10vh];
   }
 
   body {
-    background-color: var(--color-hw-white) !important;
+    @apply bg-hw-white!;
   }
 
   p,
   span,
   label,
   a {
-    font-family: var(--font-poppins);
-    color: var(--color-hw-black);
+    @apply font-poppins text-hw-black;
   }
 }

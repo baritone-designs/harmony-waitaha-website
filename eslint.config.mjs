@@ -62,6 +62,8 @@ export default [
             'default-case': 'off',
 
             'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
+            // Not enabled by the airbnb config; catches missing list keys before they hit the browser console
+            'react/jsx-key': ['error', { checkFragmentShorthand: true, warnOnDuplicates: true }],
             'react/no-unused-state': 'off',
             'react/prop-types': 'off',
             'react/require-default-props': 'off',
@@ -99,6 +101,13 @@ export default [
             '@typescript-eslint/consistent-type-definitions': 'error',
             '@typescript-eslint/no-namespace': 'off',
             '@typescript-eslint/naming-convention': 'off',
+        },
+    },
+    {
+        // CLI scripts run during the build, where console output is the point
+        files: ['prisma/seed.ts', 'approve-cors.ts'],
+        rules: {
+            'no-console': 'off',
         },
     },
 ];

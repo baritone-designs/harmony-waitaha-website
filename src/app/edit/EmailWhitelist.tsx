@@ -49,6 +49,7 @@ const EmailWhitelist = protectedClientPage(({ user }) => {
                                             <span>{email}</span>
                                             <span className="text-xs">
                                                 Approved by:
+                                                {' '}
                                                 {whitelistedBy.name}
                                                 {whitelistedBy.email === user.email ? ' (you)' : ''}
                                             </span>

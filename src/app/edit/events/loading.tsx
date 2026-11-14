@@ -20,7 +20,7 @@ function CardSkeleton() {
                         <TextField variant="outlined" />
                     </Skeleton>
                     {Object.keys(ChorusId).map((id) => (
-                        <Skeleton>
+                        <Skeleton key={id}>
                             <FormControlLabel label={id} control={<CheckBox />} />
                         </Skeleton>
                     ))}

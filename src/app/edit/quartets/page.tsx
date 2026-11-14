@@ -77,7 +77,7 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                             />
                             <div className="grid grid-cols-2 grid-rows-2 gap-2 self-stretch">
                                 {Object.keys(formik.values.members).map((key) => (
-                                    <TextField variant="standard" label={key} fullWidth {...formikProps(`members.${key}`, formik)} />
+                                    <TextField key={key} variant="standard" label={key} fullWidth {...formikProps(`members.${key}`, formik)} />
                                 ))}
                             </div>
                             <SocialsEditor fieldName="socials" formik={formik} />

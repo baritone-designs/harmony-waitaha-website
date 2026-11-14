@@ -111,6 +111,7 @@ function QuartetModal({
                         {Object.entries(socials)
                             .map(([key, value]) => value && (
                                 <SocialsLink
+                                    key={key}
                                     icon={SOCIALS_ICONS[key as keyof typeof SOCIALS_ICONS]}
                                     url={SOCIALS_PREFIX[key as keyof typeof SOCIALS_PREFIX] + value}
                                 />

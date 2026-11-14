@@ -83,12 +83,14 @@ export const MediaUpload: FC<MediaUploadProps> = ({ name, label, acceptedTypes, 
                     <Children src={value} />
                     <span className="absolute top-1/2 left-1/2 w-max -translate-x-1/2 -translate-y-1/2 opacity-0 duration-200 group-hover:opacity-100">
                         Change
+                        {' '}
                         {label}
                     </span>
                 </button>
             ) : (
                 <Button type="button" onClick={handleSelect} color={hasError ? 'error' : undefined} variant="outlined">
                     Upload
+                    {' '}
                     {label ?? name}
                 </Button>
             )}

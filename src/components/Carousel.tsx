@@ -37,7 +37,7 @@ export function MediaCarousel(
             transitionDuration={500}
             className={className}
         >
-            {mediaUrls.map((url) => <MediaRenderer url={url} className="size-full" />)}
+            {mediaUrls.map((url) => <MediaRenderer key={url} url={url} className="size-full" />)}
         </Carousel>
     );
 }

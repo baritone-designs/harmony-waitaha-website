@@ -125,7 +125,7 @@ export default async function QAHome() {
             </section>
             <div className="flex justify-center">
                 <div className="w-full max-w-(--breakpoint-2xl) px-5 lg:px-20">
-                    <section id="about" className="mb-10 space-y-4">
+                    <section id="about" className="mb-10 flex flex-col gap-4">
                         <span className="text-qa-blue text-4xl font-semibold">About Us</span>
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
                             <p className="z-10">
@@ -149,7 +149,7 @@ export default async function QAHome() {
                             </div>
                         </div>
                     </section>
-                    <section id="events" className="mb-10 space-y-4">
+                    <section id="events" className="mb-10 flex flex-col gap-4">
                         <span className="text-qa-blue text-4xl font-semibold">Upcoming Events</span>
                         <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-3">
                             {events.map(({ id, ...event }) => (
@@ -168,7 +168,7 @@ export default async function QAHome() {
                             )}
                         </div>
                     </section>
-                    <section id="join" className="mb-20 space-y-4">
+                    <section id="join" className="mb-20 flex flex-col gap-4">
                         <span className="text-qa-blue text-4xl font-semibold">Wanna Join?</span>
                         <div className="w-full gap-5 lg:flex lg:flex-row">
                             <div className="lg:w-2/3">
@@ -201,6 +201,7 @@ export default async function QAHome() {
                             {logoUrl && <Image src={logoUrl} alt="qa-logo/" width={150} height={150} className="w-32" />}
                             <span>
                                 © Quantum Acoustics
+                                {' '}
                                 {new Date().getFullYear()}
                             </span>
                         </div>

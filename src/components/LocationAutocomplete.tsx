@@ -106,8 +106,10 @@ export default function LocationAutocomplete({ idField, nameField, label, noOpti
                             <FaLocationArrow size={15} />
                             <div className="flex flex-col gap-1">
                                 <span>
-                                    {parts.map((part) => (
-                                        <span className={clsx(part.highlight && 'font-bold')}>{part.text}</span>
+                                    {parts.map((part, index) => (
+                                        // Highlight parts can repeat text, and their order never changes
+                                        // eslint-disable-next-line react/no-array-index-key
+                                        <span key={index} className={clsx(part.highlight && 'font-bold')}>{part.text}</span>
                                     ))}
                                 </span>
                                 <span className="text-gray-400">
