@@ -1,18 +1,19 @@
 import { SOCIALS_PREFIX } from '@/common/constants';
 import { InputAdornment } from '@mui/material';
-import { FormikProps, FormikValues } from 'formik';
+import { FormikProps, FormikValues, getIn } from 'formik';
 import { formikProps } from './formikUtils';
 import { NullableTextField } from './NullableTextField';
 
 interface SocialsEditorProps<T extends FormikValues> {
-    fieldName: keyof T;
+    /** Path to the socials object, may be nested e.g. `chorus.socials` */
+    fieldName: string;
     formik: FormikProps<T>;
 }
 
 export default function SocialsEditor<T extends FormikValues>({ fieldName, formik }: SocialsEditorProps<T>) {
     return (
         <div className="grid grid-cols-2 gap-2 self-stretch">
-            {Object.keys(formik.values[fieldName]).map((key) => (
+            {Object.keys(getIn(formik.values, fieldName)).map((key) => (
                 <NullableTextField
                     key={key}
                     slotProps={{
@@ -32,7 +33,7 @@ export default function SocialsEditor<T extends FormikValues>({ fieldName, formi
                     variant="standard"
                     label={key}
                     fullWidth
-                    {...formikProps(`${String(fieldName)}.${key}`, formik)}
+                    {...formikProps(`${fieldName}.${key}`, formik)}
                 />
             ))}
         </div>
