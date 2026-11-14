@@ -2,7 +2,7 @@
 
 import { User } from 'next-auth';
 import { useSession } from 'next-auth/react';
-import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { ReactElement } from 'react';
 
 /**
@@ -23,7 +23,7 @@ export function protectedClientPage<P extends object>(Component: (props: P & { u
         }
 
         if (!data) {
-            notFound();
+            redirect('/auth/sign-in');
         }
 
         return <Component user={data.user} {...props} />;
