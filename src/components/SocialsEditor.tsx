@@ -14,6 +14,7 @@ export default function SocialsEditor<T extends FormikValues>({ fieldName, formi
         <div className="grid grid-cols-2 gap-2 self-stretch">
             {Object.keys(formik.values[fieldName]).map((key) => (
                 <NullableTextField
+                    key={key}
                     slotProps={{
                         input: {
                             startAdornment: (

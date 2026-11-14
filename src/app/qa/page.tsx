@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { Metadata } from 'next';
+import Link from 'next/link';
 import { MapComponent } from '@/components/map';
 
 import React, { FC } from 'react';
@@ -18,7 +20,7 @@ import QAHeader from './Header';
 import People from './People';
 import EventProfile from './EventProfile';
 
-export const generateMetadata = () => pageMetadata(PageId.Qa);
+export const generateMetadata = (): Promise<Metadata> => pageMetadata(PageId.Qa);
 
 interface SocialLinkProps {
     href: string;
@@ -27,7 +29,7 @@ interface SocialLinkProps {
 }
 
 const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon, className }) => (
-    <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-qa-blue hover:drop-shadow-qa-glow-intense">
+    <a href={href} target="_blank" rel="noreferrer" className="hover:text-qa-blue hover:drop-shadow-qa-glow-intense duration-200">
         <Icon size={45} className={className} />
     </a>
 );
@@ -75,19 +77,19 @@ export default async function QAHome() {
     }));
 
     return (
-        <main className="[&>*]:font-pt-sans">
+        <main className="*:font-pt-sans">
             <QAHeader iconUrl={iconUrl} />
             <section id="home" className="h-screen">
-                <div className="relative z-10 flex h-screen flex-col justify-center bg-gradient-to-t from-qa-blue-darker to-transparent to-30%">
+                <div className="from-qa-blue-darker relative z-10 flex h-screen flex-col justify-center bg-linear-to-t to-transparent to-30%">
                     <div className="flex w-screen justify-center">
-                        <div className="w-full max-w-screen-2xl px-5 lg:px-20">
+                        <div className="w-full max-w-(--breakpoint-2xl) px-5 lg:px-20">
                             <div className="flex flex-col text-center text-5xl font-medium lg:text-left lg:text-8xl">
                                 <span>
-                                    <span className="font-semibold text-qa-blue drop-shadow-qa-glow-light">Q</span>
+                                    <span className="text-qa-blue drop-shadow-qa-glow-light font-semibold">Q</span>
                                     <span>uantum</span>
                                 </span>
                                 <span>
-                                    <span className="font-semibold text-qa-blue drop-shadow-qa-glow-light">A</span>
+                                    <span className="text-qa-blue drop-shadow-qa-glow-light font-semibold">A</span>
                                     <span>coustics</span>
                                 </span>
                                 <div className="flex justify-center lg:justify-start">
@@ -122,9 +124,9 @@ export default async function QAHome() {
                 <ScrollArrow />
             </section>
             <div className="flex justify-center">
-                <div className="w-full max-w-screen-2xl px-5 lg:px-20">
-                    <section id="about" className="mb-10 space-y-4">
-                        <span className="text-4xl font-semibold text-qa-blue">About Us</span>
+                <div className="w-full max-w-(--breakpoint-2xl) px-5 lg:px-20">
+                    <section id="about" className="mb-10 flex flex-col gap-4">
+                        <span className="text-qa-blue text-4xl font-semibold">About Us</span>
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
                             <p className="z-10">
                                 {aboutParagraph}
@@ -134,7 +136,7 @@ export default async function QAHome() {
                             </div>
                         </div>
                         <div className="invisible flex w-full justify-center lg:visible">
-                            <div className="mb-1 h-0.5 w-60 rounded-full bg-qa-white lg:mt-4" />
+                            <div className="bg-qa-white mb-1 h-0.5 w-60 rounded-full lg:mt-4" />
                         </div>
                         <div className="flex w-full justify-center">
                             <div className="grid grid-cols-2 items-center justify-between gap-3 lg:flex lg:flex-row lg:gap-14">
@@ -147,8 +149,8 @@ export default async function QAHome() {
                             </div>
                         </div>
                     </section>
-                    <section id="events" className="mb-10 space-y-4">
-                        <span className="text-4xl font-semibold text-qa-blue">Upcoming Events</span>
+                    <section id="events" className="mb-10 flex flex-col gap-4">
+                        <span className="text-qa-blue text-4xl font-semibold">Upcoming Events</span>
                         <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-3">
                             {events.map(({ id, ...event }) => (
                                 <EventProfile key={id} {...event} />
@@ -157,17 +159,17 @@ export default async function QAHome() {
                                 <span>
                                     Quantum Acoustics have no scheduled events at this time, click
                                     {' '}
-                                    <a href="/#events" className="text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense">
+                                    <Link href="/#events" className="text-qa-blue hover:drop-shadow-qa-glow-intense duration-200">
                                         here
-                                    </a>
+                                    </Link>
                                     {' '}
                                     to see events for all of Harmony Waitaha
                                 </span>
                             )}
                         </div>
                     </section>
-                    <section id="join" className="mb-20 space-y-4">
-                        <span className="text-4xl font-semibold text-qa-blue">Wanna Join?</span>
+                    <section id="join" className="mb-20 flex flex-col gap-4">
+                        <span className="text-qa-blue text-4xl font-semibold">Wanna Join?</span>
                         <div className="w-full gap-5 lg:flex lg:flex-row">
                             <div className="lg:w-2/3">
                                 <p>
@@ -179,7 +181,7 @@ export default async function QAHome() {
                     </section>
                     <section id="footer" className="mb-5 flex flex-row items-end justify-between lg:mb-10">
                         <div className={clsx(Object.values(socials).filter((x) => !!x).length === 0 && 'invisible')}>
-                            <span className="text-4xl font-semibold text-qa-blue">Follow Us</span>
+                            <span className="text-qa-blue text-4xl font-semibold">Follow Us</span>
                             <div className="mt-0 flex gap-4 text-white lg:mt-1">
                                 {Object.entries(socials)
                                     .map(([key, value]) => value && (
@@ -192,12 +194,16 @@ export default async function QAHome() {
                                     ))}
                             </div>
                         </div>
-                        <a className="hidden h-full flex-col items-center text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense lg:flex" href="/" target="_blank">
+                        <a className="text-qa-blue hover:drop-shadow-qa-glow-intense hidden h-full flex-col items-center duration-200 lg:flex" href="/" target="_blank">
                             Harmony Waitaha Website ↗
                         </a>
                         <div className="flex flex-col items-end">
                             {logoUrl && <Image src={logoUrl} alt="qa-logo/" width={150} height={150} className="w-32" />}
-                            <span>© Quantum Acoustics {new Date().getFullYear()}</span>
+                            <span>
+                                © Quantum Acoustics
+                                {' '}
+                                {new Date().getFullYear()}
+                            </span>
                         </div>
                     </section>
                 </div>

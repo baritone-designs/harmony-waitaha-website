@@ -2,7 +2,7 @@
 
 import { PageContentSchema } from '@/common/schema';
 import { trpc } from '@/common/trpc';
-import { Box, Button, Container, Grid2, IconButton, Paper, Skeleton, Stack, TextField } from '@mui/material';
+import { Box, Button, Container, Grid, IconButton, Paper, Skeleton, Stack, TextField } from '@mui/material';
 import { FieldArray, Formik } from 'formik';
 import { Suspense } from 'react';
 import { toast } from 'react-toastify';
@@ -15,7 +15,7 @@ import { Delete } from '@mui/icons-material';
 import { PageId } from '@prisma/client';
 import revalidate from '../revalidate';
 
-type PageContentSchemaType = yup.InferType<typeof PageContentSchema>
+type PageContentSchemaType = yup.InferType<typeof PageContentSchema>;
 
 interface ContentPaneProps {
     page: PageId;
@@ -26,7 +26,7 @@ function ContentPane({ page }: ContentPaneProps) {
     const { mutateAsync: updateContent } = trpc.react.content.setPageContent.useMutation();
 
     return (
-        <Grid2 size={4}>
+        <Grid size={4}>
             <Formik<PageContentSchemaType>
                 initialValues={pageContent}
                 validationSchema={PageContentSchema}
@@ -125,13 +125,15 @@ function ContentPane({ page }: ContentPaneProps) {
                                                 className="aspect-auto w-full"
                                             >
                                                 {formik.values.carouselMediaUrls.map((url, index) => (
-                                                    <div className="relative size-full">
+                                                    <div
+                                                        // eslint-disable-next-line react/no-array-index-key
+                                                        key={`${index}:${url}`}
+                                                        className="relative size-full"
+                                                    >
                                                         <IconButton sx={{ position: 'absolute', right: 5, bottom: 5, zIndex: 10 }} onClick={() => remove(index)}>
                                                             <Delete />
                                                         </IconButton>
                                                         <MediaUpload
-                                                            // eslint-disable-next-line react/no-array-index-key
-                                                            key={`${index}:${url}`}
                                                             name={`carouselMediaUrls.${index}`}
                                                             label={`Carousel media ${index + 1}`}
                                                             acceptedTypes={['video/mp4', 'image/png', 'image/jpeg', 'image/webp']}
@@ -163,13 +165,13 @@ function ContentPane({ page }: ContentPaneProps) {
                     </Paper>
                 )}
             </Formik>
-        </Grid2>
+        </Grid>
     );
 }
 
 function LoadingPane({ page }: ContentPaneProps) {
     return (
-        <Grid2 size={4}>
+        <Grid size={4}>
             <Paper>
                 <Stack spacing={1} p={2}>
                     <span className="text-xl">{page}</span>
@@ -187,20 +189,20 @@ function LoadingPane({ page }: ContentPaneProps) {
                     </Box>
                 </Stack>
             </Paper>
-        </Grid2>
+        </Grid>
     );
 }
 
 export default function EditContent() {
     return (
         <Container sx={{ marginY: 5 }} maxWidth="xl">
-            <Grid2 container spacing={2}>
+            <Grid container spacing={2}>
                 {Object.keys(PageId).map((page) => (
                     <Suspense key={page} fallback={<LoadingPane page={page as PageId} />}>
                         <ContentPane page={page as PageId} />
                     </Suspense>
                 ))}
-            </Grid2>
+            </Grid>
         </Container>
     );
 }

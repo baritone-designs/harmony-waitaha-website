@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { Metadata } from 'next';
 import { FC } from 'react';
 import { MdEmail, MdLocationPin } from 'react-icons/md';
 import { prisma } from '@/common/prisma';
@@ -16,17 +17,16 @@ import HWHeader from './Header';
 import Quartets from './Quartets';
 import EventProfile from './EventProfile';
 
-export const generateMetadata = () => pageMetadata(PageId.Home);
+export const generateMetadata = (): Promise<Metadata> => pageMetadata(PageId.Home);
 
 const ChorusProfile: FC<{
-  id: string;
-  imageUrl: string | null;
-  logoUrl: string | null;
+    id: string;
+    imageUrl: string | null;
+    logoUrl: string | null;
 }> = ({ id, imageUrl, logoUrl }) => (
-    <a
-    // This must be an a tag not a Link tag otherwise the prefetched CSS causes issues
+    <a // This must be an a tag not a Link tag otherwise the prefetched CSS causes issues
         href={id.toLowerCase()}
-        className="flex h-60 w-full items-center justify-center rounded-3xl bg-[length:100%] bg-[center_60%] duration-300 hover:bg-[length:110%] lg:h-96"
+        className="flex h-60 w-full items-center justify-center rounded-3xl bg-size-[100%] bg-position-[center_60%] duration-300 hover:bg-size-[110%] lg:h-96"
         style={{
             backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${
                 imageUrl ?? FALLBACK_IMAGE
@@ -88,7 +88,7 @@ export default async function HarmonyWaitahaHome() {
     });
 
     return (
-        <main className="[&>*]:font-poppins">
+        <main className="*:font-poppins">
             <HWHeader logoUrl={pageContent.logoUrl} />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
                 <MediaRenderer
@@ -98,7 +98,7 @@ export default async function HarmonyWaitahaHome() {
                         <VideoAudio url={pageContent.headerMediaUrl ?? FALLBACK_IMAGE} />
                     }
                 />
-                <div className="absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
+                <div className="absolute top-0 left-0 flex h-screen w-screen items-center justify-center bg-black/50 lg:hidden">
                     {pageContent.logoUrl && (
                         <Image
                             src={pageContent.logoUrl}
@@ -113,24 +113,31 @@ export default async function HarmonyWaitahaHome() {
             </section>
 
             <div className="flex justify-center">
-                <div className="max-w-screen-2xl px-5 lg:px-20">
+                <div className="max-w-(--breakpoint-2xl) px-5 lg:px-20">
                     <section
                         id="about"
                         className="flex flex-col items-center gap-5 pt-16"
                     >
-                        <span className="text-center font-c-gothic text-5xl font-medium">
+                        <span className="font-c-gothic text-center text-5xl font-medium">
                             Welcome to Harmony Waitaha
                         </span>
                         <span className="text-center text-3xl font-semibold">
-                            <span className="text-hw-red">Anyone</span> can{' '}
+                            <span className="text-hw-red">Anyone</span>
+                            {' '}
+                            can
+                            {' '}
                             <span className="text-hw-blue">learn</span>
-                            <br className="inline lg:hidden" />{' '}
-                            <span className="text-hw-red">anyone</span> can{' '}
+                            <br className="inline lg:hidden" />
+                            {' '}
+                            <span className="text-hw-red">anyone</span>
+                            {' '}
+                            can
+                            {' '}
                             <span className="text-hw-blue">sing</span>
                         </span>
                         <p>{pageContent.aboutParagraph}</p>
                     </section>
-                    <section id="choruses" className="mt-10 space-y-5">
+                    <section id="choruses" className="mt-10 flex flex-col gap-5">
                         <span className="text-4xl font-semibold">Choruses</span>
                         <div className="grid gap-5 lg:grid-cols-2">
                             {choruses.map((chorus) => (
@@ -143,7 +150,7 @@ export default async function HarmonyWaitahaHome() {
                             ))}
                         </div>
                     </section>
-                    <section id="quartets" className="mt-10 space-y-5">
+                    <section id="quartets" className="mt-10 flex flex-col gap-5">
                         <span className="text-4xl font-semibold">Quartets</span>
                         <div className="grid gap-5 lg:grid-cols-3">
                             <Quartets quartets={quartets} />
@@ -155,7 +162,7 @@ export default async function HarmonyWaitahaHome() {
                             )}
                         </div>
                     </section>
-                    <section id="events" className="mt-10 space-y-5">
+                    <section id="events" className="mt-10 flex flex-col gap-5">
                         <span className="text-4xl font-semibold">Upcoming Events</span>
                         <div className="grid w-full gap-5 lg:grid-cols-3">
                             {events.map(({ id, ...event }) => (
@@ -169,16 +176,16 @@ export default async function HarmonyWaitahaHome() {
                             )}
                         </div>
                     </section>
-                    <section id="contact" className="mt-10 space-y-5">
+                    <section id="contact" className="mt-10 flex flex-col gap-5">
                         <span className="text-4xl font-semibold">Join Us Today!</span>
                         <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-5">
                             <div className="col-span-2 mb-5 rounded-3xl p-0 lg:mb-0">
                                 <p>{pageContent.recruitmentParagraph}</p>
                             </div>
-                            <div className="rounded-3xl bg-hw-black">
+                            <div className="bg-hw-black rounded-3xl">
                                 <div className="grid grid-cols-1 gap-5 p-8">
                                     <a
-                                        className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50"
+                                        className="flex items-center *:duration-200 *:hover:opacity-50"
                                         href={googleMapsLocationUrl(
                                             'Beckenham Te Kura o Pūroto',
                                             'ChIJCUzxoa0gMm0RIY053v_yRVo',
@@ -188,20 +195,20 @@ export default async function HarmonyWaitahaHome() {
                                     >
                                         <MdLocationPin size={20} />
                                         <div>
-                                            <p className="ml-2 text-hw-white">
+                                            <p className="text-hw-white ml-2">
                                                 Beckenham Te Kura o Pūroto
                                             </p>
-                                            <p className="ml-2 text-hw-white">
+                                            <p className="text-hw-white ml-2">
                                                 71 Sandwich Road, Beckenham, Christchurch
                                             </p>
                                         </div>
                                     </a>
                                     <a
-                                        className="flex items-center [&>*]:duration-200 [&>*]:hover:opacity-50"
+                                        className="flex items-center *:duration-200 *:hover:opacity-50"
                                         href="mailto:secretary@harmonywaitaha.co.nz"
                                     >
                                         <MdEmail size={20} />
-                                        <span className="ml-2 text-hw-white">
+                                        <span className="text-hw-white ml-2">
                                             secretary@harmonywaitaha.co.nz
                                         </span>
                                     </a>
@@ -221,7 +228,9 @@ export default async function HarmonyWaitahaHome() {
                                 />
                             )}
                             <p className="mt-3">
-                                © Harmony Waitaha {new Date().getFullYear()}
+                                © Harmony Waitaha
+                                {' '}
+                                {new Date().getFullYear()}
                             </p>
                         </div>
                         <div className="flex flex-col justify-end">

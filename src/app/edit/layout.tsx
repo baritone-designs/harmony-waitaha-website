@@ -41,7 +41,7 @@ function DrawerLink({ value, icon: Icon, children }: PropsWithChildren<{ value: 
     );
 }
 
-function UserIcon({ user }: { user: User}) {
+function UserIcon({ user }: { user: User }) {
     const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
 
     return (

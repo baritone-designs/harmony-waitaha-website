@@ -6,7 +6,7 @@ import { m, AnimatePresence } from 'framer-motion';
 import useLocalSearchParam from '@/components/useLocalSearchParam';
 import ModalBackdrop from '@/components/ModalBackdrop';
 
-const PersonProfile = ({ iconUrl, name, role, onClick }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string, onClick: Function }) => (
+const PersonProfile = ({ iconUrl, name, role, onClick }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string, onClick: () => void }) => (
     <button
         type="button"
         onClick={() => onClick()}
@@ -33,10 +33,10 @@ function PersonModal({
                 exit={{ opacity: 0 }}
                 className="z-50 flex h-full w-full items-center justify-center"
             >
-                <div className="relative flex w-96 flex-col items-center justify-start gap-5 rounded-xl bg-hw-black">
+                <div className="bg-hw-black relative flex w-96 flex-col items-center justify-start gap-5 rounded-xl">
                     {iconUrl && <Image src={iconUrl} height={1000} width={1000} alt={`${id}-logo`} className="h-72 w-full rounded-t-xl object-cover" />}
                     <div className="flex flex-col gap-2 p-8 pt-3">
-                        <h1 className="text-center font-poppins text-4xl font-semibold text-hw-white">{name}</h1>
+                        <h1 className="font-poppins text-hw-white text-center text-4xl font-semibold">{name}</h1>
                         <span className="text-center">{biography}</span>
                     </div>
                 </div>

@@ -2,18 +2,15 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 generator json {
-  provider = "prisma-json-types-generator"
+    provider = "prisma-json-types-generator"
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL") // uses connection pooling
-  directUrl         = env("DATABASE_URL_UNPOOLED") // used for migrations
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL_UNPOOLED")
+    provider = "postgresql"
 }
 
 //----------------//
@@ -22,175 +19,175 @@ datasource db {
 
 // Account represents a connection between a user and an OAuth provider
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String?
+    access_token      String?
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String?
+    session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
+    @@unique([provider, providerAccountId])
 }
 
 // Stores data about each logged in session for a user
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Stores data about a user. Users are differentiated by email, so OAuth connections are linked by the affiliated email
 model User {
-  id            String    @id @default(cuid())
-  // The Users username
-  name          String
-  email         String    @unique
-  // Date and Time when the email adress was verified, if it was verified
-  emailVerified DateTime?
-  image         String
+    id            String    @id @default(cuid())
+    // The Users username
+    name          String
+    email         String    @unique
+    // Date and Time when the email adress was verified, if it was verified
+    emailVerified DateTime?
+    image         String
 
-  Account          Account[]
-  Session          Session[]
-  WhitelistedEmail WhitelistedEmail[]
+    Account          Account[]
+    Session          Session[]
+    WhitelistedEmail WhitelistedEmail[]
 }
 
 model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+    identifier String
+    token      String   @unique
+    expires    DateTime
 
-  @@unique([identifier, token])
+    @@unique([identifier, token])
 }
 
 model WhitelistedEmail {
-  email String @id
+    email String @id
 
-  whitelistedBy   User   @relation(fields: [whitelistedById], references: [id], onUpdate: Cascade)
-  whitelistedById String
+    whitelistedBy   User   @relation(fields: [whitelistedById], references: [id], onUpdate: Cascade)
+    whitelistedById String
 }
 
 enum ChorusId {
-  Plainsmen
-  Qa
+    Plainsmen
+    Qa
 }
 
 model Chorus {
-  id ChorusId @id
+    id ChorusId @id
 
-  pageId PageId @unique
-  page   Page   @relation(fields: [pageId], references: [id])
+    pageId PageId @unique
+    page   Page   @relation(fields: [pageId], references: [id])
 
-  imageUrl String?
+    imageUrl String?
 
-  /// [Socials]
-  socials Json
+    /// [Socials]
+    socials Json
 
-  people PersonChorus[]
+    people PersonChorus[]
 
-  events Event[]
+    events Event[]
 }
 
 model PersonChorus {
-  chorus   Chorus   @relation(fields: [chorusId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  person   Person   @relation(fields: [personId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  chorusId ChorusId
-  personId String
+    chorus   Chorus   @relation(fields: [chorusId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    person   Person   @relation(fields: [personId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    chorusId ChorusId
+    personId String
 
-  role String
+    role String
 
-  @@id([chorusId, personId])
+    @@id([chorusId, personId])
 }
 
 model Person {
-  id String @id @default(cuid())
+    id String @id @default(cuid())
 
-  name String
+    name String
 
-  biography String
+    biography String
 
-  iconUrl String
+    iconUrl String
 
-  choruses PersonChorus[]
+    choruses PersonChorus[]
 
-  createdAt DateTime @default(now())
+    createdAt DateTime @default(now())
 }
 
 model Event {
-  id String @id @default(uuid())
+    id String @id @default(uuid())
 
-  name String
+    name String
 
-  venueId String
+    venueId String
 
-  venueName String
+    venueName String
 
-  time DateTime
+    time DateTime
 
-  description String
+    description String
 
-  learnMoreUrl String?
+    learnMoreUrl String?
 
-  choruses Chorus[]
+    choruses Chorus[]
 
-  createdAt DateTime @default(now())
+    createdAt DateTime @default(now())
 }
 
 model Quartet {
-  id String @id
+    id String @id
 
-  name String @unique
+    name String @unique
 
-  biography String
+    biography String
 
-  /// [QuartetMembers]
-  members Json
+    /// [QuartetMembers]
+    members Json
 
-  imageUrl String?
+    imageUrl String?
 
-  backgroundImageUrl String?
+    backgroundImageUrl String?
 
-  logoUrl String?
+    logoUrl String?
 
-  /// [Socials]
-  socials Json
+    /// [Socials]
+    socials Json
 
-  websiteUrl String?
+    websiteUrl String?
 }
 
 enum PageId {
-  Home
-  Plainsmen
-  Qa
+    Home
+    Plainsmen
+    Qa
 }
 
 model Page {
-  id PageId @id
+    id PageId @id
 
-  chorus Chorus?
+    chorus Chorus?
 
-  title String?
+    title String?
 
-  description String?
+    description String?
 
-  iconUrl String?
+    iconUrl String?
 
-  logoUrl String?
+    logoUrl String?
 
-  aboutParagraph String?
+    aboutParagraph String?
 
-  recruitmentParagraph String?
+    recruitmentParagraph String?
 
-  headerMediaUrl String?
+    headerMediaUrl String?
 
-  carouselMediaUrls String[]
+    carouselMediaUrls String[]
 }

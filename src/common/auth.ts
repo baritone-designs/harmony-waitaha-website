@@ -8,7 +8,7 @@ export enum SignInError {
     OAuthAccountNotLinked = 'OAuthAccountNotLinked',
     OAuthSignIn = 'OAuthSignin',
     OAuthCallback = 'OAuthCallback',
-    EmailNotWhitelisted = 'EmailNotWhitelisted'
+    EmailNotWhitelisted = 'EmailNotWhitelisted',
 }
 
 export const nextAuthOptions: NextAuthOptions = {

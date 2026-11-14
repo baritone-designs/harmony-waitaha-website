@@ -43,8 +43,8 @@ const poppins = Poppins({
 });
 
 const RootLayout: FC<PropsWithChildren<{
-    // This just has to be `never` so nextjs builds properly...
-    session: never;
+    // Optional and never provided by Next.js, but kept so `Providers` typechecks below
+    session?: never;
 }>> = ({ session, children }) => (
     <html lang="en" className={`${productSans.variable} ${poppins.variable} ${harmony.variable} ${centuryGothic.variable} ${inter.className}`}>
         <body>

@@ -3,7 +3,7 @@
 import { ChorusSchema } from '@/common/schema';
 import { trpc } from '@/common/trpc';
 import { MediaUpload } from '@/components/MediaUpload';
-import { Box, Button, Grid2, Paper, Skeleton, Stack, TextField } from '@mui/material';
+import { Box, Button, Grid, Paper, Skeleton, Stack, TextField } from '@mui/material';
 import { ChorusId } from '@prisma/client';
 import { Formik } from 'formik';
 import { Suspense } from 'react';
@@ -12,7 +12,7 @@ import * as yup from 'yup';
 import SocialsEditor from '@/components/SocialsEditor';
 import revalidate from './revalidate';
 
-type ChorusSchemaType = yup.InferType<typeof ChorusSchema>
+type ChorusSchemaType = yup.InferType<typeof ChorusSchema>;
 
 interface ChorusPaneProps {
     chorus: ChorusId;
@@ -23,7 +23,7 @@ function ChorusPane({ chorus }: ChorusPaneProps) {
     const { mutateAsync: updateChorus } = trpc.react.choruses.setChorus.useMutation();
 
     return (
-        <Grid2 size={4}>
+        <Grid size={4}>
             <Formik<ChorusSchemaType>
                 initialValues={chorusContent}
                 validationSchema={ChorusSchema}
@@ -62,13 +62,13 @@ function ChorusPane({ chorus }: ChorusPaneProps) {
                     </Paper>
                 )}
             </Formik>
-        </Grid2>
+        </Grid>
     );
 }
 
 function LoadingPane({ chorus }: ChorusPaneProps) {
     return (
-        <Grid2 size={4}>
+        <Grid size={4}>
             <Paper>
                 <Stack spacing={1} p={2}>
                     <span className="text-xl">{chorus}</span>
@@ -86,18 +86,18 @@ function LoadingPane({ chorus }: ChorusPaneProps) {
                     </Box>
                 </Stack>
             </Paper>
-        </Grid2>
+        </Grid>
     );
 }
 
 export default function EditChoruses() {
     return (
-        <Grid2 container spacing={2}>
+        <Grid container spacing={2}>
             {Object.keys(ChorusId).map((chorus) => (
                 <Suspense key={chorus} fallback={<LoadingPane chorus={chorus as ChorusId} />}>
                     <ChorusPane chorus={chorus as ChorusId} />
                 </Suspense>
             ))}
-        </Grid2>
+        </Grid>
     );
 }

@@ -15,11 +15,11 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { darkTheme } from './materialTheme';
 
 interface ProvidersProps {
-    session: Session;
+    session?: Session;
 }
 
 const Providers: FC<PropsWithChildren<ProvidersProps>> = ({ session, children }) => (
-    <AppRouterCacheProvider>
+    <AppRouterCacheProvider options={{ enableCssLayer: true }}>
         <ThemeProvider theme={darkTheme}>
             <GoogleProvider>
                 <SessionProvider session={session}>

@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { Metadata } from 'next';
+import Link from 'next/link';
 import { MediaCarousel } from '@/components/Carousel';
 import { FC } from 'react';
 import { ChorusId, PageId } from '@prisma/client';
@@ -16,7 +18,7 @@ import './index.css';
 import People from './People';
 import EventProfile from './EventProfile';
 
-export const generateMetadata = () => pageMetadata(PageId.Plainsmen);
+export const generateMetadata = (): Promise<Metadata> => pageMetadata(PageId.Plainsmen);
 
 interface SocialLinkProps {
     href: string;
@@ -24,7 +26,7 @@ interface SocialLinkProps {
 }
 
 const SocialLink: FC<SocialLinkProps> = ({ href, icon: Icon }) => (
-    <a href={href} target="_blank" rel="noreferrer" className="duration-200 hover:text-pm-blue">
+    <a href={href} target="_blank" rel="noreferrer" className="hover:text-pm-blue duration-200">
         <Icon size={25} />
     </a>
 );
@@ -72,7 +74,7 @@ export default async function PlainsmenHome() {
     }));
 
     return (
-        <main className="bg-hw-black [&>*]:font-poppins">
+        <main className="bg-hw-black *:font-poppins">
             <PlainsmenHeader iconUrl={iconUrl} />
             <section id="home" className="relative h-screen">
                 <div className="z-10 flex h-full items-center justify-center text-8xl font-medium">
@@ -89,9 +91,9 @@ export default async function PlainsmenHome() {
             </section>
 
             <div className="flex justify-center">
-                <div className="w-full max-w-screen-2xl px-5 lg:px-20">
-                    <section id="about" className="my-10 space-y-4">
-                        <span className="text-4xl font-semibold text-pm-blue">About Us</span>
+                <div className="w-full max-w-(--breakpoint-2xl) px-5 lg:px-20">
+                    <section id="about" className="my-10 flex flex-col gap-4">
+                        <span className="text-pm-blue text-4xl font-semibold">About Us</span>
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
                             <div>
                                 <p className="z-10">
@@ -107,8 +109,8 @@ export default async function PlainsmenHome() {
                         </div>
                     </section>
 
-                    <section id="events" className="mb-10 space-y-4">
-                        <span className="text-4xl font-semibold text-pm-blue">Upcoming Events</span>
+                    <section id="events" className="mb-10 flex flex-col gap-4">
+                        <span className="text-pm-blue text-4xl font-semibold">Upcoming Events</span>
                         <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-3">
                             {events.map(({ id, ...event }) => (
                                 <EventProfile key={id} {...event} />
@@ -117,9 +119,9 @@ export default async function PlainsmenHome() {
                                 <span>
                                     The Plainsmen have no scheduled events at this time, click
                                     {' '}
-                                    <a href="/#events" className="text-pm-blue duration-200 hover:opacity-50">
+                                    <Link href="/#events" className="text-pm-blue duration-200 hover:opacity-50">
                                         here
-                                    </a>
+                                    </Link>
                                     {' '}
                                     to see events for all of Harmony Waitaha
                                 </span>
@@ -127,8 +129,8 @@ export default async function PlainsmenHome() {
                         </div>
                     </section>
 
-                    <section id="join" className="mb-20 space-y-4">
-                        <span className="text-4xl font-semibold text-pm-blue">Sing With Us!</span>
+                    <section id="join" className="mb-20 flex flex-col gap-4">
+                        <span className="text-pm-blue text-4xl font-semibold">Sing With Us!</span>
                         <div className="w-full gap-5 lg:flex lg:flex-row">
                             <div className="lg:w-2/3">
                                 <p>
@@ -140,7 +142,7 @@ export default async function PlainsmenHome() {
                     </section>
                     <section id="footer" className="mb-10 flex flex-row items-end justify-between">
                         <div className={clsx(Object.values(socials).filter((x) => !!x).length === 0 && 'invisible')}>
-                            <span className="text-4xl font-semibold text-pm-blue">Follow Us</span>
+                            <span className="text-pm-blue text-4xl font-semibold">Follow Us</span>
                             <div className="mt-2 flex gap-3 text-white">
                                 {Object.entries(socials)
                                     .map(([key, value]) => value && (
@@ -152,12 +154,16 @@ export default async function PlainsmenHome() {
                                     ))}
                             </div>
                         </div>
-                        <a className="hidden h-full flex-col items-center text-pm-blue duration-200 hover:opacity-50 lg:flex" href="/" target="_blank">
+                        <a className="text-pm-blue hidden h-full flex-col items-center duration-200 hover:opacity-50 lg:flex" href="/" target="_blank">
                             Harmony Waitaha Website ↗
                         </a>
                         <div className="flex flex-col items-end">
                             {logoUrl && <Image src={logoUrl} alt="plainsmen-logo" width={100} height={100} />}
-                            <span>© Plainsmen {new Date().getFullYear()}</span>
+                            <span>
+                                © Plainsmen
+                                {' '}
+                                {new Date().getFullYear()}
+                            </span>
                         </div>
                     </section>
                 </div>
