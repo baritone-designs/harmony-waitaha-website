@@ -1,4 +1,4 @@
-import { createTRPCProxyClient, httpBatchLink } from '@trpc/client';
+import { createTRPCClient, httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import { AppRouter } from '@/server';
 import superjson from 'superjson';
@@ -7,12 +7,13 @@ import superjson from 'superjson';
  * Handler for react query hooks
  */
 const reactHandler = createTRPCNext<AppRouter>({
+    transformer: superjson,
     config() {
         return {
-            transformer: superjson,
             links: [
                 httpBatchLink({
                     url: '/api/trpc',
+                    transformer: superjson,
                 }),
             ],
         };
@@ -22,11 +23,11 @@ const reactHandler = createTRPCNext<AppRouter>({
 /**
  * Handler for traditional function query calls
  */
-const clientHandler = createTRPCProxyClient<AppRouter>({
-    transformer: superjson,
+const clientHandler = createTRPCClient<AppRouter>({
     links: [
         httpBatchLink({
             url: '/api/trpc',
+            transformer: superjson,
         }),
     ],
 });

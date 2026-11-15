@@ -75,7 +75,7 @@ export default async function QAHome() {
     }));
 
     return (
-        <main className="[&>*]:font-pt-sans">
+        <main className="*:font-pt-sans">
             <QAHeader iconUrl={iconUrl} />
             <section id="home" className="h-screen">
                 <div className="relative z-10 flex h-screen flex-col justify-center bg-linear-to-t from-qa-blue-darker to-transparent to-30%">

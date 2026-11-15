@@ -15,7 +15,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { darkTheme } from './materialTheme';
 
 interface ProvidersProps {
-    session: Session;
+    session?: Session;
 }
 
 const Providers: FC<PropsWithChildren<ProvidersProps>> = ({ session, children }) => (

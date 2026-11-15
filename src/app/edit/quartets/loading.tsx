@@ -1,8 +1,8 @@
-import { Box, Container, Grid2, Paper, Skeleton, Stack, TextField } from '@mui/material';
+import { Box, Container, Grid, Paper, Skeleton, Stack, TextField } from '@mui/material';
 
 function CardSkeleton() {
     return (
-        <Grid2 size={3}>
+        <Grid size={3}>
             <Paper className="relative">
                 <Stack spacing={1} p={2}>
                     <Skeleton width="100%">
@@ -56,19 +56,19 @@ function CardSkeleton() {
                     </Box>
                 </Stack>
             </Paper>
-        </Grid2>
+        </Grid>
     );
 }
 
 export default function Loading() {
     return (
         <Container sx={{ marginY: 5 }} maxWidth="xl">
-            <Grid2 container spacing={2}>
+            <Grid container spacing={2}>
                 <CardSkeleton />
                 <CardSkeleton />
                 <CardSkeleton />
                 <CardSkeleton />
-            </Grid2>
+            </Grid>
         </Container>
     );
 }

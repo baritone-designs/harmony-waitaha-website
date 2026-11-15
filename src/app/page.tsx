@@ -87,7 +87,7 @@ export default async function HarmonyWaitahaHome() {
     });
 
     return (
-        <main className="[&>*]:font-poppins">
+        <main className="*:font-poppins">
             <HWHeader logoUrl={pageContent.logoUrl} />
             <section id="home" className="relative h-screen w-screen overflow-hidden">
                 <MediaRenderer

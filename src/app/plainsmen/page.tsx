@@ -72,7 +72,7 @@ export default async function PlainsmenHome() {
     }));
 
     return (
-        <main className="bg-hw-black [&>*]:font-poppins">
+        <main className="bg-hw-black *:font-poppins">
             <PlainsmenHeader iconUrl={iconUrl} />
             <section id="home" className="relative h-screen">
                 <div className="z-10 flex h-full items-center justify-center text-8xl font-medium">

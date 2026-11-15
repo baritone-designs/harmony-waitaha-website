@@ -4,7 +4,7 @@ import { trpc } from '@/common/trpc';
 import { FieldArray, Formik, FormikConfig } from 'formik';
 import * as yup from 'yup';
 import { ChorusId, Person } from '@prisma/client';
-import { Button, CircularProgress, Container, Fab, Grid2, IconButton, List, ListItem, Paper, Stack, TextField, Box, Backdrop } from '@mui/material';
+import { Button, CircularProgress, Container, Fab, Grid, IconButton, List, ListItem, Paper, Stack, TextField, Box, Backdrop } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useCallback, useState } from 'react';
 import { formikProps } from '@/components/formikUtils';
@@ -29,7 +29,7 @@ type PersonPaneProps = {
 
 function PersonPane({ person, onSubmit, ...props }: PersonPaneProps) {
     return (
-        <Grid2 size={3}>
+        <Grid size={3}>
             <Formik<PersonSchemaType>
                 initialValues={{
                     iconUrl: person?.iconUrl ?? '',
@@ -115,7 +115,7 @@ function PersonPane({ person, onSubmit, ...props }: PersonPaneProps) {
                     </Paper>
                 )}
             </Formik>
-        </Grid2>
+        </Grid>
     );
 }
 
@@ -137,7 +137,7 @@ export default function EditPeople() {
 
     return (
         <Container sx={{ marginY: 5 }} maxWidth="xl">
-            <Grid2 container spacing={2}>
+            <Grid container spacing={2}>
                 {people.map((person) => (
                     <PersonPane
                         type="existing"
@@ -180,7 +180,7 @@ export default function EditPeople() {
                         }}
                     />
                 ))}
-            </Grid2>
+            </Grid>
             <Fab
                 variant="extended"
                 color="primary"

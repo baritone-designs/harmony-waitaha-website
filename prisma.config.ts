@@ -8,10 +8,9 @@ export default defineConfig({
         seed: "tsx prisma/seed.ts",
     },
     datasource: {
-        // Prisma v7 CLI uses the main 'url' property for running migrations
-        // Pass your unpooled connection string here to replace 'directUrl'
-        url: env("DATABASE_URL"), // uses connection pooling
-        directUrl: env("DATABASE_URL_UNPOOLED"), // used for migrations
+        // Prisma v7 CLI uses the main 'url' property for running migrations, so use the
+        // unpooled connection here (pooled connections don't support advisory locks)
+        url: env("DATABASE_URL_UNPOOLED"),
         shadowDatabaseUrl: env("SHADOW_DATABASE_URL_UNPOOLED"),
     },
 });
