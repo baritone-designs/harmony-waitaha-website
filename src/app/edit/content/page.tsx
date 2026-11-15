@@ -15,7 +15,7 @@ import { Delete } from '@mui/icons-material';
 import { PageId } from '@prisma/client';
 import revalidate from '../revalidate';
 
-type PageContentSchemaType = yup.InferType<typeof PageContentSchema>
+type PageContentSchemaType = yup.InferType<typeof PageContentSchema>;
 
 interface ContentPaneProps {
     page: PageId;
@@ -125,13 +125,15 @@ function ContentPane({ page }: ContentPaneProps) {
                                                 className="aspect-auto w-full"
                                             >
                                                 {formik.values.carouselMediaUrls.map((url, index) => (
-                                                    <div className="relative size-full">
+                                                    <div
+                                                        // eslint-disable-next-line react/no-array-index-key
+                                                        key={`${index}:${url}`}
+                                                        className="relative size-full"
+                                                    >
                                                         <IconButton sx={{ position: 'absolute', right: 5, bottom: 5, zIndex: 10 }} onClick={() => remove(index)}>
                                                             <Delete />
                                                         </IconButton>
                                                         <MediaUpload
-                                                            // eslint-disable-next-line react/no-array-index-key
-                                                            key={`${index}:${url}`}
                                                             name={`carouselMediaUrls.${index}`}
                                                             label={`Carousel media ${index + 1}`}
                                                             acceptedTypes={['video/mp4', 'image/png', 'image/jpeg', 'image/webp']}

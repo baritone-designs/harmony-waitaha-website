@@ -12,7 +12,7 @@ import { ReactElement } from 'react';
  * @param Component - Function component definition for component to be rendered. Function arguments will be the props generic, plus logged in user data
  * @returns Wrapped function component which ensures login before rendering
  */
-export function protectedClientPage<P extends {}>(Component: (props: P & { user: User }) => ReactElement) {
+export function protectedClientPage<P extends object>(Component: (props: P & { user: User }) => ReactElement) {
     // This function works by essentially creating another react component layer which handles session fetching
     // And then returns a call to the actual component passed as an argument
     return (props: P) => {

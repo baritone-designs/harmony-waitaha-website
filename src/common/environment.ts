@@ -1,7 +1,8 @@
 import * as yup from 'yup';
+import { config } from 'dotenv';
 
 // Needed for side scripts such as 'approve-cors.ts'
-require('dotenv').config();
+config();
 
 const { env: ENV } = process;
 

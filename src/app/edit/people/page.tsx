@@ -13,7 +13,7 @@ import { PersonChorusSchema, PersonSchema } from '@/common/schema';
 import { Add, Close, Delete } from '@mui/icons-material';
 import revalidate from '../revalidate';
 
-type PersonSchemaType = yup.InferType<typeof PersonSchema>
+type PersonSchemaType = yup.InferType<typeof PersonSchema>;
 
 type PersonPaneProps = {
     onSubmit: FormikConfig<PersonSchemaType>['onSubmit'];
@@ -25,7 +25,7 @@ type PersonPaneProps = {
     type: 'new';
     person?: Person & { choruses: yup.InferType<typeof PersonChorusSchema>[] };
     onClose: () => void;
-})
+});
 
 function PersonPane({ person, onSubmit, ...props }: PersonPaneProps) {
     return (
@@ -98,7 +98,7 @@ function PersonPane({ person, onSubmit, ...props }: PersonPaneProps) {
                             <MediaUpload name="iconUrl" label="Person Icon" acceptedTypes={['image/png', 'image/jpeg']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
-                                    //  eslint-disable-next-line @next/next/no-img-element
+
                                     <img
                                         src={src}
                                         alt="person-icon"

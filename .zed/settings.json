@@ -1,0 +1,27 @@
+// Project settings for Zed.
+// ESLint (with the @stylistic rules in eslint.config.mjs) is the only formatter
+// for this project. Prettier is disabled because its defaults (double quotes,
+// 2-space indent, ...) conflict with the lint rules.
+{
+    "format_on_save": "on",
+    "prettier": {
+        "allowed": false,
+    },
+    "languages": {
+        "JavaScript": {
+            "prettier": { "allowed": false },
+            "code_actions_on_format": {},
+            "formatter": [{ "code_action": "source.fixAll.eslint" }],
+        },
+        "TypeScript": {
+            "prettier": { "allowed": false },
+            "code_actions_on_format": {},
+            "formatter": [{ "code_action": "source.fixAll.eslint" }],
+        },
+        "TSX": {
+            "prettier": { "allowed": false },
+            "code_actions_on_format": {},
+            "formatter": [{ "code_action": "source.fixAll.eslint" }],
+        },
+    },
+}

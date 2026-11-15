@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { env } from '@/common/environment';
 
 interface CustomNodeJsGlobal {
-  prisma: PrismaClient;
+    prisma: PrismaClient;
 }
 
 declare const global: CustomNodeJsGlobal;

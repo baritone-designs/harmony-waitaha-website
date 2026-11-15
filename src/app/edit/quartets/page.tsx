@@ -14,7 +14,7 @@ import { Add, Close } from '@mui/icons-material';
 import SocialsEditor from '@/components/SocialsEditor';
 import revalidate from '../revalidate';
 
-type QuartetSchemaType = yup.InferType<typeof QuartetSchema>
+type QuartetSchemaType = yup.InferType<typeof QuartetSchema>;
 
 type QuartetPaneProps = {
     onSubmit: FormikConfig<QuartetSchemaType>['onSubmit'];
@@ -26,7 +26,7 @@ type QuartetPaneProps = {
     type: 'new';
     quartet?: Quartet;
     onClose: () => void;
-})
+});
 
 function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
     return (
@@ -77,14 +77,14 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                             />
                             <div className="grid grid-cols-2 grid-rows-2 gap-2 self-stretch">
                                 {Object.keys(formik.values.members).map((key) => (
-                                    <TextField variant="standard" label={key} fullWidth {...formikProps(`members.${key}`, formik)} />
+                                    <TextField key={key} variant="standard" label={key} fullWidth {...formikProps(`members.${key}`, formik)} />
                                 ))}
                             </div>
                             <SocialsEditor fieldName="socials" formik={formik} />
                             <MediaUpload name="logoUrl" label="Quartet Logo" acceptedTypes={['image/png', 'image/svg+xml']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
-                                    //  eslint-disable-next-line @next/next/no-img-element
+
                                     <img
                                         src={src}
                                         alt="quartet-logo"
@@ -95,7 +95,7 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                             <MediaUpload name="imageUrl" label="Quartet Image" acceptedTypes={['image/png', 'image/jpeg']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
-                                    //  eslint-disable-next-line @next/next/no-img-element
+
                                     <img
                                         src={src}
                                         alt="quartet-logo"
@@ -106,7 +106,7 @@ function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
                             <MediaUpload name="backgroundImageUrl" label="Background Image" acceptedTypes={['image/png', 'image/jpeg']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
-                                    //  eslint-disable-next-line @next/next/no-img-element
+
                                     <img
                                         src={src}
                                         alt="quartet-logo"

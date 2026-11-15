@@ -23,7 +23,7 @@ export default function VideoAudio({ url }: VideoAudioProps) {
                     className={`
                         ${hasAppeared && 'hidden opacity-0'} 
                         ${fade && 'animate-fade-out opacity-0 transition duration-200'}
-                        flex flex-row items-center justify-center gap-2 rounded-full bg-black/60 p-5 text-white duration-200 hover:bg-black/90 hover:text-hw-blue`}
+                        hover:text-hw-blue flex flex-row items-center justify-center gap-2 rounded-full bg-black/60 p-5 text-white duration-200 hover:bg-black/90`}
                     onClick={() => {
                         setFade(true);
                         handleToggleMute();
@@ -44,8 +44,8 @@ export default function VideoAudio({ url }: VideoAudioProps) {
                 onClick={handleToggleMute}
                 type="button"
                 className={`${muted && !hasAppeared ? 'hidden opacity-0' : 'animate-fade-in'} 
-                    fixed bottom-5 right-5 z-50 flex flex-row items-center justify-center gap-2 rounded-full bg-black/60 p-5 text-white
-                    transition duration-200 hover:bg-black/90 hover:text-hw-blue`}
+                    hover:text-hw-blue fixed right-5 bottom-5 z-50 flex flex-row items-center justify-center gap-2 rounded-full bg-black/60 p-5
+                    text-white transition duration-200 hover:bg-black/90`}
             >
                 {muted ? <MdMusicOff size={25} /> : <MdMusicNote size={25} />}
             </button>

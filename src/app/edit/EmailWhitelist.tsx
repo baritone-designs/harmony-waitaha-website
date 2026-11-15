@@ -47,7 +47,12 @@ const EmailWhitelist = protectedClientPage(({ user }) => {
                                     <div key={email} className="flex flex-row items-center justify-between gap-1">
                                         <Stack spacing={0.5}>
                                             <span>{email}</span>
-                                            <span className="text-xs">Approved by: {whitelistedBy.name}{whitelistedBy.email === user.email ? ' (you)' : ''}</span>
+                                            <span className="text-xs">
+                                                Approved by:
+                                                {' '}
+                                                {whitelistedBy.name}
+                                                {whitelistedBy.email === user.email ? ' (you)' : ''}
+                                            </span>
                                         </Stack>
                                         {email === user.email ? <span>(you)</span> : <IconButton size="large" onClick={() => handleDeleteEmail(email)}><FaTrash size={15} /></IconButton>}
                                     </div>
@@ -56,7 +61,7 @@ const EmailWhitelist = protectedClientPage(({ user }) => {
                             <Formik
                                 initialValues={{ email: '' }}
                                 validate={async ({ email }) => {
-                                    const errors: Partial<{ email: string}> = {};
+                                    const errors: Partial<{ email: string }> = {};
 
                                     if (!email || !yup.string().email().isValidSync(email)) {
                                         errors.email = 'Please enter a valid email address';
