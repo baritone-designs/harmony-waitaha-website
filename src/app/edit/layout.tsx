@@ -1,45 +1,35 @@
 'use client';
 
+import { SITES } from '@/common/sites';
 import { protectedClientPage } from '@/components/protectedClientPage';
+import { AdminPanelSettings, Groups, Home, Menu as MenuIcon, OpenInNew } from '@mui/icons-material';
 import {
     AppBar,
     Avatar,
     Box,
-    capitalize,
+    Button,
+    Divider,
     Drawer,
     IconButton,
     List,
-    ListItem,
     ListItemButton,
     ListItemIcon,
     ListItemText,
+    ListSubheader,
     Menu,
     MenuItem,
     Toolbar,
     Tooltip,
     Typography,
 } from '@mui/material';
-import { PropsWithChildren, useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Article, Dashboard, Event, People, Person, SvgIconComponent } from '@mui/icons-material';
-import { useRouter, useSelectedLayoutSegment } from 'next/navigation';
 import { User } from 'next-auth';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
+import { useSelectedLayoutSegment } from 'next/navigation';
+import { PropsWithChildren, useState } from 'react';
 
-function DrawerLink({ value, icon: Icon, children }: PropsWithChildren<{ value: string, icon?: SvgIconComponent }>) {
-    const router = useRouter();
-
-    return (
-        <ListItem disablePadding>
-            <ListItemButton onClick={() => router.push(`/edit/${value}`)}>
-                <ListItemIcon>
-                    {Icon && <Icon />}
-                </ListItemIcon>
-                <ListItemText>{children}</ListItemText>
-            </ListItemButton>
-        </ListItem>
-    );
-}
+const DRAWER_WIDTH = 260;
+const ACCESS_SEGMENT = 'access';
 
 function UserIcon({ user }: { user: User }) {
     const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
@@ -52,46 +42,79 @@ function UserIcon({ user }: { user: User }) {
                 </IconButton>
             </Tooltip>
             <Menu anchorEl={anchorElement} open={!!anchorElement} onClose={() => setAnchorElement(null)}>
-                <MenuItem onClick={() => signOut({ callbackUrl: '/' })}>
-                    <Typography sx={{ textAlign: 'center' }}>Sign Out</Typography>
-                </MenuItem>
+                <MenuItem disabled>{user.email}</MenuItem>
+                <MenuItem onClick={() => signOut({ callbackUrl: '/' })}>Sign Out</MenuItem>
             </Menu>
         </>
     );
 }
 
-const EditPage = protectedClientPage<PropsWithChildren>(({ user, children }) => {
-    const path = useSelectedLayoutSegment();
+function Navigation({ segment, onNavigate }: { segment: string | null, onNavigate?: () => void }) {
+    return (
+        <List onClick={onNavigate}>
+            <ListSubheader>Websites</ListSubheader>
+            {SITES.map((site) => (
+                <ListItemButton key={site.slug} component={Link} href={`/edit/${site.slug}`} selected={segment === site.slug}>
+                    <ListItemIcon>{site.chorusId ? <Groups /> : <Home />}</ListItemIcon>
+                    <ListItemText primary={site.name} />
+                </ListItemButton>
+            ))}
+            <Divider sx={{ my: 1 }} />
+            <ListSubheader>Settings</ListSubheader>
+            <ListItemButton component={Link} href={`/edit/${ACCESS_SEGMENT}`} selected={segment === ACCESS_SEGMENT}>
+                <ListItemIcon><AdminPanelSettings /></ListItemIcon>
+                <ListItemText primary="Editor access" />
+            </ListItemButton>
+        </List>
+    );
+}
 
-    const [drawerOpen, setDrawerOpen] = useState(false);
+const EditLayout = protectedClientPage<PropsWithChildren>(({ user, children }) => {
+    const segment = useSelectedLayoutSegment();
+    const site = SITES.find(({ slug }) => slug === segment);
+
+    const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
     return (
-        <>
-            <AppBar position="static">
+        <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+            <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <Toolbar variant="dense" sx={{ gap: 2 }}>
-                    <IconButton onClick={() => setDrawerOpen(true)}>
+                    <IconButton onClick={() => setMobileDrawerOpen(true)} sx={{ display: { md: 'none' } }} aria-label="Open menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                        {path ? capitalize(path) : 'Edit'}
+                    <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
+                        {site?.name ?? (segment === ACCESS_SEGMENT ? 'Editor access' : 'Edit')}
                     </Typography>
+                    {site && (
+                        <Button href={site.publicPath} target="_blank" endIcon={<OpenInNew />} color="inherit">
+                            View page
+                        </Button>
+                    )}
                     <UserIcon user={user} />
                 </Toolbar>
             </AppBar>
-            <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-                <Box sx={{ width: 250 }} role="presentation">
-                    <List onClick={() => setDrawerOpen(false)}>
-                        <DrawerLink value="" icon={Dashboard}>Dashboard</DrawerLink>
-                        <DrawerLink value="content" icon={Article}>Content</DrawerLink>
-                        <DrawerLink value="people" icon={Person}>People</DrawerLink>
-                        <DrawerLink value="quartets" icon={People}>Quartets</DrawerLink>
-                        <DrawerLink value="events" icon={Event}>Events</DrawerLink>
-                    </List>
-                </Box>
+            {/* Temporary drawer for small screens, permanent sidebar for larger ones */}
+            <Drawer
+                variant="temporary"
+                open={mobileDrawerOpen}
+                onClose={() => setMobileDrawerOpen(false)}
+                sx={{ 'display': { md: 'none' }, '& .MuiDrawer-paper': { width: DRAWER_WIDTH } }}
+            >
+                <Navigation segment={segment} onNavigate={() => setMobileDrawerOpen(false)} />
             </Drawer>
-            {children}
-        </>
+            <Drawer
+                variant="permanent"
+                sx={{ 'display': { xs: 'none', md: 'block' }, 'width': DRAWER_WIDTH, 'flexShrink': 0, '& .MuiDrawer-paper': { width: DRAWER_WIDTH } }}
+            >
+                <Toolbar variant="dense" />
+                <Navigation segment={segment} />
+            </Drawer>
+            <Box component="main" sx={{ flexGrow: 1, minWidth: 0 }}>
+                <Toolbar variant="dense" />
+                {children}
+            </Box>
+        </Box>
     );
 });
 
-export default EditPage;
+export default EditLayout;
