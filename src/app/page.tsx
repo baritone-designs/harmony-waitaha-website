@@ -129,7 +129,7 @@ export default async function HarmonyWaitahaHome() {
                         </span>
                         <p>{pageContent.aboutParagraph}</p>
                     </section>
-                    <section id="choruses" className="mt-10 space-y-5">
+                    <section id="choruses" className="mt-10 flex flex-col gap-5">
                         <span className="text-4xl font-semibold">Choruses</span>
                         <div className="grid gap-5 lg:grid-cols-2">
                             {choruses.map((chorus) => (
@@ -142,7 +142,7 @@ export default async function HarmonyWaitahaHome() {
                             ))}
                         </div>
                     </section>
-                    <section id="quartets" className="mt-10 space-y-5">
+                    <section id="quartets" className="mt-10 flex flex-col gap-5">
                         <span className="text-4xl font-semibold">Quartets</span>
                         <div className="grid gap-5 lg:grid-cols-3">
                             <Quartets quartets={quartets} />
@@ -154,7 +154,7 @@ export default async function HarmonyWaitahaHome() {
                             )}
                         </div>
                     </section>
-                    <section id="events" className="mt-10 space-y-5">
+                    <section id="events" className="mt-10 flex flex-col gap-5">
                         <span className="text-4xl font-semibold">Upcoming Events</span>
                         <div className="grid w-full gap-5 lg:grid-cols-3">
                             {events.map(({ id, ...event }) => (
@@ -168,7 +168,7 @@ export default async function HarmonyWaitahaHome() {
                             )}
                         </div>
                     </section>
-                    <section id="contact" className="mt-10 space-y-5">
+                    <section id="contact" className="mt-10 flex flex-col gap-5">
                         <span className="text-4xl font-semibold">Join Us Today!</span>
                         <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-5">
                             <div className="col-span-2 mb-5 rounded-3xl p-0 lg:mb-0">

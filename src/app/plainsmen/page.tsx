@@ -90,7 +90,7 @@ export default async function PlainsmenHome() {
 
             <div className="flex justify-center">
                 <div className="w-full max-w-(--breakpoint-2xl) px-5 lg:px-20">
-                    <section id="about" className="my-10 space-y-4">
+                    <section id="about" className="my-10 flex flex-col gap-4">
                         <span className="text-4xl font-semibold text-pm-blue">About Us</span>
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
                             <div>
@@ -107,7 +107,7 @@ export default async function PlainsmenHome() {
                         </div>
                     </section>
 
-                    <section id="events" className="mb-10 space-y-4">
+                    <section id="events" className="mb-10 flex flex-col gap-4">
                         <span className="text-4xl font-semibold text-pm-blue">Upcoming Events</span>
                         <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-3">
                             {events.map(({ id, ...event }) => (
@@ -127,7 +127,7 @@ export default async function PlainsmenHome() {
                         </div>
                     </section>
 
-                    <section id="join" className="mb-20 space-y-4">
+                    <section id="join" className="mb-20 flex flex-col gap-4">
                         <span className="text-4xl font-semibold text-pm-blue">Sing With Us!</span>
                         <div className="w-full gap-5 lg:flex lg:flex-row">
                             <div className="lg:w-2/3">

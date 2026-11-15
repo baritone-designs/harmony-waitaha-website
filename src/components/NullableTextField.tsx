@@ -36,7 +36,8 @@ export const NullableTextField: FC<FieldAttributes<any>> = (props) => {
                     animate={field.value === null ? 'hide' : 'show'}
                     className="flex flex-row items-center justify-between gap-3"
                 >
-                    <TextField {...props} />
+                    {/* null means "not set" (shows the Add button); inputs can't take null */}
+                    <TextField {...props} value={field.value ?? ''} />
                     <IconButton size="large" onClick={() => setValue(null)}><FaTrash size={15} /></IconButton>
                 </m.div>
             </AnimatePresence>

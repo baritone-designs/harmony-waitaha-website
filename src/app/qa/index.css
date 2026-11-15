@@ -1,27 +1,21 @@
 @reference "../globals.css";
 
-@layer base {
+@layer globals {
   * {
     scroll-margin-top: 14vh;
   }
-}
 
-@utility custom-link-elements {
-  @apply font-ar-gothic text-qa-white;
-}
+  body {
+    @apply bg-qa-blue-darker!;
+  }
 
-@utility custom-paragraph-elements {
-  @apply font-pt-sans text-qa-white;
-}
+  a,
+  span,
+  label {
+    @apply font-ar-gothic text-qa-white;
+  }
 
-a, span, label {
-  @apply custom-link-elements;
-}
-
-p {
-  @apply custom-paragraph-elements;
-}
-
-body {
-  background-color: var(--color-qa-blue-darker) !important;
+  p {
+    @apply font-pt-sans text-qa-white;
+  }
 }
