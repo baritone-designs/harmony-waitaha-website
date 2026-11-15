@@ -39,6 +39,7 @@ export default function ConventionPopup() {
                             <img src="/convention-logo.png" alt="convention-logo" className="hidden lg:block" />
                             <span className="text-5xl">
                                 Welcome to
+                                {' '}
                                 <b>He Awa Whiria</b>
                                 !
                             </span>
