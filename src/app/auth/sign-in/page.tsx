@@ -20,14 +20,14 @@ const SignIn: FC<SignInPageProps> = ({ searchParams }) => {
     const { data } = useSession();
 
     if (data) {
-        redirect('/');
+        redirect('/edit');
     }
 
     return (
         <div className="flex flex-col items-center justify-center gap-4 pt-20">
             <div className="flex flex-row items-center gap-3">
                 <span className="text-2xl">Sign in with</span>
-                <button type="button" onClick={() => signIn('google', { callbackUrl: '/' })}><FaGoogle /></button>
+                <button type="button" onClick={() => signIn('google', { callbackUrl: '/edit' })}><FaGoogle /></button>
             </div>
             {error && <div className="bg-red-700">{error}</div>}
         </div>
