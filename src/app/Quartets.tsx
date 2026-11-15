@@ -89,18 +89,22 @@ function QuartetModal({
                         <div className="flex flex-col gap-2 font-semibold">
                             <span>
                                 Tenor:
+                                {' '}
                                 {members.tenor}
                             </span>
                             <span>
                                 Lead:
+                                {' '}
                                 {members.lead}
                             </span>
                             <span>
                                 Baritone:
+                                {' '}
                                 {members.baritone}
                             </span>
                             <span>
                                 Bass:
+                                {' '}
                                 {members.bass}
                             </span>
                         </div>
