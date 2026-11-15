@@ -139,11 +139,11 @@ export default function QAHeader({ iconUrl }: { iconUrl: string | null }) {
 
     return (
         <header
-            className="fixed z-30 flex w-full justify-center bg-gradient-to-b from-qa-blue-darker from-5% to-transparent lg:h-32"
+            className="fixed z-30 flex w-full justify-center bg-linear-to-b from-qa-blue-darker from-5% to-transparent lg:h-32"
             ref={headerRef}
         >
             <div
-                className="size-full invisible flex max-w-screen-2xl flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
+                className="size-full invisible flex max-w-(--breakpoint-2xl) flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
             >
 
                 <m.a href="#home" className="w-24" whileHover={{ opacity: 0.5 }}>

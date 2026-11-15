@@ -75,12 +75,12 @@ export default async function QAHome() {
     }));
 
     return (
-        <main className="[&>*]:font-pt-sans">
+        <main className="*:font-pt-sans">
             <QAHeader iconUrl={iconUrl} />
             <section id="home" className="h-screen">
-                <div className="relative z-10 flex h-screen flex-col justify-center bg-gradient-to-t from-qa-blue-darker to-transparent to-30%">
+                <div className="relative z-10 flex h-screen flex-col justify-center bg-linear-to-t from-qa-blue-darker to-transparent to-30%">
                     <div className="flex w-screen justify-center">
-                        <div className="w-full max-w-screen-2xl px-5 lg:px-20">
+                        <div className="w-full max-w-(--breakpoint-2xl) px-5 lg:px-20">
                             <div className="flex flex-col text-center text-5xl font-medium lg:text-left lg:text-8xl">
                                 <span>
                                     <span className="font-semibold text-qa-blue drop-shadow-qa-glow-light">Q</span>
@@ -122,8 +122,8 @@ export default async function QAHome() {
                 <ScrollArrow />
             </section>
             <div className="flex justify-center">
-                <div className="w-full max-w-screen-2xl px-5 lg:px-20">
-                    <section id="about" className="mb-10 space-y-4">
+                <div className="w-full max-w-(--breakpoint-2xl) px-5 lg:px-20">
+                    <section id="about" className="mb-10 flex flex-col gap-4">
                         <span className="text-4xl font-semibold text-qa-blue">About Us</span>
                         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-20">
                             <p className="z-10">
@@ -147,7 +147,7 @@ export default async function QAHome() {
                             </div>
                         </div>
                     </section>
-                    <section id="events" className="mb-10 space-y-4">
+                    <section id="events" className="mb-10 flex flex-col gap-4">
                         <span className="text-4xl font-semibold text-qa-blue">Upcoming Events</span>
                         <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-3">
                             {events.map(({ id, ...event }) => (
@@ -166,7 +166,7 @@ export default async function QAHome() {
                             )}
                         </div>
                     </section>
-                    <section id="join" className="mb-20 space-y-4">
+                    <section id="join" className="mb-20 flex flex-col gap-4">
                         <span className="text-4xl font-semibold text-qa-blue">Wanna Join?</span>
                         <div className="w-full gap-5 lg:flex lg:flex-row">
                             <div className="lg:w-2/3">

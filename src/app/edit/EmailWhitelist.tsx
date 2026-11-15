@@ -3,7 +3,7 @@
 import { trpc } from '@/common/trpc';
 import { formikProps } from '@/components/formikUtils';
 import { protectedClientPage } from '@/components/protectedClientPage';
-import { Grid2, IconButton, Paper, Skeleton, Stack, TextField } from '@mui/material';
+import { Grid, IconButton, Paper, Skeleton, Stack, TextField } from '@mui/material';
 import { Formik } from 'formik';
 import { useCallback } from 'react';
 import { FaPlusCircle, FaTrash } from 'react-icons/fa';
@@ -26,7 +26,7 @@ const EmailWhitelist = protectedClientPage(({ user }) => {
     }, [deleteEmail, refetch]);
 
     return (
-        <Grid2 size={3}>
+        <Grid size={3}>
             <Paper>
                 <Stack spacing={1} p={1}>
                     <span className="text-xl">Whitelisted Emails</span>
@@ -43,7 +43,7 @@ const EmailWhitelist = protectedClientPage(({ user }) => {
                         {databaseEmailsLoading
                             ? <Skeleton />
                             : isError ? <span>There was an error while loading database whitelist</span>
-                                : databaseEmails.map(({ email, whitelistedBy }) => (
+                                : (databaseEmails ?? []).map(({ email, whitelistedBy }) => (
                                     <div key={email} className="flex flex-row items-center justify-between gap-1">
                                         <Stack spacing={0.5}>
                                             <span>{email}</span>
@@ -94,7 +94,7 @@ const EmailWhitelist = protectedClientPage(({ user }) => {
                     </Stack>
                 </Stack>
             </Paper>
-        </Grid2>
+        </Grid>
     );
 });
 

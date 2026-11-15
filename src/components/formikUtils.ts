@@ -8,7 +8,8 @@ export function formikProps<T extends FormikValues>(name: string, formik: Formik
 
     return ({
         name,
-        value,
+        // Nullable DB columns come through as null, but inputs must be controlled with a string
+        value: value ?? '',
         onChange,
         onBlur,
         error: hasError,

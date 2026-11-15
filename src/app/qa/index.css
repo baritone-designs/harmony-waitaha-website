@@ -1,10 +1,12 @@
-@layer {
+@reference "../globals.css";
+
+@layer globals {
   * {
     scroll-margin-top: 14vh;
   }
 
   body {
-    @apply bg-qa-blue-darker !important;
+    @apply bg-qa-blue-darker!;
   }
 
   a,

@@ -1,10 +1,12 @@
-@layer {
+@reference "./globals.css";
+
+@layer globals {
   * {
     @apply scroll-mt-[10vh];
   }
 
   body {
-    @apply bg-hw-white !important;
+    @apply bg-hw-white!;
   }
 
   p,
