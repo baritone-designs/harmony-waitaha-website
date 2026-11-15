@@ -23,6 +23,7 @@ export const NullableTextField: FC<FieldAttributes<any>> = (props) => {
         <div className="relative">
             <AnimatePresence>
                 <m.div
+                    key="add-button"
                     variants={buttonVariants}
                     initial={false}
                     animate={field.value === null ? 'show' : 'hide'}
@@ -31,6 +32,7 @@ export const NullableTextField: FC<FieldAttributes<any>> = (props) => {
                     <Button type="button" onClick={() => setValue('', false)}>Add {props.label ?? field.name}</Button>
                 </m.div>
                 <m.div
+                    key="field"
                     variants={fieldVariants}
                     initial={false}
                     animate={field.value === null ? 'hide' : 'show'}

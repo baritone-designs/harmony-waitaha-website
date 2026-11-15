@@ -1,6 +1,7 @@
 'use client';
 
 import { googleMapsLocationUrl } from '@/components/utils';
+import Link from 'next/link';
 import { Event } from '@prisma/client';
 import { MdLocationPin } from 'react-icons/md';
 import { google } from 'calendar-link';
@@ -38,7 +39,7 @@ export default function EventProfile({ name, venueId, venueName, time, descripti
                 </a>
             </div>
             <p className="">{description}</p>
-            <a href="/" className="text-qa-blue duration-300 hover:drop-shadow-qa-glow-intense">Learn more</a>
+            <Link href="/" className="text-qa-blue duration-300 hover:drop-shadow-qa-glow-intense">Learn more</Link>
         </div>
     );
 }

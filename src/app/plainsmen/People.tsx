@@ -6,7 +6,7 @@ import { m, AnimatePresence } from 'framer-motion';
 import useLocalSearchParam from '@/components/useLocalSearchParam';
 import ModalBackdrop from '@/components/ModalBackdrop';
 
-const PersonProfile = ({ iconUrl, name, role, onClick }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string, onClick: Function }) => (
+const PersonProfile = ({ iconUrl, name, role, onClick }: Pick<Person, 'id' | 'iconUrl' | 'name'> & { role: string, onClick: () => void }) => (
     <button
         type="button"
         onClick={() => onClick()}

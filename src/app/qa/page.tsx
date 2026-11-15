@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { Metadata } from 'next';
+import Link from 'next/link';
 import { MapComponent } from '@/components/map';
 
 import React, { FC } from 'react';
@@ -18,7 +20,7 @@ import QAHeader from './Header';
 import People from './People';
 import EventProfile from './EventProfile';
 
-export const generateMetadata = () => pageMetadata(PageId.Qa);
+export const generateMetadata = (): Promise<Metadata> => pageMetadata(PageId.Qa);
 
 interface SocialLinkProps {
     href: string;
@@ -157,9 +159,9 @@ export default async function QAHome() {
                                 <span>
                                     Quantum Acoustics have no scheduled events at this time, click
                                     {' '}
-                                    <a href="/#events" className="text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense">
+                                    <Link href="/#events" className="text-qa-blue duration-200 hover:drop-shadow-qa-glow-intense">
                                         here
-                                    </a>
+                                    </Link>
                                     {' '}
                                     to see events for all of Harmony Waitaha
                                 </span>

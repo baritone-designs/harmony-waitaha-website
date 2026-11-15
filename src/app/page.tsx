@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { Metadata } from 'next';
 import { FC } from 'react';
 import { MdEmail, MdLocationPin } from 'react-icons/md';
 import { prisma } from '@/common/prisma';
@@ -16,7 +17,7 @@ import HWHeader from './Header';
 import Quartets from './Quartets';
 import EventProfile from './EventProfile';
 
-export const generateMetadata = () => pageMetadata(PageId.Home);
+export const generateMetadata = (): Promise<Metadata> => pageMetadata(PageId.Home);
 
 const ChorusProfile: FC<{
   id: string;

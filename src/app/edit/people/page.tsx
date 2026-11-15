@@ -98,7 +98,7 @@ function PersonPane({ person, onSubmit, ...props }: PersonPaneProps) {
                             <MediaUpload name="iconUrl" label="Person Icon" acceptedTypes={['image/png', 'image/jpeg']}>
                                 {({ src }) => (
                                     // next/image crashes without width/height props
-                                    //  eslint-disable-next-line @next/next/no-img-element
+
                                     <img
                                         src={src}
                                         alt="person-icon"

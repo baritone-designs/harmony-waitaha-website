@@ -25,7 +25,7 @@ function CardSkeleton() {
                     </List>
                     <Box display="flex" gap={3}>
                         {Object.values(ChorusId).map((chorusId) => (
-                            <Skeleton>
+                            <Skeleton key={chorusId}>
                                 <Button
                                     key={chorusId}
                                     endIcon={<Add />}

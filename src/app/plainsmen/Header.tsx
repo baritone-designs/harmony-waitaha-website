@@ -135,7 +135,6 @@ export default function PlainsmenHeader({ iconUrl }: { iconUrl: string | null })
     return (
         <header
             ref={headerRef}
-            // eslint-disable-next-line tailwindcss/migration-from-tailwind-2
             className="fixed z-40 flex w-full justify-center bg-black/0 lg:h-20 lg:bg-black/30"
         >
             <div className="invisible flex size-full max-w-(--breakpoint-2xl) flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24">
@@ -155,7 +154,7 @@ export default function PlainsmenHeader({ iconUrl }: { iconUrl: string | null })
                     {routes.map((route) => {
                         const { href, title, checkActive } = route;
                         return (
-                            <HeaderLink url={href} active={active === checkActive}>{title}</HeaderLink>
+                            <HeaderLink key={title} url={href} active={active === checkActive}>{title}</HeaderLink>
                         );
                     })}
                 </nav>

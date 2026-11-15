@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { Metadata } from 'next';
+import Link from 'next/link';
 import { MediaCarousel } from '@/components/Carousel';
 import { FC } from 'react';
 import { ChorusId, PageId } from '@prisma/client';
@@ -16,7 +18,7 @@ import './index.css';
 import People from './People';
 import EventProfile from './EventProfile';
 
-export const generateMetadata = () => pageMetadata(PageId.Plainsmen);
+export const generateMetadata = (): Promise<Metadata> => pageMetadata(PageId.Plainsmen);
 
 interface SocialLinkProps {
     href: string;
@@ -117,9 +119,9 @@ export default async function PlainsmenHome() {
                                 <span>
                                     The Plainsmen have no scheduled events at this time, click
                                     {' '}
-                                    <a href="/#events" className="text-pm-blue duration-200 hover:opacity-50">
+                                    <Link href="/#events" className="text-pm-blue duration-200 hover:opacity-50">
                                         here
-                                    </a>
+                                    </Link>
                                     {' '}
                                     to see events for all of Harmony Waitaha
                                 </span>
