@@ -29,7 +29,11 @@ export const NullableTextField: FC<FieldAttributes<any>> = (props) => {
                     animate={field.value === null ? 'show' : 'hide'}
                     className="absolute inset-0 flex items-center justify-center"
                 >
-                    <Button type="button" onClick={() => setValue('', false)}>Add {props.label ?? field.name}</Button>
+                    <Button type="button" onClick={() => setValue('', false)}>
+                        Add
+                        {' '}
+                        {props.label ?? field.name}
+                    </Button>
                 </m.div>
                 <m.div
                     key="field"

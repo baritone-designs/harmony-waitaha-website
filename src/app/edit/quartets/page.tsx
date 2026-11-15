@@ -14,7 +14,7 @@ import { Add, Close } from '@mui/icons-material';
 import SocialsEditor from '@/components/SocialsEditor';
 import revalidate from '../revalidate';
 
-type QuartetSchemaType = yup.InferType<typeof QuartetSchema>
+type QuartetSchemaType = yup.InferType<typeof QuartetSchema>;
 
 type QuartetPaneProps = {
     onSubmit: FormikConfig<QuartetSchemaType>['onSubmit'];
@@ -26,7 +26,7 @@ type QuartetPaneProps = {
     type: 'new';
     quartet?: Quartet;
     onClose: () => void;
-})
+});
 
 function QuartetPane({ quartet, onSubmit, ...props }: QuartetPaneProps) {
     return (

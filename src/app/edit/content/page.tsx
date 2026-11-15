@@ -15,7 +15,7 @@ import { Delete } from '@mui/icons-material';
 import { PageId } from '@prisma/client';
 import revalidate from '../revalidate';
 
-type PageContentSchemaType = yup.InferType<typeof PageContentSchema>
+type PageContentSchemaType = yup.InferType<typeof PageContentSchema>;
 
 interface ContentPaneProps {
     page: PageId;

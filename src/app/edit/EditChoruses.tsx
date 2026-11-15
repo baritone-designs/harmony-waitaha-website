@@ -12,7 +12,7 @@ import * as yup from 'yup';
 import SocialsEditor from '@/components/SocialsEditor';
 import revalidate from './revalidate';
 
-type ChorusSchemaType = yup.InferType<typeof ChorusSchema>
+type ChorusSchemaType = yup.InferType<typeof ChorusSchema>;
 
 interface ChorusPaneProps {
     chorus: ChorusId;

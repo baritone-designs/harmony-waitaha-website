@@ -13,7 +13,7 @@ import { PersonChorusSchema, PersonSchema } from '@/common/schema';
 import { Add, Close, Delete } from '@mui/icons-material';
 import revalidate from '../revalidate';
 
-type PersonSchemaType = yup.InferType<typeof PersonSchema>
+type PersonSchemaType = yup.InferType<typeof PersonSchema>;
 
 type PersonPaneProps = {
     onSubmit: FormikConfig<PersonSchemaType>['onSubmit'];
@@ -25,7 +25,7 @@ type PersonPaneProps = {
     type: 'new';
     person?: Person & { choruses: yup.InferType<typeof PersonChorusSchema>[] };
     onClose: () => void;
-})
+});
 
 function PersonPane({ person, onSubmit, ...props }: PersonPaneProps) {
     return (

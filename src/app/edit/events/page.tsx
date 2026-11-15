@@ -16,7 +16,7 @@ import { Add, Close } from '@mui/icons-material';
 import { NullableTextField } from '@/components/NullableTextField';
 import revalidate from '../revalidate';
 
-type EventSchemaType = yup.InferType<typeof EventSchema>
+type EventSchemaType = yup.InferType<typeof EventSchema>;
 
 type EventPaneProps = {
     onSubmit: FormikConfig<EventSchemaType>['onSubmit'];
@@ -28,7 +28,7 @@ type EventPaneProps = {
     type: 'new';
     event?: Event & { choruses: Pick<Chorus, 'id'>[] };
     onClose: () => void;
-})
+});
 
 function EventPane({ event, onSubmit, ...props }: EventPaneProps) {
     return (

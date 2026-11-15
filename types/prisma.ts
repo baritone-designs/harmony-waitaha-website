@@ -3,11 +3,11 @@ import * as yup from 'yup';
 
 declare global {
     namespace PrismaJson {
-        type Socials = yup.InferType<typeof SocialsSchema>
+        type Socials = yup.InferType<typeof SocialsSchema>;
 
-        type QuartetMembers = yup.InferType<typeof QuartetMembersSchema>
+        type QuartetMembers = yup.InferType<typeof QuartetMembersSchema>;
 
-        type EventLocation = typeof google.maps.places.Place
+        type EventLocation = typeof google.maps.places.Place;
     }
 }
 

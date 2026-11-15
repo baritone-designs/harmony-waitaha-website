@@ -50,7 +50,7 @@ const routes = [
 const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
     <Link href={url} className="group relative flex h-10 cursor-pointer items-center gap-2 pb-1">
         <span
-            className={clsx(active ? 'text-hw-blue' : 'text-hw-white', 'text-lg font-medium duration-200 group-hover:text-hw-blue group-hover:opacity-50')}
+            className={clsx(active ? 'text-hw-blue' : 'text-hw-white', 'group-hover:text-hw-blue text-lg font-medium duration-200 group-hover:opacity-50')}
         >
             {children}
         </span>
@@ -93,7 +93,7 @@ const NavMobile = () => {
                                     >
                                         <a
                                             onClick={() => setOpen((prev) => !prev)}
-                                            className="flex w-fit items-center justify-between rounded-full bg-hw-black p-3"
+                                            className="bg-hw-black flex w-fit items-center justify-between rounded-full p-3"
                                             href={href}
                                         >
                                             <span className="flex gap-1 text-white">{title}</span>
@@ -109,7 +109,7 @@ const NavMobile = () => {
     );
 };
 
-export default function HWHeader({ logoUrl }: { logoUrl: string | null}) {
+export default function HWHeader({ logoUrl }: { logoUrl: string | null }) {
     const [active, setActive] = useState(0);
     const headerRef = useRef<HTMLHeadElement>(null);
 
@@ -166,7 +166,7 @@ export default function HWHeader({ logoUrl }: { logoUrl: string | null}) {
 
                 <div className="w-24" />
             </div>
-            <div className="visible mr-5 mt-5 flex items-center justify-end rounded-full bg-black/50 p-1 lg:invisible">
+            <div className="visible mt-5 mr-5 flex items-center justify-end rounded-full bg-black/50 p-1 lg:invisible">
                 <NavMobile />
             </div>
         </header>

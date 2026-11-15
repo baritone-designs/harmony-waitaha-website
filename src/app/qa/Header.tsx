@@ -41,15 +41,16 @@ const HeaderLink = ({ children, active, url }: HeaderLinkProps) => (
     <Link href={url} className="relative flex h-10 cursor-pointer items-center gap-2 pb-1">
         <span className={clsx(
             active && 'text-qa-blue drop-shadow-qa-glow-intense duration-200',
-            'text-lg font-medium duration-200 hover:text-qa-blue hover:drop-shadow-qa-glow-intense',
+            'hover:text-qa-blue hover:drop-shadow-qa-glow-intense text-lg font-medium duration-200',
         )}
-        >{children}
+        >
+            {children}
         </span>
 
         {active && (
             <motion.div
                 layoutId="header-link-underline"
-                className="absolute inset-x-0 bottom-1 h-0.5 rounded-full bg-qa-blue drop-shadow-qa-glow-intense"
+                className="bg-qa-blue drop-shadow-qa-glow-intense absolute inset-x-0 bottom-1 h-0.5 rounded-full"
             />
         )}
     </Link>
@@ -91,7 +92,7 @@ const NavMobile = () => {
                                     >
                                         <a
                                             onClick={() => setOpen((prev) => !prev)}
-                                            className="flex w-fit items-center justify-between rounded-full bg-hw-black p-3"
+                                            className="bg-hw-black flex w-fit items-center justify-between rounded-full p-3"
                                             href={href}
                                         >
                                             <span className="flex gap-1 text-white">{title}</span>
@@ -139,11 +140,11 @@ export default function QAHeader({ iconUrl }: { iconUrl: string | null }) {
 
     return (
         <header
-            className="fixed z-30 flex w-full justify-center bg-linear-to-b from-qa-blue-darker from-5% to-transparent lg:h-32"
+            className="from-qa-blue-darker fixed z-30 flex w-full justify-center bg-linear-to-b from-5% to-transparent lg:h-32"
             ref={headerRef}
         >
             <div
-                className="size-full invisible flex max-w-(--breakpoint-2xl) flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
+                className="invisible flex size-full max-w-(--breakpoint-2xl) flex-row items-center justify-between px-5 lg:visible lg:px-20 2xl:px-24"
             >
 
                 <m.a href="#home" className="w-24" whileHover={{ opacity: 0.5 }}>
@@ -168,7 +169,7 @@ export default function QAHeader({ iconUrl }: { iconUrl: string | null }) {
 
                 <div className="w-24" />
             </div>
-            <div className="visible mr-5 mt-5 flex items-center justify-end rounded-full bg-black/50 p-1 lg:invisible">
+            <div className="visible mt-5 mr-5 flex items-center justify-end rounded-full bg-black/50 p-1 lg:invisible">
                 <NavMobile />
             </div>
         </header>
